@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/01-A-6o-minute-blitz/Image-Classifier/classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/01-A-6o-minute-blitz/Image-Classifier/classifier.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -114,7 +113,7 @@
       <option name="presentableId" value="Default" />
       <updated>1608270701833</updated>
       <workItem from="1608270703329" duration="8524000" />
-      <workItem from="1608366105692" duration="9718000" />
+      <workItem from="1608366105692" duration="10317000" />
     </task>
     <task id="LOCAL-00001" summary="还原目录">
       <created>1608375894163</created>
