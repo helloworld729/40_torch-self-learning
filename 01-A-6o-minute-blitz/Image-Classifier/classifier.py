@@ -8,7 +8,7 @@ lr = 1e-3
 max_epoch = 5
 
 # 数据
-train_txt_path = 'data/train.txt'
+train_txt_path = 'data/train.txt'  # 注意地址
 classes_name = ['plane', 'car', 'bird']
 
 normMean = [0.4948052, 0.48568845, 0.44682794]  # 通道均值
