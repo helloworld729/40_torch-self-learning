@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="" />
+    <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/02-NlpFromScratch/GRU-seq2seq-oneHot.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/02-NlpFromScratch/GRU-seq2seq-oneHot.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,6 +116,7 @@
       <updated>1608270701833</updated>
       <workItem from="1608270703329" duration="8524000" />
       <workItem from="1608366105692" duration="12260000" />
+      <workItem from="1608464736735" duration="5142000" />
     </task>
     <task id="LOCAL-00001" summary="还原目录">
       <created>1608375894163</created>
@@ -131,7 +136,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
