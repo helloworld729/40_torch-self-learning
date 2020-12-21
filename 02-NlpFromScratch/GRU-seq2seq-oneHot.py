@@ -20,15 +20,15 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 # # 数据预处理
-使用one-hot将每一个单词编码，构建Lang辅助函数，成员属性：
-1、单词-->索引 word2index
-2、索引-->单词 index2word
-3、单词数量：word2count
-4、单词数目：n_words
-
-成员函数包括：
-1、addWord：将单词添加到成员变量中
-2、addSentence：处理每一句话，调用函数1
+# 使用one-hot将每一个单词编码，构建Lang辅助函数，成员属性：
+# 1、单词-->索引 word2index
+# 2、索引-->单词 index2word
+# 3、单词数量：word2count
+# 4、单词数目：n_words
+#
+# 成员函数包括：
+# 1、addWord：将单词添加到成员变量中
+# 2、addSentence：处理每一句话，调用函数1
 # In[2]:
 
 
@@ -57,7 +57,7 @@ class Lang:
         else:
             self.word2count[word] += 1
 
-定义预处理函数：将Unicode转化为Asacii编码，小写，去除标点
+# 定义预处理函数：将Unicode转化为Asacii编码，小写，去除标点
 # In[3]:
 
 
@@ -100,7 +100,7 @@ def readLangs(lang1, lang2, reverse=False):
 
     return input_lang, output_lang, pairs
 
-为了更快的训练，我们对数据集进行修剪，原则是：两个句子的的长度小于10，而且英文的开头是下面列表中的内容。
+# 为了更快的训练，我们对数据集进行修剪，原则是：两个句子的的长度小于10，而且英文的开头是下面列表中的内容。
 # In[8]:
 
 
@@ -123,8 +123,8 @@ def filterPair(p):
 def filterPairs(pairs):
     return [pair for pair in pairs if filterPair(pair)]
 
-数据准备的全部过程是：
-将文件分割为行，将行分割为pairs-->数据预处理-->样本采样-->构建列表
+# 数据准备的全部过程是：
+# 将文件分割为行，将行分割为pairs-->数据预处理-->样本采样-->构建列表
 # In[9]:
 
 
@@ -170,7 +170,8 @@ class EncoderRNN(nn.Module):
     def initHidden(self):
         return torch.zeros(1, 1, self.hidden_size, device=device)
 
-简单版的解码器：将编码的语境向量(最后一个实践步)，作为解码器的hidden-state；每一个解码步都会输入一个hidden-state和一个input，初始的hidden-state是编码输出，初始的输入是<SOS>的向量。
+# 简单版的解码器：将编码的语境向量(最后一个实践步)，作为解码器的hidden-state；
+# 每一个解码步都会输入一个hidden-state和一个input，初始的hidden-state是编码输出，初始的输入是<SOS>的向量。
 # In[18]:
 
 
@@ -194,7 +195,7 @@ class DecoderRNN(nn.Module):
     def initHidden(self):
         return torch.zeros(1, 1, self.hidden_size, device=device)
 
-基于Attention的解码
+# 基于Attention的解码
 # In[19]:
 
 
@@ -255,7 +256,8 @@ def tensorsFromPair(pair):
     target_tensor = tensorFromSentence(output_lang, pair[1])
     return (input_tensor, target_tensor)
 
-每一步解码的输入有两种方案：1、用上一步正确的输出作为输入，又叫做 teacher-forcing；2、用模型上一步的实际输出作为本次的解码输入
+# 每一步解码的输入有两种方案：1、用上一步正确的输出作为输入，又叫做 teacher-forcing；
+# 2、用模型上一步的实际输出作为本次的解码输入
 # In[21]:
 
 
@@ -313,7 +315,7 @@ def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, deco
 
     return loss.item() / target_length
 
-训练辅助函数
+# 训练辅助函数
 # In[22]:
 
 
@@ -443,9 +445,6 @@ def evaluate(encoder, decoder, sentence, max_length=MAX_LENGTH):
         return decoded_words, decoder_attentions[:di + 1]
 
 
-# In[26]:
-
-
 def evaluateRandomly(encoder, decoder, n=10):
     for i in range(n):
         pair = random.choice(pairs)
@@ -461,46 +460,3 @@ def evaluateRandomly(encoder, decoder, n=10):
 
 
 # evaluateRandomly(encoder1, attn_decoder1)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
