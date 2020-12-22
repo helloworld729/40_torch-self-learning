@@ -82,6 +82,7 @@ class AttnDecoderRNN(nn.Module):
         self.dropout_p = dropout_p
         self.max_length = max_length
 
+        # 字典的长度和嵌入的维度
         self.embedding = nn.Embedding(self.output_size, self.hidden_size)
         self.attn = nn.Linear(self.hidden_size * 2, self.max_length)
         self.attn_combine = nn.Linear(self.hidden_size * 2, self.hidden_size)
@@ -94,9 +95,14 @@ class AttnDecoderRNN(nn.Module):
         embedded = self.dropout(embedded)  # 1 1 16
 
         attn_weights = F.softmax(
-            self.attn(torch.cat((embedded[0], hidden[0]), 1)), dim=1)  # attn_weights是 1*10的Tensor，10对应是设置的句子长度上限
-        attn_applied = torch.bmm(attn_weights.unsqueeze(0),  # attn_weights是1*10->1*1*10，encoder_outputs是10*16->1*10*16
-                                 encoder_outputs.unsqueeze(0))  # out_puts是1*1*16
+            self.attn(torch.cat((embedded[0], hidden[0]), 1)), dim=1)
+
+        # attn_weights是 1*10的Tensor，10对应是设置的句子长度上限
+        # 这个上限一方面是削减数据集，另一方面是防止输出不能停止
+        # attn_weights是1*10->1*1*10，encoder_outputs是10*16->1*10*16
+        # bmm是矩阵乘法，输出 1*1*16，在这里本质上是对编码输出的加权求和
+        attn_applied = torch.bmm(attn_weights.unsqueeze(0),
+                                 encoder_outputs.unsqueeze(0))
 
         output = torch.cat((embedded[0], attn_applied[0]), 1)  # shape:1*32
         output = self.attn_combine(output).unsqueeze(0)
