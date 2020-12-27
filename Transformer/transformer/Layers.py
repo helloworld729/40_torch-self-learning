@@ -16,7 +16,8 @@ class EncoderLayer(nn.Module):
     def forward(self, enc_input, non_pad_mask=None, slf_attn_mask=None):
         enc_output, enc_slf_attn = self.slf_attn(
             enc_input, enc_input, enc_input, mask=slf_attn_mask)  # 多头attention + 残差 + norm
-        enc_output *= non_pad_mask  # batch_size, seq_len, 1
+        # mask的shape： batch_size, seq_len, 1
+        enc_output *= non_pad_mask
 
         enc_output = self.pos_ffn(enc_output)  # 前向 + 残差 + norm
         enc_output *= non_pad_mask
@@ -35,12 +36,13 @@ class DecoderLayer(nn.Module):
 
     def forward(self, dec_input, enc_output, non_pad_mask=None, slf_attn_mask=None, dec_enc_attn_mask=None):
         dec_output, dec_slf_attn = self.slf_attn(
-            dec_input, dec_input, dec_input, mask=slf_attn_mask)  # 数据读入 以下两个attention虽然使用的mask不同，
-                                                                  # 但是都是多头attention，mask都是在q乘以k之后使用。
+            dec_input, dec_input, dec_input, mask=slf_attn_mask)
         dec_output *= non_pad_mask
 
+        # 数据读入 以下两个attention虽然使用的mask不同，
+        # 但是都是多头attention，mask都是在q乘以k之后使用。
         dec_output, dec_enc_attn = self.enc_attn(
-            dec_output, enc_output, enc_output, mask=dec_enc_attn_mask)  # 数据交互
+            dec_output, enc_output, enc_output, mask=dec_enc_attn_mask)
         dec_output *= non_pad_mask
 
         dec_output = self.pos_ffn(dec_output)  # 前向

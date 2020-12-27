@@ -14,16 +14,24 @@ class ScaledDotProductAttention(nn.Module):
         self.softmax = nn.Softmax(dim=2)
 
     def forward(self, q, k, v, mask=None):
-        # (heads*batch) x len_q x dk  # 分头降维 由d_model-->dk  由len，d_model-->len，d_k，padding的位置仍然为0
+        # q shape: (heads*batch) x len_q x dk
+        # k shape: (heads*batch) x len_k x dk
+        # v shape: (heads*batch) x len_v x dv
+        # mask shape: heads*batch_size, len_q, len_k
 
-        attn = torch.bmm(q, k.transpose(1, 2))  # q 乘 k 转置  heads*batch, len_q, len_q
-        attn = attn / self.temperature          # 除以分母
+        # q 乘 k 转置, attn shape: heads*batch, len_q, len_q
+
+        attn = torch.bmm(q, k.transpose(1, 2))
+        attn = attn / self.temperature
 
         if mask is not None:
             attn = attn.masked_fill(mask, -np.inf)  # 第一维度索引，隔batch_size后数据的mask位置相同， mask为true的位置变成负inf
 
         attn = self.softmax(attn)
         attn = self.dropout(attn)  # 某些位置随即为０
-        output = torch.bmm(attn, v)  # 下部余孽  heads*batch, len_q, len_q * heads*batch, len_q, d_v
+        # attn shape: batch*heads, len_q, len_q
+        # v shape:    heads*batch, len_v, dv
+        # 实际上就是 ss * s dv
+        output = torch.bmm(attn, v)
 
         return output, attn

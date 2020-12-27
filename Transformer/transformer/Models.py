@@ -8,12 +8,12 @@ from transformer.Layers import EncoderLayer, DecoderLayer
 __author__ = "Yu-Hsiang Huang"
 
 def get_non_pad_mask(seq):
+    # 有字的位置:1， padding的位置:0
     assert seq.dim() == 2
     return seq.ne(Constants.PAD).type(torch.float).unsqueeze(-1)
 
-# 位置编码
 def get_sinusoid_encoding_table(n_position, d_hid, padding_idx=None):
-    ''' Sinusoid position encoding table '''
+    ''' 位置编码 Sinusoid position encoding table '''
 
     def cal_angle(position, hid_idx):
         return position / np.power(10000, 2 * (hid_idx // 2) / d_hid)
@@ -34,12 +34,10 @@ def get_sinusoid_encoding_table(n_position, d_hid, padding_idx=None):
 
 def get_attn_key_pad_mask(seq_k, seq_q):
     ''' For masking out the padding part of key sequence. '''
-
     # Expand to fit the shape of key query attention matrix.
     len_q = seq_q.size(1)
-    padding_mask = seq_k.eq(Constants.PAD)  # equal函数 返回相同shape [batch_size, seq_len]
+    padding_mask = seq_k.eq(Constants.PAD)  # 返回True/False [batch_size, len_k]
     padding_mask = padding_mask.unsqueeze(1).expand(-1, len_q, -1)  # batch_size, len_q, len_k
-
     return padding_mask
 
 # 上三角掩码
@@ -53,10 +51,8 @@ def get_subsequent_mask(seq):
 
     return subsequent_mask
 
-# 多编码层stack
 class Encoder(nn.Module):
-    ''' A encoder model with self attention mechanism. '''
-
+    ''' 多编码层stack A encoder model with self attention mechanism. '''
     def __init__(
             self,
             n_src_vocab, len_max_seq, d_word_vec,
@@ -67,10 +63,10 @@ class Encoder(nn.Module):
 
         n_position = len_max_seq + 1
 
-        self.src_word_emb = nn.Embedding(                        # 随机词向量矩阵
-            n_src_vocab, d_word_vec, padding_idx=Constants.PAD)  # 源侧单词数量，单词维度
+        self.src_word_emb = nn.Embedding(
+            n_src_vocab, d_word_vec, padding_idx=Constants.PAD)
 
-        self.position_enc = nn.Embedding.from_pretrained(        # 位置编码
+        self.position_enc = nn.Embedding.from_pretrained(
             get_sinusoid_encoding_table(n_position, d_word_vec, padding_idx=0),
             freeze=True)
 
@@ -83,13 +79,21 @@ class Encoder(nn.Module):
         enc_slf_attn_list = []
 
         # -- Prepare masks
-        slf_attn_mask = get_attn_key_pad_mask(seq_k=src_seq, seq_q=src_seq)  # batch_size, len_q, len_k  padding位置为1
-        non_pad_mask = get_non_pad_mask(src_seq)  # batch_size, len_seq, 1  未padding位置为1
+        # no_pad_mask -> padding的->0， attn_mask -> v的系数为0(softmax -inf)
+
+        # batch_size, len_q, len_k  (padding位置为True)
+        slf_attn_mask = get_attn_key_pad_mask(seq_k=src_seq, seq_q=src_seq)
+
+        # batch_size, seq_len, 1    (padding位置为0)
+        non_pad_mask = get_non_pad_mask(src_seq)
 
         # -- Forward
-        enc_output = self.src_word_emb(src_seq) + self.position_enc(src_pos)  # batch_size，seq_len，embedding_size，
-                                                                              # embedding 后的开头和结束都相同（BOS, EOS），但是加上位置编码后末尾的vector不同
+        # batch_size，seq_len，embedding_size
+        # embedding 后的开头和结束都相同（BOS, EOS），但是加上位置编码后末尾的vector不同
+        enc_output = self.src_word_emb(src_seq) + self.position_enc(src_pos)
+
         for enc_layer in self.layer_stack:
+            # attention系数enc_slf_attn，可有可无
             enc_output, enc_slf_attn = enc_layer(
                 enc_output,
                 non_pad_mask=non_pad_mask,
@@ -154,9 +158,9 @@ class Decoder(nn.Module):
 
         if return_attns:
             return dec_output, dec_slf_attn_list, dec_enc_attn_list
-        return dec_output,
+        return dec_output
 
-# 完整网络
+
 class Transformer(nn.Module):
     ''' A sequence to sequence model with attention mechanism. '''
 
@@ -185,7 +189,7 @@ class Transformer(nn.Module):
         self.tgt_word_prj = nn.Linear(d_model, n_tgt_vocab, bias=False)
         nn.init.xavier_normal_(self.tgt_word_prj.weight)
 
-        assert d_model == d_word_vec, \
+        assert d_model == d_word_vec
         'To facilitate the residual connections, \
          the dimensions of all module outputs shall be the same.'
 
@@ -198,7 +202,7 @@ class Transformer(nn.Module):
 
         if emb_src_tgt_weight_sharing:
             # Share the weight matrix between source & target word embeddings
-            assert n_src_vocab == n_tgt_vocab, \
+            assert n_src_vocab == n_tgt_vocab
             "To share word embedding table, the vocabulary size of src/tgt shall be the same."
             self.encoder.src_word_emb.weight = self.decoder.tgt_word_emb.weight
 

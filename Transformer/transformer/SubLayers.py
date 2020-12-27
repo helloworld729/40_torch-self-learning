@@ -23,14 +23,13 @@ class MultiHeadAttention(nn.Module):
         nn.init.normal_(self.w_ks.weight, mean=0, std=np.sqrt(2.0 / (d_model + d_k)))
         nn.init.normal_(self.w_vs.weight, mean=0, std=np.sqrt(2.0 / (d_model + d_v)))
 
-        self.attention = ScaledDotProductAttention(temperature=np.power(d_k, 0.5), attn_dropout=dropout)  # 类的实例化
+        self.attention = ScaledDotProductAttention(temperature=np.power(d_k, 0.5), attn_dropout=dropout)
         self.layer_norm = nn.LayerNorm(d_model)
 
         self.fc = nn.Linear(n_head * d_v, d_model)
         nn.init.xavier_normal_(self.fc.weight)
 
         self.dropout = nn.Dropout(dropout)
-
 
     def forward(self, q, k, v, mask=None):
         """batch_size, seq_len, embedding_size"""
@@ -41,22 +40,43 @@ class MultiHeadAttention(nn.Module):
         sz_b, len_k, _ = k.size()  # batch_size, len_q(seq_len), d_model
         sz_b, len_v, _ = v.size()  # batch_size, len_q(seq_len), d_model
 
-        residual = q  # q作为残差项
+        residual = q  # q作为残差项，此处不用做深拷贝吗？
 
-        # 多头线性转换
+        # 线性转换
         q = self.w_qs(q).view(sz_b, len_q, n_head, d_k)  # batch_size, len_q(seq_len), heads, d_k
         k = self.w_ks(k).view(sz_b, len_k, n_head, d_k)  # batch_size, len_k(seq_len), heads, d_k
         v = self.w_vs(v).view(sz_b, len_v, n_head, d_v)  # batch_size, len_v(seq_len), heads, d_v
 
-        q = q.permute(2, 0, 1, 3).contiguous().view(-1, len_q, d_k)  # (heads*batch) x len_q x dk  # 分头降维 由d_model-->dk  由len，d_model-->len，d_k，padding的位置仍然为0
-        k = k.permute(2, 0, 1, 3).contiguous().view(-1, len_k, d_k)  # (heads*batch) x len_k x dk  # 分头降维 由d_model-->dk  由len，d_model-->len，d_k，padding的位置仍然为0
-        v = v.permute(2, 0, 1, 3).contiguous().view(-1, len_v, d_v)  # (heads*batch) x len_v x dv  # 分头降维 由d_model-->dk  由len，d_model-->len，d_k，padding的位置仍然为0
+        # 会有很多矩阵的变换的操作，是为了维护运算速度 和 正确性(batch 和 heads 的正确组织)
+        # 从46行开始的地方，到58行开始的地方，每一个Teosor都做了一次变换,即
+        # batch_size, len_q(seq_len), d_model  --> (heads*batch) x len_q x dk
+        # 可以看做从一个胖向量，变成了一个高向量
 
-        mask = mask.repeat(n_head, 1, 1)  # (n*b) x .. x .. 对于每一个头而言，数据没变所以掩码可以直接复制 tile函数
-        output, attn = self.attention(q, k, v, mask=mask)  # 调用前向函数 output是最终的输出， attn是乘v之前
+        # batch_size, len_q(seq_len), heads, d_k --> heads，batch_size，len_q，d_k  --> (heads*batch) x len_q x dk
+        # permute操作使得按照batch组织，调整为按照head组织。然后将头一个head序列，不同batch的数据追加堆叠一块
+        # 例如8头，batch为4，那么最顶层就是32，依次是第一个头对应的(整个batch的)数据、第二头对应的(整个batch的)数据...
+        q = q.permute(2, 0, 1, 3).contiguous().view(-1, len_q, d_k)
+        # batch_size, len_k(seq_len), heads, d_k --> heads，batch_size，len_k，d_k  --> (heads*batch) x len_k x dk
+        k = k.permute(2, 0, 1, 3).contiguous().view(-1, len_k, d_k)
+        # batch_size, len_v(seq_len), heads, d_v --> heads，batch_size，len_v，d_v  --> (heads*batch) x len_v x dv
+        v = v.permute(2, 0, 1, 3).contiguous().view(-1, len_v, d_v)
 
-        output = output.view(n_head, sz_b, len_q, d_v)  # heads*batch, len_q, d_v  --->  heads， batch, len_q, d_v
-        output = output.permute(1, 2, 0, 3).contiguous().view(sz_b, len_q, -1)  # batch_size， seq_len， (heads*dv)
+        # mask变换过程：
+        # 1、最开始生成的时候：batch_size，len_k --> batch_size, len_q, len_k
+        # 在每一个batch位，是一个len_q * len_k的矩阵，实际上是一个len_k的矩阵复制了len_q次数
+        # 2、在这里，顶层复制了heads次，这种repeat可以认为是原子的或者追加的repeat
+        # 可以认为是第一个头的mask、第二个头的mask...
+        # batch_size, len_q, len_k --> batch_size*heads, len_q, len_k  padding位置为True
+        mask = mask.repeat(n_head, 1, 1)
+
+        # output shape: heads*batch, len_q, d_v， attn是乘v之前
+        output, attn = self.attention(q, k, v, mask=mask)
+
+        # heads*batch, len_q, d_v  --->  heads， batch, len_q, d_v
+        output = output.view(n_head, sz_b, len_q, d_v)
+
+        # 8个头的结果cat， output shape：batch_size， len_q，d_model
+        output = output.permute(1, 2, 0, 3).contiguous().view(sz_b, len_q, -1)
 
         output = self.dropout(self.fc(output))
         output = self.layer_norm(output + residual)
