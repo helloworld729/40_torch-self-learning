@@ -210,24 +210,23 @@ def main():
     os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     parser = argparse.ArgumentParser()
     parser.add_argument('-data', default='data/save_file/file_saved.txt')  # 数据
-    parser.add_argument('-epoch', type=int, default=2)  # 10
-    parser.add_argument('-batch_size', type=int, default=5)  # 64
-    parser.add_argument('-d_model', type=int, default=20)  # 512
-    parser.add_argument('-d_inner_hid', type=int, default=128)  # 2048
-    parser.add_argument('-d_k', type=int, default=5)  # 64
-    parser.add_argument('-d_v', type=int, default=5)  # 64
-    parser.add_argument('-n_head', type=int, default=4)  # 8
+    parser.add_argument('-epoch', type=int, default=10)  # 10
+    parser.add_argument('-batch_size', type=int, default=64)  # 64
+    parser.add_argument('-d_model', type=int, default=512)  # 512
+    parser.add_argument('-d_inner_hid', type=int, default=2048)  # 2048
+    parser.add_argument('-d_k', type=int, default=64)  # 64
+    parser.add_argument('-d_v', type=int, default=64)  # 64
+    parser.add_argument('-n_head', type=int, default=8)  # 8
     parser.add_argument('-n_layers', type=int, default=6)
-    parser.add_argument('-n_warmup_steps', type=int, default=0)  # 4000
+    parser.add_argument('-n_warmup_steps', type=int, default=4000)  # 4000
     parser.add_argument('-dropout', type=float, default=0.1)  # 0.1
     parser.add_argument('-embs_share_weight', action='store_true')
-    # parser.add_argument('-proj_share_weight', action='store_true')
-    parser.add_argument('-proj_share_weight', default=True)
+    parser.add_argument('-proj_share_weight', action='store_true')
     parser.add_argument('-log', default='log/transformer')
     parser.add_argument('-save_model', default='weights/transformer')
     parser.add_argument('-save_mode', type=str, choices=['all', 'best'], default='best')
-    # parser.add_argument('-no_cuda', action='store_true')
-    # parser.add_argument('-label_smoothing', action='store_true',)
+    parser.add_argument('-no_cuda', action='store_true')
+    parser.add_argument('-label_smoothing', action='store_true',)
     parser.add_argument('-label_smoothing', default=False)
     parser.add_argument('-seed', default=37)
     opt = parser.parse_args()
@@ -235,7 +234,7 @@ def main():
     # parser.add_argument('-proj_share_weight', action='store_true')
     # 我们在命令行中输入 -proj_share_weight，那么proj_share_weight = True
 
-    opt.cuda = False  # RBX
+    opt.cuda = True
     opt.d_word_vec = opt.d_model
 
     def set_seed(opt):
