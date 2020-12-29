@@ -105,7 +105,7 @@ class Encoder(nn.Module):
             return enc_output, enc_slf_attn_list
         return enc_output,
 
-# 多解码层stack
+
 class Decoder(nn.Module):
     ''' A decoder model with self attention mechanism. '''
 
@@ -133,14 +133,16 @@ class Decoder(nn.Module):
 
         dec_slf_attn_list, dec_enc_attn_list = [], []
 
-        # -- Prepare masks
-        non_pad_mask = get_non_pad_mask(tgt_seq)  # batch_size, seq_len, 1  指明句子长度
-
-        slf_attn_mask_subseq = get_subsequent_mask(tgt_seq)  # batch_size, seq_len, seq_len
-        slf_attn_mask_keypad = get_attn_key_pad_mask(seq_k=tgt_seq, seq_q=tgt_seq)  # batch_size, len_q, len_k
+        # non_pad_mask：batch_size, seq_len, 1
+        non_pad_mask = get_non_pad_mask(tgt_seq)
+        # sub-seq shape：batch_size, seq_len, seq_len
+        slf_attn_mask_subseq = get_subsequent_mask(tgt_seq)
+        # key_mask shape：batch_size, len_q, len_k
+        slf_attn_mask_keypad = get_attn_key_pad_mask(seq_k=tgt_seq, seq_q=tgt_seq)
+        # self attention mask：batch_size，len_q，len_k
         slf_attn_mask = (slf_attn_mask_keypad.type_as(slf_attn_mask_subseq) + slf_attn_mask_subseq).gt(0)
 
-        dec_enc_attn_mask = get_attn_key_pad_mask(seq_k=src_seq, seq_q=tgt_seq)  # 编码解码mask
+        dec_enc_attn_mask = get_attn_key_pad_mask(seq_k=src_seq, seq_q=tgt_seq)
 
         # -- Forward
         dec_output = self.tgt_word_emb(tgt_seq) + self.position_enc(tgt_pos)
@@ -165,12 +167,11 @@ class Transformer(nn.Module):
     ''' A sequence to sequence model with attention mechanism. '''
 
     def __init__(
-            self,
-            n_src_vocab, n_tgt_vocab, len_max_seq,
+            self, n_src_vocab, n_tgt_vocab, len_max_seq,
             d_word_vec=512, d_model=512, d_inner=2048,
             n_layers=6, n_head=8, d_k=64, d_v=64, dropout=0.1,
-            tgt_emb_prj_weight_sharing=True,
-            emb_src_tgt_weight_sharing=True):
+            tgt_emb_prj_weight_sharing=False,
+            emb_src_tgt_weight_sharing=False):
 
         super().__init__()
 
@@ -195,15 +196,17 @@ class Transformer(nn.Module):
 
         if tgt_emb_prj_weight_sharing:
             # Share the weight matrix between target word embedding & the final logit dense layer
+            # 两者的shape都是：d_model，n_tgt_vocab (输出侧的单词数量)
             self.tgt_word_prj.weight = self.decoder.tgt_word_emb.weight
             self.x_logit_scale = (d_model ** -0.5)
         else:
             self.x_logit_scale = 1.
 
-        if emb_src_tgt_weight_sharing:
+        if emb_src_tgt_weight_sharing:  # 假如是摘要模型的话，显然两者是共享的
             # Share the weight matrix between source & target word embeddings
             assert n_src_vocab == n_tgt_vocab
             "To share word embedding table, the vocabulary size of src/tgt shall be the same."
+            # weight:就是词向量矩阵
             self.encoder.src_word_emb.weight = self.decoder.tgt_word_emb.weight
 
     def forward(self, src_seq, src_pos, tgt_seq, tgt_pos):
@@ -211,7 +214,11 @@ class Transformer(nn.Module):
         tgt_seq, tgt_pos = tgt_seq[:, :-1], tgt_pos[:, :-1]  # 删除最后一列
 
         enc_output, *_ = self.encoder(src_seq, src_pos)
-        dec_output, *_ = self.decoder(tgt_seq, tgt_pos, src_seq, enc_output)
+        # 因为只返回了一个数据，所以使用单个返回
+        # dec_output, *_ = self.decoder(tgt_seq, tgt_pos, src_seq, enc_output)
+        dec_output = self.decoder(tgt_seq, tgt_pos, src_seq, enc_output)
         seq_logit = self.tgt_word_prj(dec_output) * self.x_logit_scale
 
         return seq_logit.view(-1, seq_logit.size(2))
+
+

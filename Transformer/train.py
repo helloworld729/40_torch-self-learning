@@ -1,41 +1,28 @@
 '''This script handling the training process.'''
-import argparse
-import math
-import time
 from tqdm import tqdm
-import random
-import numpy as np
-import torch
-import torch.nn.functional as F
 import torch.optim as optim
-import torch.utils.data
+import torch.nn.functional as F
 import transformer.Constants as Constants
-from dataset import TranslationDataset, paired_collate_fn
 from transformer.Models import Transformer
 from transformer.Optim import ScheduledOptim
+from dataset import TranslationDataset, paired_collate_fn
+import math, time, torch, argparse, torch.utils.data, random, numpy as np
 
 # ###################################### 损失计算 ##########################################################
 def cal_performance(pred, gold, smoothing=False):
     ''' Apply label smoothing if needed '''
-
     loss = cal_loss(pred, gold, smoothing)
 
     pred = pred.max(1)[1]
     gold = gold.contiguous().view(-1)
-    # print("评价函数")
-    # print(pred)
-    # print("下面是ground_truth")
-    # print(gold)
     non_pad_mask = gold.ne(Constants.PAD)
     n_correct = pred.eq(gold)
     n_correct = n_correct.masked_select(non_pad_mask).sum().item()
 
     return loss, n_correct
 
-
 def cal_loss(pred, gold, smoothing):
     ''' Calculate cross entropy loss, apply label smoothing if needed. '''
-
     gold = gold.contiguous().view(-1)
 
     if smoothing:
@@ -56,7 +43,6 @@ def cal_loss(pred, gold, smoothing):
 
 # ###################################### epoch训练与验证 ###################################################
 def prepare_dataloaders(data, opt):
-    # ========= Preparing DataLoader =========#
     train_loader = torch.utils.data.DataLoader(
         TranslationDataset(
             src_word2idx=data['dict']['src'],
@@ -79,16 +65,15 @@ def prepare_dataloaders(data, opt):
         collate_fn=paired_collate_fn)
     return train_loader, valid_loader
 
-
 def train_epoch(model, training_data, optimizer, device, smoothing):
-    ''' Epoch operation in training phase'''
-    model.train()  # 使得 requires_grad为真
+    ''' Epoch operation in training phase '''
+    # 使得 requires_grad为真
+    model.train()
     total_loss = 0
     n_word_total = 0
     n_word_correct = 0
 
-    for batch in tqdm(
-            training_data, mininterval=2,
+    for batch in tqdm(training_data, mininterval=2,
             desc='  - (Training)   ', leave=False):
 
         # prepare data
@@ -118,7 +103,6 @@ def train_epoch(model, training_data, optimizer, device, smoothing):
     loss_per_word = total_loss/n_word_total
     accuracy = n_word_correct/n_word_total
     return loss_per_word, accuracy
-
 
 def eval_epoch(model, validation_data, device):
     ''' Epoch operation in evaluation phase '''
@@ -154,7 +138,6 @@ def eval_epoch(model, validation_data, device):
     loss_per_word = total_loss/n_word_total
     accuracy = n_word_correct/n_word_total
     return loss_per_word, accuracy
-
 
 def train(model, training_data, validation_data, optimizer, device, opt):  # 模型 数据 优化器 参数
     ''' Start training '''
@@ -221,7 +204,6 @@ def train(model, training_data, validation_data, optimizer, device, opt):  # 模
                     epoch=epoch_i, loss=valid_loss,
                     ppl=math.exp(min(valid_loss, 100)), accu=100*valid_accu))
 
-
 def main():
     ''' Main function '''
     import os
@@ -229,14 +211,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-data', default='data/save_file/file_saved.txt')  # 数据
     parser.add_argument('-epoch', type=int, default=2)  # 10
-    parser.add_argument('-batch_size', type=int, default=64)  # 64
-    parser.add_argument('-d_model', type=int, default=512)  # 20
-    parser.add_argument('-d_inner_hid', type=int, default=2048)  # 128
-    parser.add_argument('-d_k', type=int, default=64)  # 5
-    parser.add_argument('-d_v', type=int, default=64)  # 5
-    parser.add_argument('-n_head', type=int, default=8)  # 4
+    parser.add_argument('-batch_size', type=int, default=5)  # 64
+    parser.add_argument('-d_model', type=int, default=20)  # 512
+    parser.add_argument('-d_inner_hid', type=int, default=128)  # 2048
+    parser.add_argument('-d_k', type=int, default=5)  # 64
+    parser.add_argument('-d_v', type=int, default=5)  # 64
+    parser.add_argument('-n_head', type=int, default=4)  # 8
     parser.add_argument('-n_layers', type=int, default=6)
-    parser.add_argument('-n_warmup_steps', type=int, default=4000)
+    parser.add_argument('-n_warmup_steps', type=int, default=0)  # 4000
     parser.add_argument('-dropout', type=float, default=0.1)  # 0.1
     parser.add_argument('-embs_share_weight', action='store_true')
     # parser.add_argument('-proj_share_weight', action='store_true')
@@ -249,27 +231,29 @@ def main():
     parser.add_argument('-label_smoothing', default=False)
     parser.add_argument('-seed', default=37)
     opt = parser.parse_args()
-    # opt.cuda = True
-    opt.cuda = False  # RBX
-    opt.d_word_vec = opt.d_model  # 512维
+    # action类型的参数，是指我们要在命令行中输入第一参数，例如：
+    # parser.add_argument('-proj_share_weight', action='store_true')
+    # 我们在命令行中输入 -proj_share_weight，那么proj_share_weight = True
 
-    # def set_seed(opt):
-    #     random.seed(opt.seed)
-    #     np.random.seed(opt.seed)
-    #     torch.manual_seed(opt.seed)
-    #     if opt.cuda > 0:
-    #         torch.cuda.manual_seed_all(opt.seed)
-    # set_seed(opt)
+    opt.cuda = False  # RBX
+    opt.d_word_vec = opt.d_model
+
+    def set_seed(opt):
+        random.seed(opt.seed)
+        np.random.seed(opt.seed)
+        torch.manual_seed(opt.seed)
+        if opt.cuda > 0:
+            torch.cuda.manual_seed_all(opt.seed)
+    set_seed(opt)
 
 
     # ========= Loading Dataset ========= #
     data = torch.load(opt.data)
-    opt.max_token_seq_len = data['settings'].max_token_seq_len  # 句子长度上限
-
-    training_data, validation_data = prepare_dataloaders(data, opt)  # dataloader
-
-    opt.src_vocab_size = training_data.dataset.src_vocab_size  # 源侧vocab_size
-    opt.tgt_vocab_size = training_data.dataset.tgt_vocab_size  # 终侧vocab_size
+    # 句子长度上限
+    opt.max_token_seq_len = data['settings'].max_token_seq_len
+    training_data, validation_data = prepare_dataloaders(data, opt)
+    opt.src_vocab_size = training_data.dataset.src_vocab_size
+    opt.tgt_vocab_size = training_data.dataset.tgt_vocab_size
 
     # ========= Preparing Model ========= #
     if opt.embs_share_weight:
@@ -294,13 +278,11 @@ def main():
         dropout=opt.dropout).to(device)
 
     optimizer = ScheduledOptim(
-        optim.Adam(
-            filter(lambda x: x.requires_grad, transformer.parameters()),
-            betas=(0.9, 0.98), eps=1e-09),
-        opt.d_model, opt.n_warmup_steps)
+        optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()),
+            betas=(0.9, 0.98), eps=1e-09),  opt.d_model, opt.n_warmup_steps)
 
+    # 模型，数据，优化器，设备，参数类
     train(transformer, training_data, validation_data, optimizer, device, opt)
-
 
 if __name__ == '__main__':
     main()

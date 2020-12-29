@@ -7,10 +7,11 @@ def read_instances_from_file(inst_file, max_sent_len, keep_case):
     ''' Convert file into word seq lists and vocab '''
 
     word_insts = []
+    # 统计有多少句子被修剪过
     trimmed_sent_count = 0
     with open(inst_file, encoding='utf-8') as f:
-
         for sent in f:
+            # 是否保留大写
             if not keep_case:
                 sent = sent.lower()
             words = sent.split()
@@ -33,7 +34,6 @@ def read_instances_from_file(inst_file, max_sent_len, keep_case):
 
 def build_vocab_idx(word_insts, min_word_count):
     ''' Trim vocab by number of occurence '''
-
     full_vocab = set(w for sent in word_insts for w in sent)
     print('[Info] Original Vocabulary size =', len(full_vocab))
 
@@ -42,13 +42,14 @@ def build_vocab_idx(word_insts, min_word_count):
         Constants.EOS_WORD: Constants.EOS,
         Constants.PAD_WORD: Constants.PAD,
         Constants.UNK_WORD: Constants.UNK}
-
+    # 统计单词出现的次数
     word_count = {w: 0 for w in full_vocab}
 
     for sent in word_insts:
         for word in sent:
             word_count[word] += 1
 
+    # 将出现次数大于下限的单词添加到词典中
     ignored_word_count = 0
     for word, count in word_count.items():
         if word not in word2idx:
@@ -64,8 +65,6 @@ def build_vocab_idx(word_insts, min_word_count):
 
 def convert_instance_to_idx_seq(word_insts, word2idx):
     ''' Mapping words to idx sequence. '''
-    # print(word_insts)
-    # print(len(word2idx.keys()))
     return [[word2idx.get(w, Constants.UNK) for w in s] for s in word_insts]
 
 def main():
@@ -78,12 +77,13 @@ def main():
     parser.add_argument('-valid_tgt', default='data/val.de')
     parser.add_argument('-save_data', default='data/save_file/file_saved.txt')
     parser.add_argument('-max_len', '--max_word_seq_len', type=int, default=50)  # 变量 注释 参数
-    parser.add_argument('-min_word_count', type=int, default=2)  # default=5
-    parser.add_argument('-keep_case', action='store_true')
+    parser.add_argument('-min_word_count', type=int, default=0)  # default=5
+    parser.add_argument('-keep_case', action='store_true')  # 是否保持小写
     parser.add_argument('-share_vocab', action='store_true')
     parser.add_argument('-vocab', default=None)
 
     opt = parser.parse_args()
+    # 设置句子长度上限值
     opt.max_token_seq_len = opt.max_word_seq_len + 2 # include the <s> and </s>
 
     # Training set
@@ -98,7 +98,7 @@ def main():
         train_src_word_insts = train_src_word_insts[:min_inst_count]
         train_tgt_word_insts = train_tgt_word_insts[:min_inst_count]
 
-    #- Remove empty instances
+    # 只有输入输出全都不是空的时候，才添加到数据集中
     train_src_word_insts, train_tgt_word_insts = list(zip(*[
         (s, t) for s, t in zip(train_src_word_insts, train_tgt_word_insts) if s and t]))
 
