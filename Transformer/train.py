@@ -227,7 +227,6 @@ def main():
     parser.add_argument('-save_mode', type=str, choices=['all', 'best'], default='best')
     parser.add_argument('-no_cuda', action='store_true')
     parser.add_argument('-label_smoothing', action='store_true',)
-    parser.add_argument('-label_smoothing', default=False)
     parser.add_argument('-seed', default=37)
     opt = parser.parse_args()
     # action类型的参数，是指我们要在命令行中输入第一参数，例如：
