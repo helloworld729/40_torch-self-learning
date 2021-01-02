@@ -87,7 +87,7 @@ def main():
     parser.add_argument('-valid_tgt', default='data/valid.latter')
     parser.add_argument('-save_data', default='data/save_file/file_saved.txt')
     parser.add_argument('-max_len', '--max_word_seq_len', type=int, default=10)  # 变量 注释 参数
-    parser.add_argument('-min_word_count', type=int, default=2)
+    parser.add_argument('-min_word_count', type=int, default=1)
     parser.add_argument('-keep_case', action='store_true')  # 是否保持小写
     # parser.add_argument('-share_vocab', action='store_true')
     parser.add_argument('-share_vocab', default=True)
