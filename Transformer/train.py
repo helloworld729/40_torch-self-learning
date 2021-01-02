@@ -190,13 +190,15 @@ def train(model, training_data, validation_data, optimizer, device, opt):  # 模
                     print('    - [Info] The checkpoint file has been updated.')
 
         if log_train_file:
-            log_tf.write('{epoch},{loss: 8.5f},{ppl: 8.5f},{accu:3.3f}\n'.format(
-                epoch=epoch_i, loss=train_loss,
-                ppl=math.exp(min(train_loss, 100)), accu=100*train_accu))
+            with open(log_train_file, 'w') as log_tf:
+                log_tf.write('{epoch},{loss: 8.5f},{ppl: 8.5f},{accu:3.3f}\n'.format(
+                    epoch=epoch_i, loss=train_loss,
+                    ppl=math.exp(min(train_loss, 100)), accu=100*train_accu))
         if log_valid_file and opt.has_validation:
-            log_vf.write('{epoch},{loss: 8.5f},{ppl: 8.5f},{accu:3.3f}\n'.format(
-                epoch=epoch_i, loss=valid_loss,
-                ppl=math.exp(min(valid_loss, 100)), accu=100*valid_accu))
+            with open(log_valid_file, 'w') as log_vf:
+                log_vf.write('{epoch},{loss: 8.5f},{ppl: 8.5f},{accu:3.3f}\n'.format(
+                    epoch=epoch_i, loss=valid_loss,
+                    ppl=math.exp(min(valid_loss, 100)), accu=100*valid_accu))
 
 def main():
     ''' Main function '''
