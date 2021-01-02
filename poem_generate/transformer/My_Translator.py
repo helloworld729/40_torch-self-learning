@@ -11,8 +11,10 @@ class Translator(object):
     def __init__(self, opt):
         self.opt = opt
         self.device = torch.device('cuda' if opt.cuda else 'cpu')
-
-        checkpoint = torch.load(opt.model)
+        if torch.cuda.is_available():
+            checkpoint = torch.load(opt.model)
+        else:
+            checkpoint = torch.load(opt.model, map_location=torch.device('cpu'))
         model_opt = checkpoint['settings']
         self.model_opt = model_opt
 
@@ -49,7 +51,7 @@ class Translator(object):
         trans_batch = {k: sen_item for k in range(batch)}
         return trans_batch
 
-    def beam_search(self, enc_output, src_seq, printLog=True):
+    def beam_search(self, enc_output, src_seq, printLog=False):
         """
         beam搜索step过程，输入编码侧的输出和原始的待编码序列输出翻译结果 循环过程为：
         1、初始化第一个解码输入为 BOS
@@ -128,10 +130,11 @@ class Translator(object):
                 good_beams = sen_cans[:self.opt.beam_size]
                 # 转换为字典
                 sequences = {k: good_beams[k] for k in range(len(good_beams))}
-                print("排序后的结果:")
-                for value in sequences.values():
-                    print(value)
-                print("\n\n")
+                if printLog:
+                    print("排序后的结果:")
+                    for value in sequences.values():
+                        print(value)
+                    print("\n\n")
                 # 替换
                 trans_batch_init[sen_id] = sequences
             step += 1
@@ -149,10 +152,10 @@ class Translator(object):
             # 返回一个batch的字典
             trans_result = self.beam_search(src_enc, src_seq)
             for sen_id, sen_candidate in trans_result.items():
-                print("最终排序结果:")
-                for item in sen_candidate:
-                    print(item)
-                print("\n\n")
+                # print("最终排序结果:")
+                # for item in sen_candidate:
+                #     print(item)
+                # print("\n\n")
                 # 每一句话对应得分最高的答案
                 return_list.append(sen_candidate[0]['id_sec'])
             return return_list, 0

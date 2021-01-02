@@ -11,7 +11,7 @@ def main(author=False):
 
     parser.add_argument('-model', default='weights/transformer.chkpt',
                         help='Path to model .pt file')
-    parser.add_argument('-src', default='data/test.en',
+    parser.add_argument('-src', default='data/test.formmer',
                         help='Source sequence to decode (one line per sequence)')
     parser.add_argument('-vocab', default='data/save_file/file_saved.txt',
                         help='Source sequence to decode (one line per sequence)')
