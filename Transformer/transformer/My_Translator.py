@@ -50,7 +50,7 @@ class Translator(object):
         trans_batch = {k: sen_item for k in range(batch)}
         return trans_batch
 
-    def beam_search(self, enc_output, src_seq):
+    def beam_search(self, enc_output, src_seq, printLog=False):
         """
         beam搜索step过程，输入编码侧的输出和原始的待编码序列输出翻译结果 循环过程为：
         1、初始化第一个解码输入为 BOS
@@ -63,15 +63,18 @@ class Translator(object):
         # 初始化 翻译字典(batch --> sentence --> beam)
         trans_batch_init = self.init_transdict(enc_output)  # 初始化搜寻结果
         step = 1
-        while(step < self.max_trans_len):
+        while(step < min(self.max_trans_len, 2 * src_seq.shape[1])):
             for sen_id, sen_trans in trans_batch_init.items():
-                # 某个具体句子index序列
+                # 某个具体句子index序列 this_sec
                 this_sec = src_seq[sen_id].unsqueeze(0).to(self.device)
-                # 某个具体句子编码序列
+                # 某个具体句子编码序列 this_enc
                 this_enc = enc_output[sen_id].unsqueeze(0).to(self.device)
-                temp_beam = []
-                # for beam_id, beam_trans in sen_trans.items():   # 每一个beam  一变多
-                for beam_id, beam_trans in trans_batch_init[sen_id].items():  # 每一个beam  一变多
+
+                # 一句话翻译结果的容器
+                sen_cans = []
+
+                for beam_id, beam_trans in trans_batch_init[sen_id].items():
+                    # 遍历每一个beam...
                     # 如果还没有翻译出结束标志
                     if not beam_trans['EOS']:
                         # 当前翻译结果的id_sec索引序列，与pos_sec位置序列
@@ -89,44 +92,43 @@ class Translator(object):
                         pred_list = word_prob.topk(self.opt.beam_size, dim=1, sorted=True)[1].squeeze()
                         score_list = word_prob.index_select(dim=1, index=pred_list).squeeze()  # 1 beam_size
                         for i in range(len(pred_list)):
-                            temp_trans = copy.deepcopy(beam_trans)  # 同步改变了
+                            copy_beam = copy.deepcopy(beam_trans)  # 同步改变了
                             if Constants.EOS == pred_list[i]:
-                                temp_trans['EOS'] = True
+                                copy_beam['EOS'] = True
                             else:
-                                temp_trans['id_sec'].append(pred_list[i].item())
-                                temp_trans['pos_sec'].append(temp_trans['pos_sec'][-1] + 1)
-                                temp_trans['score'] += (score_list[i] * -1) if score_list[i] < 0 else score_list[i]  # 考位为0时候
+                                copy_beam['id_sec'].append(pred_list[i].item())
+                                copy_beam['pos_sec'].append(copy_beam['pos_sec'][-1] + 1)
+                                copy_beam['score'] += (score_list[i] * -1) if score_list[i] < 0 else score_list[i]  # 考位为0时候
                                 # temp_trans['score'] = temp_trans['score']/len(temp_trans['pos_sec'])
-                            temp_beam.append(temp_trans)
+                            sen_cans.append(copy_beam)
                         if step == 1:
                             break
-                    # 该beam分支已经结束 直接添加
+                    # 如果该beam分支已经结束 直接添加
                     else:
-                        temp_beam.append(beam_trans)
+                        # temp_beam 存放一句话所有的翻译结果
+                        sen_cans.append(beam_trans)
 
                 # 步进完成后，统计结束数目
                 finish_num = 0
                 for beam_id, beam_trans in trans_batch_init[sen_id].items():
                     if beam_trans['EOS']:
                         finish_num += 1
-                # 如果某一句话所有beam都已经结束，那么久跳过115行之后的操作过程
+                # 如果某一句话所有beam都已经结束，那么久跳过之后的操作过程
                 # 直接进入下一句话
                 if finish_num == len(trans_batch_init[sen_id]):
                     continue
 
-                # 针对一句话
-                print("句子{}对应的所有候选集在step{}".format(sen_id, step))
-                ordered = sorted(temp_beam, key=lambda iner_dict: iner_dict['score'], reverse=False)  # 列表排序 顺序 小到大
-                for item in ordered:
-                    print(item)
-                sequences = ordered[:self.opt.beam_size]  # 取出概率较大的  列表
+                # 针对一句话的beam排序
+                sen_cans.sort(key=lambda iner_dict: iner_dict['score'], reverse=True)
+                if printLog:
+                    print("句子{}对应的所有候选集在step{}".format(sen_id, step))
+                    for item in sen_cans:
+                        print(item)
 
-                for item in ordered:
-                    if item['EOS'] and (item not in sequences):
-                        sequences.append(item)
-                        print('增加自动终结序列...........................')
-
-                sequences = {k: sequences[k] for k in range(len(sequences))}
+                # beam分支收缩为设定值
+                good_beams = sen_cans[:self.opt.beam_size]
+                # 转换为字典
+                sequences = {k: good_beams[k] for k in range(len(good_beams))}
                 print("排序后的结果:")
                 for value in sequences.values():
                     print(value)
@@ -148,17 +150,16 @@ class Translator(object):
             # 返回一个batch的字典
             trans_result = self.beam_search(src_enc, src_seq)
             for sen_id, sen_candidate in trans_result.items():
-                ordered = sorted(sen_candidate.items(), key=lambda x: x[1]['score'], reverse=False)  # 列表排序 顺序 小到大
                 print("最终排序结果:")
-                for item in ordered:
+                for item in sen_candidate:
                     print(item)
                 print("\n\n")
                 # 每一句话对应得分最高的答案
-                return_list.append(ordered[0][1]['id_sec'])
+                return_list.append(sen_candidate[0]['id_sec'])
             return return_list, 0
 
 # ######################################################################################################################
-#     def beam_search(self, enc_output, src_seq):
+#     def beam_search(self, enc_output, src_seq, printLog=False):
 #         """
 #         beam搜索step过程，输入编码侧的输出和原始的待编码序列输出翻译结果 循环过程为：
 #         1、初始化第一个解码输入为 BOS
@@ -173,13 +174,16 @@ class Translator(object):
 #         step = 1
 #         while(step < self.max_trans_len):
 #             for sen_id, sen_trans in trans_batch_init.items():
-#                 # 某个具体句子index序列
+#                 # 某个具体句子index序列 this_sec
 #                 this_sec = src_seq[sen_id].unsqueeze(0).to(self.device)
-#                 # 某个具体句子编码序列
+#                 # 某个具体句子编码序列 this_enc
 #                 this_enc = enc_output[sen_id].unsqueeze(0).to(self.device)
-#                 temp_beam = []
-#                 # for beam_id, beam_trans in sen_trans.items():   # 每一个beam  一变多
-#                 for beam_id, beam_trans in trans_batch_init[sen_id].items():  # 每一个beam  一变多
+#
+#                 # 一句话翻译结果的容器
+#                 sen_cans = []
+#
+#                 for beam_id, beam_trans in trans_batch_init[sen_id].items():
+#                     # 遍历每一个beam...
 #                     # 如果还没有翻译出结束标志
 #                     if not beam_trans['EOS']:
 #                         # 当前翻译结果的id_sec索引序列，与pos_sec位置序列
@@ -197,44 +201,43 @@ class Translator(object):
 #                         pred_list = word_prob.topk(self.opt.beam_size, dim=1, sorted=True)[1].squeeze()
 #                         score_list = word_prob.index_select(dim=1, index=pred_list).squeeze()  # 1 beam_size
 #                         for i in range(len(pred_list)):
-#                             temp_trans = copy.deepcopy(beam_trans)  # 同步改变了
+#                             copy_beam = copy.deepcopy(beam_trans)  # 同步改变了
 #                             if Constants.EOS == pred_list[i]:
-#                                 temp_trans['EOS'] = True
+#                                 copy_beam['EOS'] = True
 #                             else:
-#                                 temp_trans['id_sec'].append(pred_list[i].item())
-#                                 temp_trans['pos_sec'].append(temp_trans['pos_sec'][-1] + 1)
-#                                 temp_trans['score'] += (score_list[i] * -1) if score_list[i] < 0 else score_list[i]  # 考位为0时候
+#                                 copy_beam['id_sec'].append(pred_list[i].item())
+#                                 copy_beam['pos_sec'].append(copy_beam['pos_sec'][-1] + 1)
+#                                 copy_beam['score'] += (score_list[i] * -1) if score_list[i] < 0 else score_list[i]  # 考位为0时候
 #                                 # temp_trans['score'] = temp_trans['score']/len(temp_trans['pos_sec'])
-#                             temp_beam.append(temp_trans)
+#                             sen_cans.append(copy_beam)
 #                         if step == 1:
 #                             break
-#                     # 该beam分支已经结束 直接添加
+#                     # 如果该beam分支已经结束 直接添加
 #                     else:
-#                         temp_beam.append(beam_trans)
+#                         # temp_beam 存放一句话所有的翻译结果
+#                         sen_cans.append(beam_trans)
 #
 #                 # 步进完成后，统计结束数目
 #                 finish_num = 0
 #                 for beam_id, beam_trans in trans_batch_init[sen_id].items():
 #                     if beam_trans['EOS']:
 #                         finish_num += 1
-#                 # 如果某一句话所有beam都已经结束，那么久跳过115行之后的操作过程
+#                 # 如果某一句话所有beam都已经结束，那么久跳过之后的操作过程
 #                 # 直接进入下一句话
 #                 if finish_num == len(trans_batch_init[sen_id]):
 #                     continue
 #
-#                 # 针对一句话
-#                 print("句子{}对应的所有候选集在step{}".format(sen_id, step))
-#                 ordered = sorted(temp_beam, key=lambda iner_dict: iner_dict['score'], reverse=False)  # 列表排序 顺序 小到大
-#                 for item in ordered:
-#                     print(item)
-#                 sequences = ordered[:self.opt.beam_size]  # 取出概率较大的  列表
+#                 # 针对一句话的beam排序
+#                 sen_cans.sort(key=lambda iner_dict: iner_dict['score'], reverse=True)
+#                 if printLog:
+#                     print("句子{}对应的所有候选集在step{}".format(sen_id, step))
+#                     for item in sen_cans:
+#                         print(item)
 #
-#                 for item in ordered:
-#                     if item['EOS'] and (item not in sequences):
-#                         sequences.append(item)
-#                         print('增加自动终结序列...........................')
-#
-#                 sequences = {k: sequences[k] for k in range(len(sequences))}
+#                 # beam分支收缩为设定值
+#                 good_beams = sen_cans[:self.opt.beam_size]
+#                 # 转换为字典
+#                 sequences = {k: good_beams[k] for k in range(len(good_beams))}
 #                 print("排序后的结果:")
 #                 for value in sequences.values():
 #                     print(value)
@@ -253,39 +256,16 @@ class Translator(object):
 #             # 加载模型，输出：batch_size, max_len, d_model
 #             src_enc, *_ = self.model.encoder(src_seq, src_pos)
 #             return_list = []
-#
-#             trans_result = self.beam_search(src_enc, src_seq)  # 字典
-#             src_mask_len = src_seq.eq(0).sum(dim=1)
-#             src_max_len = src_seq.size(1)
-#             for sen_id, sen_candidate in trans_result.items():  # 赏罚规则
-#                 sen_list = []
-#                 for beam_id, beam_content in sen_candidate.items():
-#                     # print(src_max_len,'hahah',src_mask_len[sen_id].item())
-#                     src_len = src_max_len - src_mask_len[sen_id].item()  # 实际长度
-#                     if 0.7*src_len < len(beam_content['pos_sec']) < 1.3*src_len:  # 长度适中
-#                         beam_content['score'] *= 0.5
-#                         if beam_content['EOS']:  # 奖赏自动终结
-#                             beam_content['score'] *= 0.5
-#
-#                     elif 1.5*src_len < len(beam_content['pos_sec']):  # 太长
-#                         beam_content['score'] *= (len(beam_content['pos_sec'])/src_len)
-#                     elif 0.5*src_len > len(beam_content['pos_sec']):  # 太短
-#                         beam_content['score'] *= (src_len / len(beam_content['pos_sec']))
-#
-#                     dec_set_len = set(beam_content['id_sec'])  # 集合长度
-#                     if len(dec_set_len) > 0.1 * len(beam_content['id_sec']):  # 惩罚重复
-#                         beam_content['score'] *= 2+(1 - len(dec_set_len)/len(beam_content['id_sec']) )
-#
-#                     sen_list.append(beam_content)
-#
-#                 ordered = sorted(sen_list, key=lambda iner_dict: iner_dict['score'], reverse=False)  # 列表排序 顺序 小到大
-#
+#             # 返回一个batch的字典
+#             trans_result = self.beam_search(src_enc, src_seq)
+#             for sen_id, sen_candidate in trans_result.items():
 #                 print("最终排序结果:")
-#                 for item in ordered:
+#                 for item in sen_candidate:
 #                     print(item)
 #                 print("\n\n")
-#
-#                 return_list.append(ordered[0]['id_sec'])
+#                 # 每一句话对应得分最高的答案
+#                 return_list.append(sen_candidate[0]['id_sec'])
 #             return return_list, 0
+
 # ######################################################################################################################
 
