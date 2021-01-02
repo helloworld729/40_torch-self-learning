@@ -91,7 +91,7 @@ class Translator(object):
                         pred_list = word_prob.topk(self.opt.beam_size, dim=1, sorted=True)[1].squeeze()
                         score_list = word_prob.index_select(dim=1, index=pred_list).squeeze()  # 1 beam_size
                         for i in range(len(pred_list)):
-                            copy_beam = copy.deepcopy(beam_trans)  # 同步改变了
+                            copy_beam = copy.deepcopy(beam_trans)  # 一个beam要分裂为多个，所以深拷贝
                             if Constants.EOS == pred_list[i]:
                                 copy_beam['EOS'] = True
                             else:

@@ -42,28 +42,18 @@ def cal_loss(pred, gold, smoothing):
     return loss
 
 # ###################################### epoch训练与验证 ###################################################
-def prepare_dataloaders(data, opt):
-    train_loader = torch.utils.data.DataLoader(
+def prepare_dataloaders(data, source, opt):
+    data_loader = torch.utils.data.DataLoader(
         TranslationDataset(
             src_word2idx=data['dict']['src'],
             tgt_word2idx=data['dict']['tgt'],
-            src_insts=data['train']['src'],
-            tgt_insts=data['train']['tgt']),
+            src_insts=data[source]['src'],
+            tgt_insts=data[source]['tgt']),
         num_workers=2,
         batch_size=opt.batch_size,
         collate_fn=paired_collate_fn,
         shuffle=True)
-
-    valid_loader = torch.utils.data.DataLoader(
-        TranslationDataset(
-            src_word2idx=data['dict']['src'],
-            tgt_word2idx=data['dict']['tgt'],
-            src_insts=data['valid']['src'],
-            tgt_insts=data['valid']['tgt']),
-        num_workers=2,
-        batch_size=opt.batch_size,
-        collate_fn=paired_collate_fn)
-    return train_loader, valid_loader
+    return data_loader
 
 def train_epoch(model, training_data, optimizer, device, smoothing):
     ''' Epoch operation in training phase '''
@@ -78,10 +68,9 @@ def train_epoch(model, training_data, optimizer, device, smoothing):
 
         # prepare data
         src_seq, src_pos, tgt_seq, tgt_pos = map(lambda x: x.to(device), batch)
-        gold = tgt_seq[:, 1:]  # 从第一列开始
-        # print("\n训练集target")
-        # print(gold)
-        # forward
+        gold = tgt_seq[:, 1:]  # 从第一列开始，因为都是以2(BOS)作为开头
+
+        # 前向函数
         optimizer.zero_grad()
         pred = model(src_seq, src_pos, tgt_seq, tgt_pos)
 
@@ -147,6 +136,7 @@ def train(model, training_data, validation_data, optimizer, device, opt):  # 模
 
     if opt.log:
         log_train_file = opt.log + '.train.log'
+    if opt.has_validation:
         log_valid_file = opt.log + '.valid.log'
 
         print('[Info] Training performance will be written to file: {} and {}'.format(
@@ -171,7 +161,9 @@ def train(model, training_data, validation_data, optimizer, device, opt):  # 模
                   elapse=(time.time()-start)/60))
 
         start = time.time()
-        valid_loss, valid_accu = eval_epoch(model, validation_data, device)
+        # 如果没有验证集，就用测试集作为结果
+        valid_loss, valid_accu = eval_epoch(model, validation_data, device) if \
+                                     opt.has_validation and validation_data else (train_loss, train_accu)
         print('  - (Validation) ppl: {ppl: 8.5f}, accuracy: {accu:3.3f} %, '\
                 'elapse: {elapse:3.3f} min'.format(
                     ppl=math.exp(min(valid_loss, 100)), accu=100*valid_accu,
@@ -210,6 +202,7 @@ def main():
     os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     parser = argparse.ArgumentParser()
     parser.add_argument('-data', default='data/save_file/file_saved.txt')  # 数据
+    parser.add_argument('-has_validation', default=True)  # 数据
     parser.add_argument('-epoch', type=int, default=10)  # 10
     parser.add_argument('-batch_size', type=int, default=64)  # 64
     parser.add_argument('-d_model', type=int, default=512)  # 512
@@ -233,7 +226,7 @@ def main():
     # parser.add_argument('-proj_share_weight', action='store_true')
     # 我们在命令行中输入 -proj_share_weight，那么proj_share_weight = True
 
-    opt.cuda = True
+    opt.cuda = True if torch.cuda.is_available() else False
     opt.d_word_vec = opt.d_model
 
     def set_seed(opt):
@@ -247,9 +240,12 @@ def main():
 
     # ========= Loading Dataset ========= #
     data = torch.load(opt.data)
-    # 句子长度上限
+    # 句子长度上限,用于截断
     opt.max_token_seq_len = data['settings'].max_token_seq_len
-    training_data, validation_data = prepare_dataloaders(data, opt)
+
+    # 返回两个dataloader，已经包含batch_size，collect_fn 等信息
+    training_data   = prepare_dataloaders(data, "train", opt)
+    validation_data = prepare_dataloaders(data, "valid", opt) if opt.has_validation else None
     opt.src_vocab_size = training_data.dataset.src_vocab_size
     opt.tgt_vocab_size = training_data.dataset.tgt_vocab_size
 
