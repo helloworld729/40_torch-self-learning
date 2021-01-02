@@ -50,7 +50,7 @@ class Translator(object):
         trans_batch = {k: sen_item for k in range(batch)}
         return trans_batch
 
-    def beam_search(self, enc_output, src_seq, printLog=False):
+    def beam_search(self, enc_output, src_seq, printLog=True):
         """
         beam搜索step过程，输入编码侧的输出和原始的待编码序列输出翻译结果 循环过程为：
         1、初始化第一个解码输入为 BOS
@@ -98,7 +98,7 @@ class Translator(object):
                             else:
                                 copy_beam['id_sec'].append(pred_list[i].item())
                                 copy_beam['pos_sec'].append(copy_beam['pos_sec'][-1] + 1)
-                                copy_beam['score'] += (score_list[i] * -1) if score_list[i] < 0 else score_list[i]  # 考位为0时候
+                                copy_beam['score'] += (score_list[i] * -1) if score_list[i] < 0 else score_list[i]
                                 # temp_trans['score'] = temp_trans['score']/len(temp_trans['pos_sec'])
                             sen_cans.append(copy_beam)
                         if step == 1:
@@ -119,7 +119,7 @@ class Translator(object):
                     continue
 
                 # 针对一句话的beam排序
-                sen_cans.sort(key=lambda iner_dict: iner_dict['score'], reverse=True)
+                sen_cans.sort(key=lambda iner_dict: (iner_dict['EOS'], iner_dict['score']), reverse=True)
                 if printLog:
                     print("句子{}对应的所有候选集在step{}".format(sen_id, step))
                     for item in sen_cans:
