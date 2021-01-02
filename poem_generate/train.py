@@ -209,7 +209,7 @@ def main():
     parser.add_argument('-has_validation', default=True)  # 数据
     parser.add_argument('-epoch', type=int, default=6)  # 10
     parser.add_argument('-batch_size', type=int, default=2)  # 64
-    parser.add_argument('-d_model', type=int, default=512)  # 512
+    parser.add_argument('-d_model', type=int, default=256)  # 512
     parser.add_argument('-d_inner_hid', type=int, default=1024)  # 2048
     parser.add_argument('-d_k', type=int, default=64)  # 64
     parser.add_argument('-d_v', type=int, default=64)  # 64
@@ -278,7 +278,7 @@ def main():
 
     optimizer = ScheduledOptim(
         optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()),
-            betas=(0.9, 0.98), eps=1e-09),  opt.d_model, opt.n_warmup_steps)
+            betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-5),  opt.d_model, opt.n_warmup_steps)
 
     # 模型，数据，优化器，设备，参数类
     train(transformer, training_data, validation_data, optimizer, device, opt)
