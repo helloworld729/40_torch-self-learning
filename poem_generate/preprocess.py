@@ -80,17 +80,17 @@ def convert_instance_to_idx_seq(word_insts, word2idx):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-train_src', default='data/train.en')
-    parser.add_argument('-train_tgt', default='data/train.de')
+    parser.add_argument('-train_src', default='data/train.formmer')
+    parser.add_argument('-train_tgt', default='data/train.latter')
     parser.add_argument('-has_validation', default=True)
-    parser.add_argument('-valid_src', default='data/val.en')
-    parser.add_argument('-valid_tgt', default='data/val.de')
+    parser.add_argument('-valid_src', default='data/valid.formmer')
+    parser.add_argument('-valid_tgt', default='data/valid.latter')
     parser.add_argument('-save_data', default='data/save_file/file_saved.txt')
-    parser.add_argument('-max_len', '--max_word_seq_len', type=int, default=50)  # 变量 注释 参数
+    parser.add_argument('-max_len', '--max_word_seq_len', type=int, default=10)  # 变量 注释 参数
     parser.add_argument('-min_word_count', type=int, default=5)
     parser.add_argument('-keep_case', action='store_true')  # 是否保持小写
     # parser.add_argument('-share_vocab', action='store_true')
-    parser.add_argument('-share_vocab', default=False)
+    parser.add_argument('-share_vocab', default=True)
     parser.add_argument('-vocab', default=None)
 
     opt = parser.parse_args()
