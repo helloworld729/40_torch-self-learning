@@ -198,8 +198,6 @@ def train(model, training_data, validation_data, optimizer, device, opt):  # 模
                 epoch=epoch_i, loss=valid_loss,
                 ppl=math.exp(min(valid_loss, 100)), accu=100*valid_accu))
 
-    log_tf.close(); log_vf.close()
-
 def main():
     ''' Main function '''
     import os
@@ -207,7 +205,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-data', default='data/save_file/file_saved.txt')  # 数据
     parser.add_argument('-has_validation', default=True)  # 数据
-    parser.add_argument('-epoch', type=int, default=10)  # 10
+    parser.add_argument('-epoch', type=int, default=9)  # 10
     parser.add_argument('-batch_size', type=int, default=64)  # 64
     parser.add_argument('-d_model', type=int, default=512)  # 512
     parser.add_argument('-d_inner_hid', type=int, default=2048)  # 2048
