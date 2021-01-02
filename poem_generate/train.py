@@ -203,7 +203,7 @@ def train(model, training_data, validation_data, optimizer, device, opt):  # 模
 def main():
     ''' Main function '''
     import os
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
     parser = argparse.ArgumentParser()
     parser.add_argument('-data', default='data/save_file/file_saved.txt')  # 数据
     parser.add_argument('-has_validation', default=True)  # 数据
