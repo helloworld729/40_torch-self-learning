@@ -1,15 +1,12 @@
 ''' Translate input text with trained model. '''
-import torch
-import torch.utils.data
-import argparse
 from tqdm import tqdm
-
-from dataset import collate_fn, TranslationDataset
+import torch, torch.utils.data, argparse
+# from transformer.Translator import Translator
 from transformer.My_Translator import Translator
+from dataset import collate_fn, TranslationDataset
 from preprocess import read_instances_from_file, convert_instance_to_idx_seq
 
 def main():
-    '''Main Function'''
     parser = argparse.ArgumentParser(description='translate.py')
 
     parser.add_argument('-model', default='weights/transformer.chkpt',
@@ -21,9 +18,9 @@ def main():
     parser.add_argument('-output', default='data/pred.txt',  # 翻译结果保存文件路径
                         help="""Path to output the predictions (each line will
                         be the decoded sequence""")
-    parser.add_argument('-beam_size', type=int, default=5,
+    parser.add_argument('-beam_size', type=int, default=2,
                         help='Beam size')
-    parser.add_argument('-batch_size', type=int, default=3,
+    parser.add_argument('-batch_size', type=int, default=2,
                         help='Batch size')
     parser.add_argument('-n_best', type=int, default=1,
                         help="""If verbose is set, will output the n_best
@@ -57,7 +54,9 @@ def main():
 
     with open(opt.output, 'w', encoding='utf-8') as f:
         for batch in tqdm(test_loader, mininterval=2, desc='  - (Test)', leave=False):
-            all_hyp, all_scores = translator.translate_batch(*batch)  # batch是批量数据(单侧待翻译数据index列表) + 位置编码的索引,*使得参数列表化（列表有两部分内容，1是seq的id序列，2是对应的未知序列）
+            # batch是批量数据(单侧待翻译数据index列表) + 位置索引, *使得参数列表化
+            # (列表有两部分内容，1是seq的id序列，2是对应的未知序列)
+            all_hyp, all_scores = translator.translate_batch(*batch)
             for idx_seqs in all_hyp:
                 pred_line = ' '.join([test_loader.dataset.tgt_idx2word[idx] for idx in idx_seqs])
                 f.write(pred_line + '\n')
@@ -65,3 +64,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
