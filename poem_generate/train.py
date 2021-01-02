@@ -208,7 +208,7 @@ def main():
     parser.add_argument('-data', default='data/save_file/file_saved.txt')  # 数据
     parser.add_argument('-has_validation', default=True)  # 数据
     parser.add_argument('-epoch', type=int, default=6)  # 10
-    parser.add_argument('-batch_size', type=int, default=2)  # 64
+    parser.add_argument('-batch_size', type=int, default=64)  # 64
     parser.add_argument('-d_model', type=int, default=256)  # 512
     parser.add_argument('-d_inner_hid', type=int, default=1024)  # 2048
     parser.add_argument('-d_k', type=int, default=64)  # 64
