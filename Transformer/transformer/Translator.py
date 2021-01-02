@@ -119,7 +119,8 @@ class Translator(object):
                 :param n_bm:
                 :return: batch，beam_size，vocab_size 每一个batch激活序列的预测分布
                 """
-                dec_output, *_ = self.model.decoder(dec_seq, dec_pos, src_seq, enc_output)  # 解码函数 batch*beam_size,1,512
+                dec_output = self.model.decoder(dec_seq, dec_pos, src_seq, enc_output)  # 解码函数 batch*beam_size,1,512
+                # dec_output, *_ = self.model.decoder(dec_seq, dec_pos, src_seq, enc_output)  # 解码函数 batch*beam_size,1,512
                 dec_output = dec_output[:, -1, :]  # Pick the last step:   batch*beam_size, 512
                 word_prob = F.log_softmax(self.model.tgt_word_prj(dec_output), dim=1)  # batch*beam_size, 10(vacab_size)
                 word_prob = word_prob.view(n_active_inst, n_bm, -1)  # 每一个batch的解码映射结果  batch*beam_size*vocab_size

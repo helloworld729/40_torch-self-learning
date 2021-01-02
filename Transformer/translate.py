@@ -1,12 +1,12 @@
 ''' Translate input text with trained model. '''
 from tqdm import tqdm
 import torch, torch.utils.data, argparse
-# from transformer.Translator import Translator
-from transformer.My_Translator import Translator
+from transformer.Translator import Translator
+# from transformer.My_Translator import Translator
 from dataset import collate_fn, TranslationDataset
 from preprocess import read_instances_from_file, convert_instance_to_idx_seq
 
-def main():
+def main(author=True):
     parser = argparse.ArgumentParser(description='translate.py')
 
     parser.add_argument('-model', default='weights/transformer.chkpt',
@@ -50,7 +50,7 @@ def main():
         batch_size=opt.batch_size,
         collate_fn=collate_fn)
 
-    translator = Translator(opt, max_trans_len)
+    translator = Translator(opt)
 
     with open(opt.output, 'w', encoding='utf-8') as f:
         for batch in tqdm(test_loader, mininterval=2, desc='  - (Test)', leave=False):
@@ -58,7 +58,11 @@ def main():
             # (列表有两部分内容，1是seq的id序列，2是对应的未知序列)
             all_hyp, all_scores = translator.translate_batch(*batch)
             for idx_seqs in all_hyp:
-                pred_line = ' '.join([test_loader.dataset.tgt_idx2word[idx] for idx in idx_seqs])
+                if not author:
+                    pred_line = ' '.join([test_loader.dataset.tgt_idx2word[idx] for idx in idx_seqs])  # RBX
+                else:
+                    idx_seqs = idx_seqs[0]
+                    pred_line = ' '.join([test_loader.dataset.tgt_idx2word[idx] for idx in idx_seqs][0])
                 f.write(pred_line + '\n')
     print('[Info] Finished.')
 
