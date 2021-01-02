@@ -1,12 +1,12 @@
 ''' Translate input text with trained model. '''
 from tqdm import tqdm
 import torch, torch.utils.data, argparse
-from transformer.Translator import Translator
-# from transformer.My_Translator import Translator
+# from transformer.Translator import Translator
+from transformer.My_Translator import Translator
 from dataset import collate_fn, TranslationDataset
 from preprocess import read_instances_from_file, convert_instance_to_idx_seq
 
-def main(author=True):
+def main(author=False):
     parser = argparse.ArgumentParser(description='translate.py')
 
     parser.add_argument('-model', default='weights/transformer.chkpt',

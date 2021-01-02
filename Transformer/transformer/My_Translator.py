@@ -8,7 +8,7 @@ from transformer.Models import Transformer
 class Translator(object):
     ''' Load with trained model and handle the beam search '''
 
-    def __init__(self, opt, max_trans_len):
+    def __init__(self, opt):
         self.opt = opt
         self.device = torch.device('cuda' if opt.cuda else 'cpu')
 
