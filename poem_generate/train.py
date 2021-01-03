@@ -79,7 +79,8 @@ def train_epoch(model, training_data, optimizer, device, smoothing):
         loss.backward()
 
         # update parameters
-        optimizer.step_and_update_lr()
+        # optimizer.step_and_update_lr()
+        optimizer.step()
 
         # note keeping
         total_loss += loss.item()
@@ -280,9 +281,7 @@ def main():
     #     optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9,
     #         betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6),  opt.d_model, opt.n_warmup_steps)
 
-    optimizer = ScheduledOptim(
-        optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9),
-        opt.d_model, opt.n_warmup_steps)
+    optimizer = optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-5)
 
     # 模型，数据，优化器，设备，参数类
     train(transformer, training_data, validation_data, optimizer, device, opt)
