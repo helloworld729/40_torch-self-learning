@@ -63,11 +63,11 @@ def main(author=False):
             all_hyp, all_scores = translator.translate_batch(*batch)
             for idx_seqs in all_hyp:
                 if not author:
-                    pred_line = ' '.join([test_loader.dataset.tgt_idx2word[idx] for idx in idx_seqs])  # RBX
+                    pred_line = ''.join([test_loader.dataset.tgt_idx2word[idx] for idx in idx_seqs])  # RBX
                 else:
                     idx_seqs = idx_seqs[0]
-                    pred_line = ' '.join([test_loader.dataset.tgt_idx2word[idx] for idx in idx_seqs][0])
-                f.write(pred_line)
+                    pred_line = ''.join([test_loader.dataset.tgt_idx2word[idx] for idx in idx_seqs][0])
+                f.write(pred_line.replace("\n", "") + "\n")
     print('[Info] Finished.')
 
 if __name__ == "__main__":
