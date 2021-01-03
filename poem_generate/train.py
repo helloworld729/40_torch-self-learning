@@ -129,16 +129,16 @@ def eval_epoch(model, validation_data, device):
     accuracy = n_word_correct/n_word_total
     return loss_per_word, accuracy
 
-def train(model, training_data, validation_data, optimizer, device, opt):  # 模型 数据 优化器 参数
+def train(model, training_data, validation_data, optimizer, device, opt, lr, optim_index):  # 模型 数据 优化器 参数
     ''' Start training '''
 
     log_train_file = None
     log_valid_file = None
-
+    optimiz = ["sgd", "adam"]
     if opt.log:
-        log_train_file = opt.log + '.train.log'
+        log_train_file = opt.log + '.train.log' + "."+lr + "."+str(optimiz[optim_index])
     if opt.has_validation:
-        log_valid_file = opt.log + '.valid.log'
+        log_valid_file = opt.log + '.valid.log' + "."+lr + "."+str(optimiz[optim_index])
 
         print('[Info] Training performance will be written to file: {} and {}'.format(
             log_train_file, log_valid_file))
@@ -191,12 +191,12 @@ def train(model, training_data, validation_data, optimizer, device, opt):  # 模
                     print('    - [Info] The checkpoint file has been updated.')
 
         if log_train_file:
-            with open(log_train_file, 'w') as log_tf:
+            with open(log_train_file, 'a') as log_tf:
                 log_tf.write('{epoch},{loss: 8.5f},{ppl: 8.5f},{accu:3.3f}\n'.format(
                     epoch=epoch_i, loss=train_loss,
                     ppl=math.exp(min(train_loss, 100)), accu=100*train_accu))
         if log_valid_file and opt.has_validation:
-            with open(log_valid_file, 'w') as log_vf:
+            with open(log_valid_file, 'a') as log_vf:
                 log_vf.write('{epoch},{loss: 8.5f},{ppl: 8.5f},{accu:3.3f}\n'.format(
                     epoch=epoch_i, loss=valid_loss,
                     ppl=math.exp(min(valid_loss, 100)), accu=100*valid_accu))
@@ -223,7 +223,7 @@ def main():
     parser.add_argument('-proj_share_weight', action='store_true')
     parser.add_argument('-log', default='log/transformer')
     parser.add_argument('-save_model', default='weights/transformer')
-    parser.add_argument('-save_mode', type=str, choices=['all', 'best'], default='best')
+    parser.add_argument('-save_mode', type=str, choices=['all', 'best'], default='all')
     parser.add_argument('-no_cuda', action='store_true')
     parser.add_argument('-label_smoothing', action='store_true',)
     parser.add_argument('-seed', default=37)
@@ -280,11 +280,16 @@ def main():
     # optimizer = ScheduledOptim(
     #     optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9,
     #         betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6),  opt.d_model, opt.n_warmup_steps)
+    for optim_index in [0, 1]:
+        for lr in [1e-2, 1e-3, 1e-4, 1e-5]:
+            optimizer1 = optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr, momentum=0.9)
+            optimizer2 = ScheduledOptim(
+                optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr,
+                           betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6), opt.d_model, opt.n_warmup_steps)
+            optimizer = [optimizer1, optimizer2][optim_index]
 
-    optimizer = optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-4, momentum=0.9)
-
-    # 模型，数据，优化器，设备，参数类
-    train(transformer, training_data, validation_data, optimizer, device, opt)
+            # 模型，数据，优化器，设备，参数类
+            train(transformer, training_data, validation_data, optimizer, device, opt, str(lr), optim_index)
 
 if __name__ == '__main__':
     main()
