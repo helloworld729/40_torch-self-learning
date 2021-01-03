@@ -215,7 +215,7 @@ def main():
     parser.add_argument('-d_v', type=int, default=64)  # 64
     parser.add_argument('-n_head', type=int, default=8)  # 8
     parser.add_argument('-n_layers', type=int, default=6)
-    parser.add_argument('-n_warmup_steps', type=int, default=4000)  # 4000
+    parser.add_argument('-n_warmup_steps', type=int, default=100)  # 4000
     parser.add_argument('-dropout', type=float, default=0.1)  # 0.1
     # parser.add_argument('-embs_share_weight', action='store_true')
     parser.add_argument('-embs_share_weight', default=True)
@@ -276,9 +276,13 @@ def main():
         n_head=opt.n_head,
         dropout=opt.dropout).to(device)
 
+    # optimizer = ScheduledOptim(
+    #     optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9,
+    #         betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6),  opt.d_model, opt.n_warmup_steps)
+
     optimizer = ScheduledOptim(
-        optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9,
-            betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-5),  opt.d_model, opt.n_warmup_steps)
+        optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9, momentum=0.9, weight_decay=1e-5),
+        opt.d_model, opt.n_warmup_steps)
 
     # 模型，数据，优化器，设备，参数类
     train(transformer, training_data, validation_data, optimizer, device, opt)
