@@ -51,7 +51,7 @@ class Translator(object):
         trans_batch = {k: sen_item for k in range(batch)}
         return trans_batch
 
-    def beam_search(self, enc_output, src_seq, printLog=False):
+    def beam_search(self, enc_output, src_seq, printLog=True):
         """
         beam搜索step过程，输入编码侧的输出和原始的待编码序列输出翻译结果 循环过程为：
         1、初始化第一个解码输入为 BOS
@@ -64,7 +64,7 @@ class Translator(object):
         # 初始化 翻译字典(batch --> sentence --> beam)
         trans_batch_init = self.init_transdict(enc_output)  # 初始化搜寻结果
         step = 1
-        while(step < 2 * src_seq.shape[1]):
+        while(step < src_seq.shape[1]):
             for sen_id, sen_trans in trans_batch_init.items():
                 # 某个具体句子index序列 this_sec
                 this_sec = src_seq[sen_id].unsqueeze(0).to(self.device)
