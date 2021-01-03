@@ -155,6 +155,8 @@ def train(model, training_data, validation_data, optimizer, device, opt, lr, opt
 
         start = time.time()
 
+        model.zero_grad()
+
         train_loss, train_accu = train_epoch(
             model, training_data, optimizer, device, smoothing=opt.label_smoothing)
 
