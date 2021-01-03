@@ -67,7 +67,7 @@ def main(author=False):
                 else:
                     idx_seqs = idx_seqs[0]
                     pred_line = ' '.join([test_loader.dataset.tgt_idx2word[idx] for idx in idx_seqs][0])
-                f.write(pred_line + '\n')
+                f.write(pred_line)
     print('[Info] Finished.')
 
 if __name__ == "__main__":
