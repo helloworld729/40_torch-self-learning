@@ -265,6 +265,20 @@ def main():
     print(opt)
     device = torch.device('cuda' if opt.cuda else 'cpu')
 
+    transformer = Transformer(
+        opt.src_vocab_size,
+        opt.tgt_vocab_size,
+        opt.max_token_seq_len,
+        tgt_emb_prj_weight_sharing=opt.proj_share_weight,
+        emb_src_tgt_weight_sharing=opt.embs_share_weight,
+        d_k=opt.d_k,
+        d_v=opt.d_v,
+        d_model=opt.d_model,
+        d_word_vec=opt.d_word_vec,
+        d_inner=opt.d_inner_hid,
+        n_layers=opt.n_layers,
+        n_head=opt.n_head,
+        dropout=opt.dropout).to(device)
 
     # optimizer = ScheduledOptim(
     #     optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9,
@@ -276,22 +290,6 @@ def main():
                 optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr,
                            betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6), opt.d_model, opt.n_warmup_steps)
             optimizer = [optimizer1, optimizer2][optim_index]
-
-            transformer = Transformer(
-                opt.src_vocab_size,
-                opt.tgt_vocab_size,
-                opt.max_token_seq_len,
-                tgt_emb_prj_weight_sharing=opt.proj_share_weight,
-                emb_src_tgt_weight_sharing=opt.embs_share_weight,
-                d_k=opt.d_k,
-                d_v=opt.d_v,
-                d_model=opt.d_model,
-                d_word_vec=opt.d_word_vec,
-                d_inner=opt.d_inner_hid,
-                n_layers=opt.n_layers,
-                n_head=opt.n_head,
-                dropout=opt.dropout).to(device)
-
 
             # 模型，数据，优化器，设备，参数类
             train(transformer, training_data, validation_data, optimizer, device, opt, str(lr), optim_index)
