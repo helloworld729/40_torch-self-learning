@@ -16,9 +16,10 @@ def read_instances_from_file(inst_file, max_sent_len, keep_case):
     with open(inst_file, encoding='utf-8') as f:
         for sent in f:
             # 是否保留大写
-            if not keep_case:
-                sent = sent.lower()
-            words = sent.split()
+            # if not keep_case:
+            #     sent = sent.lower()
+            # words = sent.split()
+            words = [i for i in sent]
             if len(words) > max_sent_len:
                 trimmed_sent_count += 1
             word_inst = words[:max_sent_len]
