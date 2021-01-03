@@ -281,7 +281,7 @@ def main():
     #         betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6),  opt.d_model, opt.n_warmup_steps)
 
     optimizer = ScheduledOptim(
-        optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9, momentum=0.9, weight_decay=1e-5),
+        optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9),
         opt.d_model, opt.n_warmup_steps)
 
     # 模型，数据，优化器，设备，参数类
