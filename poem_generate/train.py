@@ -281,7 +281,7 @@ def main():
     #     optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9,
     #         betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6),  opt.d_model, opt.n_warmup_steps)
 
-    optimizer = optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-5)
+    optimizer = optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-5, momentum=0.9)
 
     # 模型，数据，优化器，设备，参数类
     train(transformer, training_data, validation_data, optimizer, device, opt)
