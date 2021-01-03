@@ -31,7 +31,11 @@ def main(author=False):
     # opt.cuda = not opt.no_cuda
     opt.cuda = False
     # Prepare DataLoader
-    preprocess_data = torch.load(opt.vocab)
+    if torch.cuda.is_available():
+        preprocess_data = torch.load(opt.vocab)
+    else:
+        preprocess_data = torch.load(opt.vocab, map_location="cpu")
+
     preprocess_settings = preprocess_data['settings']  # 保存有长度数据，文件位置信息
     max_trans_len = preprocess_settings.max_word_seq_len
     test_src_word_insts = read_instances_from_file(    # 原始数据list
