@@ -9,13 +9,13 @@ from preprocess import read_instances_from_file, convert_instance_to_idx_seq
 def main(author=False):
     parser = argparse.ArgumentParser(description='generate.py')
 
-    parser.add_argument('-model', default='weights/transformer_accu_38.785.chkpt',
+    parser.add_argument('-model', default='weights/transformer_accu_34.660.chkpt',
                         help='Path to model .pt file')
     parser.add_argument('-src', default='data/test.formmer',
                         help='Source sequence to decode (one line per sequence)')
     parser.add_argument('-vocab', default='data/save_file/file_saved.txt',
                         help='Source sequence to decode (one line per sequence)')
-    parser.add_argument('-output', default='data/pred.txt',  # 翻译结果保存文件路径
+    parser.add_argument('-output', default='data/pred2.txt',  # 翻译结果保存文件路径
                         help="""Path to output the predictions (each line will
                         be the decoded sequence""")
     parser.add_argument('-beam_size', type=int, default=2,
@@ -31,7 +31,6 @@ def main(author=False):
     # opt.cuda = not opt.no_cuda
     opt.cuda = False
     # Prepare DataLoader
-
     preprocess_data = torch.load(opt.vocab)
     preprocess_settings = preprocess_data['settings']  # 保存有长度数据，文件位置信息
     max_trans_len = preprocess_settings.max_word_seq_len
