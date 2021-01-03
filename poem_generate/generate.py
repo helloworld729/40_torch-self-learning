@@ -9,7 +9,7 @@ from preprocess import read_instances_from_file, convert_instance_to_idx_seq
 def main(author=False):
     parser = argparse.ArgumentParser(description='generate.py')
 
-    parser.add_argument('-model', default='weights/transformer.chkpt',
+    parser.add_argument('-model', default='weights/transformer_accu_38.785.chkpt',
                         help='Path to model .pt file')
     parser.add_argument('-src', default='data/test.formmer',
                         help='Source sequence to decode (one line per sequence)')
@@ -31,11 +31,8 @@ def main(author=False):
     # opt.cuda = not opt.no_cuda
     opt.cuda = False
     # Prepare DataLoader
-    if torch.cuda.is_available():
-        preprocess_data = torch.load(opt.vocab)
-    else:
-        preprocess_data = torch.load(opt.vocab, map_location="cpu")
 
+    preprocess_data = torch.load(opt.vocab)
     preprocess_settings = preprocess_data['settings']  # 保存有长度数据，文件位置信息
     max_trans_len = preprocess_settings.max_word_seq_len
     test_src_word_insts = read_instances_from_file(    # 原始数据list
