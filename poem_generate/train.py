@@ -283,12 +283,11 @@ def main():
     # optimizer = ScheduledOptim(
     #     optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9,
     #         betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6),  opt.d_model, opt.n_warmup_steps)
-    for optim_index in [0, 1]:
+    for optim_index in [1]:
         for lr in [1e-2, 1e-3, 1e-4, 1e-5]:
             optimizer1 = optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr, momentum=0.9)
-            optimizer2 = ScheduledOptim(
-                optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr,
-                           betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6), opt.d_model, opt.n_warmup_steps)
+            optimizer2 = optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr,
+                           betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6)
             optimizer = [optimizer1, optimizer2][optim_index]
 
             # 模型，数据，优化器，设备，参数类
