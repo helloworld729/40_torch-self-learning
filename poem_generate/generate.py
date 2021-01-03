@@ -9,7 +9,7 @@ from preprocess import read_instances_from_file, convert_instance_to_idx_seq
 def main(author=False):
     parser = argparse.ArgumentParser(description='generate.py')
 
-    parser.add_argument('-model', default='weights/transformer_accu_34.660.chkpt',
+    parser.add_argument('-model', default='weights/transformer_accu_38.785.chkpt',
                         help='Path to model .pt file')
     parser.add_argument('-src', default='data/test.formmer',
                         help='Source sequence to decode (one line per sequence)')
