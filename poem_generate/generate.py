@@ -76,7 +76,8 @@ def main(author=False):
                     else:          pred_line = ''.join([idx2word[idx] for idx in idx_seqs[0]][0])
                     formmer = ''.join([idx2word[idx] for idx in batch[i][1].data.numpy()]).replace("\n", "")
                     latter = pred_line.replace("\n", "")
-                    f.write(formmer + "--->" + latter + "\n\n")
+                    # f.write(formmer + "--->" + latter + "\n\n")
+                    f.write(latter + "\n")
         print('[Info] Finished.')
 
 if __name__ == "__main__":
