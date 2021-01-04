@@ -70,6 +70,7 @@ def main(author=False):
                 # (列表有两部分内容，1是seq的id序列，2是对应的未知序列)
                 all_hyp, all_scores = translator.translate_batch(*batch)
                 for i in range(len(all_hyp)):
+                    length = len(batch[i][1])-2
                     idx_seqs = all_hyp[i]
                     idx2word = test_loader.dataset.tgt_idx2word
                     if not author: pred_line = ''.join([idx2word[idx] for idx in idx_seqs])
@@ -77,7 +78,7 @@ def main(author=False):
                     formmer = ''.join([idx2word[idx] for idx in batch[i][1].data.numpy()]).replace("\n", "")
                     latter = pred_line.replace("\n", "")
                     # f.write(formmer + "--->" + latter + "\n\n")
-                    f.write(latter + "\n")
+                    f.write(latter[3: 4+length] + "\n")
         print('[Info] Finished.')
 
 if __name__ == "__main__":
