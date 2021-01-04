@@ -136,9 +136,9 @@ def train(model, training_data, validation_data, optimizer, device, opt, lr, opt
     log_valid_file = None
 
     if opt.log:
-        log_train_file = opt.log + "." + lr + "." + optim_name + "smooth_" + str(opt.label_smoothing) + '.train.log'
+        log_train_file = opt.log + "." + lr + "." + optim_name + ".smooth_" + str(opt.label_smoothing) + '.train.log'
     if opt.has_validation:
-        log_valid_file = opt.log + "." + lr + "." + optim_name + "smooth_" + str(opt.label_smoothing) + '.valid.log'
+        log_valid_file = opt.log + "." + lr + "." + optim_name + ".smooth_" + str(opt.label_smoothing) + '.valid.log'
 
         print('[Info] Training performance will be written to file: {} and {}'.format(
             log_train_file, log_valid_file))

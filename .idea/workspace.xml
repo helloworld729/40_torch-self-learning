@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="完成seq2seq的transformer版本">
-      <change beforePath="$PROJECT_DIR$/.idea/40_torch-self-learning.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/40_torch-self-learning.iml" afterDir="false" />
+    <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/poem_generate/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/poem_generate/train.py" afterDir="false" />
     </list>
@@ -195,7 +194,7 @@
       <workItem from="1608366105692" duration="12260000" />
       <workItem from="1608464736735" duration="30787000" />
       <workItem from="1608642591532" duration="67467000" />
-      <workItem from="1609204250168" duration="71532000" />
+      <workItem from="1609204250168" duration="84333000" />
     </task>
     <task id="LOCAL-00001" summary="还原目录">
       <created>1608375894163</created>
@@ -407,7 +406,56 @@
       <option name="project" value="LOCAL" />
       <updated>1609671361729</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="完成seq2seq的transformer版本">
+      <created>1609671454969</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1609671454969</updated>
+    </task>
+    <task id="LOCAL-00032" summary="完成seq2seq的transformer版本">
+      <created>1609671532025</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1609671532025</updated>
+    </task>
+    <task id="LOCAL-00033" summary="完成seq2seq的transformer版本">
+      <created>1609673042913</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1609673042913</updated>
+    </task>
+    <task id="LOCAL-00034" summary="完成seq2seq的transformer版本">
+      <created>1609675502716</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1609675502716</updated>
+    </task>
+    <task id="LOCAL-00035" summary="修改generate文件为多加载多模型">
+      <created>1609728187133</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1609728187133</updated>
+    </task>
+    <task id="LOCAL-00036" summary="UPdate">
+      <created>1609738722630</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1609738722630</updated>
+    </task>
+    <task id="LOCAL-00037" summary="UPdate">
+      <created>1609739826214</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1609739826214</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -434,9 +482,10 @@
     <MESSAGE value="update 数据处理" />
     <MESSAGE value="新建诗词翻译" />
     <MESSAGE value="诗词翻译数据集处理" />
-    <MESSAGE value="UPdate" />
     <MESSAGE value="完成seq2seq的transformer版本" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成seq2seq的transformer版本" />
+    <MESSAGE value="修改generate文件为多加载多模型" />
+    <MESSAGE value="UPdate" />
+    <option name="LAST_COMMIT_MESSAGE" value="UPdate" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -453,7 +502,7 @@
     <SUITE FILE_PATH="coverage/40_torch_self_learning$simplify.coverage" NAME="simplify Coverage Results" MODIFIED="1609593761163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate/data" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$translate.coverage" NAME="translate Coverage Results" MODIFIED="1609578995711" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$train.coverage" NAME="train Coverage Results" MODIFIED="1609588601194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$generate.coverage" NAME="generate Coverage Results" MODIFIED="1609669720456" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$generate.coverage" NAME="generate Coverage Results" MODIFIED="1609726041885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$train__1_.coverage" NAME="train (1) Coverage Results" MODIFIED="1609655140694" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$GRU_seq2seq_oneHot__1_.coverage" NAME="GRU-seq2seq-oneHot (1) Coverage Results" MODIFIED="1608643971228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NlpFromScratch_2" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$myUtils.coverage" NAME="myUtils Coverage Results" MODIFIED="1608368089043" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/01-A-6o-minute-blitz/Image-Classifier" />
