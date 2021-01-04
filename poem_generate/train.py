@@ -129,25 +129,27 @@ def eval_epoch(model, validation_data, device):
     accuracy = n_word_correct/n_word_total
     return loss_per_word, accuracy
 
-def train(model, training_data, validation_data, optimizer, device, opt, lr, optim_index):  # 模型 数据 优化器 参数
+def train(model, training_data, validation_data, optimizer, device, opt, lr, optim_name):  # 模型 数据 优化器 参数
     ''' Start training '''
 
     log_train_file = None
     log_valid_file = None
-    optimiz = ["sgd", "adam"]
+
     if opt.log:
-        log_train_file = opt.log + '.train.log' + "."+lr + "."+str(optimiz[optim_index])
+        log_train_file = opt.log + "." + lr + "." + optim_name + "smooth_" + str(opt.label_smoothing) + '.train.log'
     if opt.has_validation:
-        log_valid_file = opt.log + '.valid.log' + "."+lr + "."+str(optimiz[optim_index])
+        log_valid_file = opt.log + "." + lr + "." + optim_name + "smooth_" + str(opt.label_smoothing) + '.valid.log'
 
         print('[Info] Training performance will be written to file: {} and {}'.format(
             log_train_file, log_valid_file))
 
     with open(log_train_file, 'w') as log_tf:
-        log_tf.write('epoch,loss,ppl,accuracy\n')
+        log_tf.write("{epoch},{loss: 8.5f},{ppl: 8.5f},{accu: 3.3f}\n".format(
+            epoch="epoch", loss="loss", ppl="ppl", accu="accu"))
     if opt.has_validation:
         with open(log_valid_file, 'w') as log_vf:
-            log_vf.write('epoch,loss,ppl,accuracy\n')
+            log_vf.write("{epoch},{loss: 8.5f},{ppl: 8.5f},{accu: 3.3f}\n".format(
+            epoch="epoch", loss="loss", ppl="ppl", accu="accu"))
 
     valid_accus = []  # 验证集准确率
     for epoch_i in range(opt.epoch):
@@ -177,14 +179,15 @@ def train(model, training_data, validation_data, optimizer, device, opt, lr, opt
         valid_accus += [valid_accu]
 
         model_state_dict = model.state_dict()  # 状态字典
-        checkpoint = {                         #
+        checkpoint = {
             'model': model_state_dict,
             'settings': opt,
             'epoch': epoch_i}
 
         if opt.save_model:
             if opt.save_mode == 'all':
-                model_name = opt.save_model + '_accu_{accu:3.3f}.chkpt'.format(accu=100*valid_accu)
+                model_name = opt.save_model + "_accu_{accu:3.3f}.lr_{lr}.{optim_name}.smooth_{smooth}.chkpt".\
+                    format(accu=100*valid_accu, lr=lr, optim_name=optim_name, smooth=opt.label_smoothing)
                 torch.save(checkpoint, model_name)
             elif opt.save_mode == 'best':
                 model_name = opt.save_model + '.chkpt'
@@ -227,7 +230,7 @@ def main():
     parser.add_argument('-save_model', default='weights/transformer')
     parser.add_argument('-save_mode', type=str, choices=['all', 'best'], default='all')
     parser.add_argument('-no_cuda', action='store_true')
-    parser.add_argument('-label_smoothing', default=False)
+    # parser.add_argument('-label_smoothing', default=False)
     parser.add_argument('-seed', default=37)
     opt = parser.parse_args()
     # action类型的参数，是指我们要在命令行中输入第一参数，例如：
@@ -265,33 +268,35 @@ def main():
     print(opt)
     device = torch.device('cuda' if opt.cuda else 'cpu')
 
-    transformer = Transformer(
-        opt.src_vocab_size,
-        opt.tgt_vocab_size,
-        opt.max_token_seq_len,
-        tgt_emb_prj_weight_sharing=opt.proj_share_weight,
-        emb_src_tgt_weight_sharing=opt.embs_share_weight,
-        d_k=opt.d_k,
-        d_v=opt.d_v,
-        d_model=opt.d_model,
-        d_word_vec=opt.d_word_vec,
-        d_inner=opt.d_inner_hid,
-        n_layers=opt.n_layers,
-        n_head=opt.n_head,
-        dropout=opt.dropout).to(device)
-
     # optimizer = ScheduledOptim(
     #     optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=1e-9,
     #         betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6),  opt.d_model, opt.n_warmup_steps)
-    for optim_index in [1, 0]:
-        for lr in [1e-5, 1e-4]:
-            optimizer1 = optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr, momentum=0.9)
-            optimizer2 = optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr,
-                           betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6)
-            optimizer = [optimizer1, optimizer2][optim_index]
+    for smooth in [False, True]:
+        for optim_index in [0, 1]:
+            for lr in [1e-5, 1e-4]:
+                opt.label_smoothing = smooth
+                transformer = Transformer(
+                    opt.src_vocab_size,
+                    opt.tgt_vocab_size,
+                    opt.max_token_seq_len,
+                    tgt_emb_prj_weight_sharing=opt.proj_share_weight,
+                    emb_src_tgt_weight_sharing=opt.embs_share_weight,
+                    d_k=opt.d_k,
+                    d_v=opt.d_v,
+                    d_model=opt.d_model,
+                    d_word_vec=opt.d_word_vec,
+                    d_inner=opt.d_inner_hid,
+                    n_layers=opt.n_layers,
+                    n_head=opt.n_head,
+                    dropout=opt.dropout).to(device)
 
-            # 模型，数据，优化器，设备，参数类
-            train(transformer, training_data, validation_data, optimizer, device, opt, str(lr), optim_index)
+                optimizer1 = optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr, momentum=0.9)
+                optimizer2 = optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr,
+                               betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6)
+                optimizer = [optimizer1, optimizer2][optim_index]
+
+                # 模型，数据，优化器，设备，参数类
+                train(transformer, training_data, validation_data, optimizer, device, opt, str(lr), ["adam", "sgd"][optim_index])
 
 if __name__ == '__main__':
     main()
