@@ -144,12 +144,10 @@ def train(model, training_data, validation_data, optimizer, device, opt, lr, opt
             log_train_file, log_valid_file))
 
     with open(log_train_file, 'w') as log_tf:
-        log_tf.write("{epoch},{loss: 8.5f},{ppl: 8.5f},{accu: 3.3f}\n".format(
-            epoch="epoch", loss="loss", ppl="ppl", accu="accu"))
+        log_tf.write("epoch   loss    ppl     accu\n")
     if opt.has_validation:
         with open(log_valid_file, 'w') as log_vf:
-            log_vf.write("{epoch},{loss: 8.5f},{ppl: 8.5f},{accu: 3.3f}\n".format(
-            epoch="epoch", loss="loss", ppl="ppl", accu="accu"))
+            log_vf.write("epoch   loss    ppl     accu\n")
 
     valid_accus = []  # 验证集准确率
     for epoch_i in range(opt.epoch):
@@ -197,12 +195,12 @@ def train(model, training_data, validation_data, optimizer, device, opt, lr, opt
 
         if log_train_file:
             with open(log_train_file, 'a') as log_tf:
-                log_tf.write('{epoch},{loss: 8.5f},{ppl: 8.5f},{accu:3.3f}\n'.format(
+                log_tf.write('{epoch}   ,{loss: 8.5f},{ppl: 8.5f},{accu:3.3f}\n'.format(
                     epoch=epoch_i, loss=train_loss,
                     ppl=math.exp(min(train_loss, 100)), accu=100*train_accu))
         if log_valid_file and opt.has_validation:
             with open(log_valid_file, 'a') as log_vf:
-                log_vf.write('{epoch},{loss: 8.5f},{ppl: 8.5f},{accu:3.3f}\n'.format(
+                log_vf.write('{epoch}   ,{loss: 8.5f},{ppl: 8.5f},{accu:3.3f}\n'.format(
                     epoch=epoch_i, loss=valid_loss,
                     ppl=math.exp(min(valid_loss, 100)), accu=100*valid_accu))
 
