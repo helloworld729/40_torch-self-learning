@@ -55,8 +55,8 @@ def main(author=False):
         collate_fn=collate_fn)
 
     # 遍历所有的模型文件
-    for check_point in os.listdir("weights"):
-        opt.model = "weights/" + check_point
+    for check_point in os.listdir("weights/history/"):
+        opt.model = "weights/history/" + check_point
         model_name = opt.model.split("_")[-1]
         # 设定对应的输出目录
         opt.output = 'data/'+ model_name + ".txt"
