@@ -55,8 +55,8 @@ def main(author=False):
         collate_fn=collate_fn)
 
     # 遍历所有的模型文件
-    for check_point in os.listdir("weights/history/"):
-        opt.model = "weights/history/" + check_point
+    for check_point in os.listdir("weights/"):
+        opt.model = "weights/" + check_point
         model_name = opt.model.split("_")[-1]
         # 设定对应的输出目录
         opt.output = 'data/'+ model_name + ".txt"
@@ -70,12 +70,14 @@ def main(author=False):
                 # (列表有两部分内容，1是seq的id序列，2是对应的未知序列)
                 all_hyp, all_scores = translator.translate_batch(*batch)
                 for i in range(len(all_hyp)):
-                    idx_seqs = all_hyp[i]
+                    idx_seqs, eos = all_hyp[i]["poem_idx"], all_hyp[i]["EOS"]
                     idx2word = test_loader.dataset.tgt_idx2word
                     if not author: pred_line = ''.join([idx2word[idx] for idx in idx_seqs])
                     else:          pred_line = ''.join([idx2word[idx] for idx in idx_seqs[0]][0])
-                    formmer = ''.join([idx2word[idx] for idx in batch[i][1].data.numpy()]).replace("\n", "")
-                    latter = pred_line.replace("\n", "")
+                    formmer = ''.join([idx2word[idx] for idx in batch[0][i].data.numpy()]).\
+                        replace("\n", "").replace("<s>", "").replace("</s>", "").replace("<blank>", "")
+                    latter = pred_line.replace("\n", "").replace("<s>", "") + "。"
+                    if eos: latter += "selfEnd"
                     f.write(formmer + "--->" + latter + "\n\n")
         print('[Info] Finished.')
 

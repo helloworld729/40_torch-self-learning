@@ -19,6 +19,7 @@ def read_instances_from_file(inst_file, max_sent_len, keep_case):
             # if not keep_case:
             #     sent = sent.lower()
             # words = sent.split()
+            # 数据预处理的时候自己增加了回车符号：\n
             words = [i for i in sent]
             if len(words) > max_sent_len:
                 trimmed_sent_count += 1
