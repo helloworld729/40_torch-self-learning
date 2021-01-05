@@ -57,7 +57,7 @@ def main(author=False):
     # 遍历所有的模型文件
     for check_point in os.listdir("weights/"):
         opt.model = "weights/" + check_point
-        model_name = opt.model.split("_")[-1]
+        model_name = "".join(opt.model.split("_")[2:])
         # 设定对应的输出目录
         opt.output = 'data/'+ model_name + ".txt"
         # 加载模型
