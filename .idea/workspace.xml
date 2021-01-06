@@ -2,8 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/webServers.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/attention_decoder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/batcher.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/beam_search.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/decode.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/inspect_checkpoint.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/run_summarization.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/util.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/poem_generate/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/poem_generate/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,17 +43,21 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/poem_generate/data" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/summation/reference" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="DockerRegistry" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\01PythonCode\40_torch-self-learning\summationModel" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\01PythonCode\40_torch-self-learning\summation\reference" />
       <recent name="G:\01PythonCode\40_torch-self-learning\poem_generate\data" />
       <recent name="G:\01PythonCode\40_torch-self-learning\poem_generate" />
       <recent name="G:\01PythonCode\40_torch-self-learning" />
@@ -194,7 +210,7 @@
       <workItem from="1608366105692" duration="12260000" />
       <workItem from="1608464736735" duration="30787000" />
       <workItem from="1608642591532" duration="67467000" />
-      <workItem from="1609204250168" duration="84333000" />
+      <workItem from="1609204250168" duration="98268000" />
     </task>
     <task id="LOCAL-00001" summary="还原目录">
       <created>1608375894163</created>
@@ -455,7 +471,63 @@
       <option name="project" value="LOCAL" />
       <updated>1609739826214</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="UPdate">
+      <created>1609739928302</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1609739928302</updated>
+    </task>
+    <task id="LOCAL-00039" summary="UPdate">
+      <created>1609740360590</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1609740360590</updated>
+    </task>
+    <task id="LOCAL-00040" summary="add summarization reference">
+      <created>1609769251869</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1609769251869</updated>
+    </task>
+    <task id="LOCAL-00041" summary="modify-gene">
+      <created>1609815336214</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1609815336214</updated>
+    </task>
+    <task id="LOCAL-00042" summary="modify-gene">
+      <created>1609822268622</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1609822268622</updated>
+    </task>
+    <task id="LOCAL-00043" summary="modify-gene">
+      <created>1609822434940</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1609822434940</updated>
+    </task>
+    <task id="LOCAL-00044" summary="modify-gene">
+      <created>1609824482632</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1609824482632</updated>
+    </task>
+    <task id="LOCAL-00045" summary="调整结构">
+      <created>1609941050938</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1609941050938</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -485,9 +557,21 @@
     <MESSAGE value="完成seq2seq的transformer版本" />
     <MESSAGE value="修改generate文件为多加载多模型" />
     <MESSAGE value="UPdate" />
-    <option name="LAST_COMMIT_MESSAGE" value="UPdate" />
+    <MESSAGE value="add summarization reference" />
+    <MESSAGE value="modify-gene" />
+    <MESSAGE value="调整结构" />
+    <option name="LAST_COMMIT_MESSAGE" value="调整结构" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/poem_generate/transformer/My_Translator.py</url>
+          <line>66</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="src_pos" />
@@ -502,7 +586,7 @@
     <SUITE FILE_PATH="coverage/40_torch_self_learning$simplify.coverage" NAME="simplify Coverage Results" MODIFIED="1609593761163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate/data" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$translate.coverage" NAME="translate Coverage Results" MODIFIED="1609578995711" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$train.coverage" NAME="train Coverage Results" MODIFIED="1609588601194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$generate.coverage" NAME="generate Coverage Results" MODIFIED="1609726041885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$generate.coverage" NAME="generate Coverage Results" MODIFIED="1609814641371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$train__1_.coverage" NAME="train (1) Coverage Results" MODIFIED="1609655140694" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$GRU_seq2seq_oneHot__1_.coverage" NAME="GRU-seq2seq-oneHot (1) Coverage Results" MODIFIED="1608643971228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NlpFromScratch_2" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$myUtils.coverage" NAME="myUtils Coverage Results" MODIFIED="1608368089043" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/01-A-6o-minute-blitz/Image-Classifier" />
