@@ -82,7 +82,7 @@ def train_epoch(model, training_data, optimizer, device, smoothing):
         # optimizer.step_and_update_lr()
         optimizer.step()
 
-        # note keeping
+        # z_note keeping
         total_loss += loss.item()
 
         non_pad_mask = gold.ne(Constants.PAD)
@@ -117,7 +117,7 @@ def eval_epoch(model, validation_data, device):
             pred = model(src_seq, src_pos, tgt_seq, tgt_pos)
             loss, n_correct = cal_performance(pred, gold, smoothing=False)
 
-            # note keeping
+            # z_note keeping
             total_loss += loss.item()
 
             non_pad_mask = gold.ne(Constants.PAD)
