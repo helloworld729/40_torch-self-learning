@@ -40,7 +40,10 @@ class MultiHeadAttention(nn.Module):
         sz_b, len_k, _ = k.size()  # batch_size, len_q(seq_len), d_model
         sz_b, len_v, _ = v.size()  # batch_size, len_q(seq_len), d_model
 
-        residual = q  # q作为残差项，此处不用做深拷贝吗？Todo
+        # q作为残差项，此处不用做深拷贝吗？Todo
+        # debug发现，q会在之后的操作进行维度变换，但是residue不会
+        # 所以这里和python的列表还是不一样的
+        residual = q
 
         # 线性转换
         q = self.w_qs(q).view(sz_b, len_q, n_head, d_k)  # batch_size, len_q(seq_len), heads, d_k

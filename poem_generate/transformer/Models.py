@@ -7,9 +7,14 @@ from transformer.Layers import EncoderLayer, DecoderLayer
 
 __author__ = "Yu-Hsiang Huang"
 
-# mask一是在attention权重的时候起作用，另外实在attention计算完之后
+# 有两个比较疑惑的地方：
+# 1、mask一是在attention权重的时候起作用，另外实在attention计算完之后
 # 把padding的位置截断起作用。不过，在每一个子层有必要做none_pad_mask
-# 截断吗
+# 截断吗，只要在最后预测时候把padding的位置清0就行了吧，因为预测的时候
+# 实际上是乘以一个矩阵，如果某行全部为0，自然预测是结果就是全0
+# 2、为什么要缩放，也就是说 为什么倒数第二行要乘以  self.x_logit_scale
+
+
 def get_non_pad_mask(seq):
     # 有字的位置:1， padding的位置:0
     assert seq.dim() == 2
