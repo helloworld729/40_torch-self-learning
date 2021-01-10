@@ -16,7 +16,7 @@ class MultiHeadAttention(nn.Module):
         self.d_k = d_k
         self.d_v = d_v
 
-        self.w_qs = nn.Linear(d_model, n_head * d_k, bias=True)  # 数据量没有变化，看做降维加head的过程
+        self.w_qs = nn.Linear(d_model, n_head * d_k, bias=True)
         self.w_ks = nn.Linear(d_model, n_head * d_k, bias=True)
         self.w_vs = nn.Linear(d_model, n_head * d_v, bias=True)
         nn.init.normal_(self.w_qs.weight, mean=0, std=np.sqrt(2.0 / (d_model + d_k)))
@@ -40,7 +40,7 @@ class MultiHeadAttention(nn.Module):
         sz_b, len_k, _ = k.size()  # batch_size, len_q(seq_len), d_model
         sz_b, len_v, _ = v.size()  # batch_size, len_q(seq_len), d_model
 
-        residual = q  # q作为残差项，此处不用做深拷贝吗？
+        residual = q  # q作为残差项，此处不用做深拷贝吗？Todo
 
         # 线性转换
         q = self.w_qs(q).view(sz_b, len_q, n_head, d_k)  # batch_size, len_q(seq_len), heads, d_k
@@ -64,9 +64,12 @@ class MultiHeadAttention(nn.Module):
         # mask变换过程：
         # 1、最开始生成的时候：batch_size，len_k --> batch_size, len_q, len_k
         # 在每一个batch位，是一个len_q * len_k的矩阵，实际上是一个len_k的矩阵复制了len_q次数
+        # 不过在这里，len_q=len_k=len_v=seq_len
+
         # 2、在这里，顶层复制了heads次，这种repeat可以认为是原子的或者追加的repeat
         # 可以认为是第一个头的mask、第二个头的mask...
         # batch_size, len_q, len_k --> batch_size*heads, len_q, len_k  padding位置为True
+
         mask = mask.repeat(n_head, 1, 1)
 
         # output shape: heads*batch, len_q, d_v， attn是乘v之前
@@ -79,6 +82,8 @@ class MultiHeadAttention(nn.Module):
         output = output.permute(1, 2, 0, 3).contiguous().view(sz_b, len_q, -1)
 
         output = self.dropout(self.fc(output))
+
+        # output shape：batch_size， len_q，d_model
         output = self.layer_norm(output + residual)
 
         return output, attn
@@ -88,16 +93,30 @@ class PositionwiseFeedForward(nn.Module):
 
     def __init__(self, d_in, d_hid, dropout=0.1):
         super().__init__()
-        self.w_1 = nn.Conv1d(d_in, d_hid, 1)  # 输入通道：d_modle， 输出通道：d_inner（前向隐藏），卷积核为1
-        self.w_2 = nn.Conv1d(d_hid, d_in, 1)  # 输入通道：d_inner（前向隐藏）， 输出通道：d_inner，卷积核为1
+        # Con1d的输入是三维的，Con2d的输入是4维的，一般用于图像卷积BCHW
+        # 对于Con1d，也以用于文本处理，相当于卷积核的kernel刚好覆盖一个
+        # 时间步的tensor，然后沿着len方向stride。
+        # 所以，Con1d的输入通道可以设置为d_model，输出通道设置为d_inner
+        # 在效果上相当于d_model到d_inner的全连接映射，由于采用卷积操作，
+        # 显然，weights是共享的。
+
+        # W1：d_modle， d_inner
+        self.w_1 = nn.Conv1d(d_in, d_hid, 1)
+        # W2：d_inner， d_modle
+        self.w_2 = nn.Conv1d(d_hid, d_in, 1)
+
         self.layer_norm = nn.LayerNorm(d_in)
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x):
-        residual = x
+        # X的shape：batch_size，seq_len，d_model
+        residual = x  # Todo
+        # output:batch_size，d_model，seq_len
         output = x.transpose(1, 2)
+
         output = self.w_2(F.relu(self.w_1(output)))
         output = output.transpose(1, 2)
         output = self.dropout(output)
         output = self.layer_norm(output + residual)
         return output
+

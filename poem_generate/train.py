@@ -37,6 +37,7 @@ def cal_loss(pred, gold, smoothing):
         loss = -(one_hot * log_prb).sum(dim=1)
         loss = loss.masked_select(non_pad_mask).sum()  # average later
     else:
+        # The 本质上是调用 negative log likelihood loss
         loss = F.cross_entropy(pred, gold, ignore_index=Constants.PAD, reduction='sum')
 
     return loss
@@ -212,13 +213,13 @@ def main():
     parser.add_argument('-data', default='data/save_file/file_saved.txt')  # 数据
     parser.add_argument('-has_validation', default=True)  # 数据
     parser.add_argument('-epoch', type=int, default=10)  # 10
-    parser.add_argument('-batch_size', type=int, default=64)  # 64
-    parser.add_argument('-d_model', type=int, default=256)  # 512
-    parser.add_argument('-d_inner_hid', type=int, default=1024)  # 2048
-    parser.add_argument('-d_k', type=int, default=64)  # 64
-    parser.add_argument('-d_v', type=int, default=64)  # 64
-    parser.add_argument('-n_head', type=int, default=8)  # 8
-    parser.add_argument('-n_layers', type=int, default=6)
+    parser.add_argument('-batch_size', type=int, default=2)  # 64
+    parser.add_argument('-d_model', type=int, default=15)  # 512
+    parser.add_argument('-d_inner_hid', type=int, default=30)  # 2048
+    parser.add_argument('-d_k', type=int, default=5)  # 64
+    parser.add_argument('-d_v', type=int, default=5)  # 64
+    parser.add_argument('-n_head', type=int, default=3)  # 8
+    parser.add_argument('-n_layers', type=int, default=2)  # 6
     parser.add_argument('-n_warmup_steps', type=int, default=100)  # 4000
     parser.add_argument('-dropout', type=float, default=0.1)  # 0.1
     # parser.add_argument('-embs_share_weight', action='store_true')

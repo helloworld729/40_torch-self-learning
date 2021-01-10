@@ -7,6 +7,9 @@ from transformer.Layers import EncoderLayer, DecoderLayer
 
 __author__ = "Yu-Hsiang Huang"
 
+# mask一是在attention权重的时候起作用，另外实在attention计算完之后
+# 把padding的位置截断起作用。不过，在每一个子层有必要做none_pad_mask
+# 截断吗
 def get_non_pad_mask(seq):
     # 有字的位置:1， padding的位置:0
     assert seq.dim() == 2
@@ -136,12 +139,20 @@ class Decoder(nn.Module):
         # non_pad_mask：batch_size, seq_len, 1
         non_pad_mask = get_non_pad_mask(tgt_seq)
         # sub-seq shape：batch_size, seq_len, seq_len
+        # padding 的位置为1
         slf_attn_mask_subseq = get_subsequent_mask(tgt_seq)
-        # key_mask shape：batch_size, len_q, len_k
+
+        # key_mask shape：batch_size, len, len均是解码长度 padding的位置为1
         slf_attn_mask_keypad = get_attn_key_pad_mask(seq_k=tgt_seq, seq_q=tgt_seq)
-        # self attention mask：batch_size，len_q，len_k
+
+        # self attention mask：batch_size，len_q，len_q，是一个下三角矩阵，而且如果有padding
+        # 的话，slf_attn_mask_keypad右侧也会显示为True->1，两者相加后可能是一个下侧为矩形
+        # 上侧为三角形的形状，也就是说下三角被提前阶段了，下侧的数据实际上会通过none_pad_mask
+        # 硬编码处理为0，也就是说三角形的高度实际上就是训练集解码句子实际的长度。
         slf_attn_mask = (slf_attn_mask_keypad.type_as(slf_attn_mask_subseq) + slf_attn_mask_subseq).gt(0)
 
+        # 现在的query是解码侧，key和value是编码侧，所以attn的shape为
+        # batch，len_输出，len_输入,每一行仍然是对不同编码步的权重
         dec_enc_attn_mask = get_attn_key_pad_mask(seq_k=src_seq, seq_q=tgt_seq)
 
         # -- Forward
@@ -202,7 +213,10 @@ class Transformer(nn.Module):
         else:
             self.x_logit_scale = 1.
 
-        if emb_src_tgt_weight_sharing:  # 假如是摘要模型的话，显然两者是共享的
+        # 关于这一块，为什么两侧的语言embedding要共享权重呢？因为如果是同一种语言的
+        # 例如文本摘要任务，自然需要共享，假如是英文和德文的翻译任务，由于两者都是
+        # 日耳曼语系，所以字词嵌入也可以共享，但是假如是中英翻译的话，大可不必。
+        if emb_src_tgt_weight_sharing:
             # Share the weight matrix between source & target word embeddings
             assert n_src_vocab == n_tgt_vocab
             "To share word embedding table, the vocabulary size of src/tgt shall be the same."
@@ -216,7 +230,11 @@ class Transformer(nn.Module):
         enc_output, *_ = self.encoder(src_seq, src_pos)
         # 因为只返回了一个数据，所以使用单个返回
         # dec_output, *_ = self.decoder(tgt_seq, tgt_pos, src_seq, enc_output)
+        # dec_output shape：batch，len，d_model
         dec_output = self.decoder(tgt_seq, tgt_pos, src_seq, enc_output)
+
+        # seq_logit shape：shape：batch，len，n_target_vocab
+        # 疑惑：为甚么这里要缩放
         seq_logit = self.tgt_word_prj(dec_output) * self.x_logit_scale
 
         return seq_logit.view(-1, seq_logit.size(2))
