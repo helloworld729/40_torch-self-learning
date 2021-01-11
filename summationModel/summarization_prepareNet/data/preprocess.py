@@ -109,12 +109,12 @@ def convert_instance_to_idx_seq(word_insts, word2idx):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-train_src', default='train.former.txt')
-    parser.add_argument('-train_tgt', default='data/train.latter.txt')
+    parser.add_argument('-train_tgt', default='train.latter.txt')
     parser.add_argument('-vocabUseValidation', default=True)
     parser.add_argument('-has_validation', default=True)
     parser.add_argument('-valid_src', default='valid.former.txt')
     parser.add_argument('-valid_tgt', default='valid.latter.txt')
-    parser.add_argument('-save_data', default='data/save_file/file_saved.txt')
+    parser.add_argument('-save_data', default='save_file/file_saved.txt')
     # 变量 注释 参数
     parser.add_argument('-max_len', '--max_word_seq_len', type=int, default=60)
     parser.add_argument('-min_word_count', type=int, default=10)

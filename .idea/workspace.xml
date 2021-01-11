@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/webServers.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/attention_decoder.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/batcher.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/beam_search.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/decode.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/inspect_checkpoint.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/run_summarization.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/summationModel/pointer-generator-master/util.py" afterDir="false" />
+    <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="添加numpy">
+      <change afterPath="$PROJECT_DIR$/.idea/40_self-deepLearning.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/40_torch-self-learning.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/summationModel/summarization_prepareNet/data/data_help.py" beforeDir="false" afterPath="$PROJECT_DIR$/summationModel/summarization_prepareNet/data/data_help.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/summationModel/summarization_prepareNet/transFormerOrigin/data/data_help.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/summationModel/summarization_prepareNet/transFormerOrigin/preprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/summationModel/summarization_prepareNet/data/preprocess.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,13 +30,14 @@
       </list>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1lokCHwc82u9O45bT3qKASe4LWp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/summation/reference" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/baseNlp" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -53,14 +47,19 @@
     <property name="settings.editor.selected.configurable" value="DockerRegistry" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="G:\01PythonCode\40_torch-self-learning\summationModel" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="G:\01PythonCode\40_torch-self-learning\summation\reference" />
-      <recent name="G:\01PythonCode\40_torch-self-learning\poem_generate\data" />
-      <recent name="G:\01PythonCode\40_torch-self-learning\poem_generate" />
+      <recent name="G:\01PythonCode\40_self-deepLearning\baseNlp" />
+      <recent name="G:\01PythonCode\40_self-deepLearning\z_note" />
+      <recent name="G:\01PythonCode\40_self-deepLearning\numpy" />
       <recent name="G:\01PythonCode\40_torch-self-learning" />
+      <recent name="G:\01PythonCode\40_torch-self-learning\summationModel\pointer-generator-master-python3\pretrained_model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\01PythonCode\40_self-deepLearning\summationModel\summarization_prepareNet\data" />
+      <recent name="G:\01PythonCode\40_self-deepLearning\summationModel\summarization_prepareNet\transFormerOrigin\data" />
+      <recent name="G:\01PythonCode\40_self-deepLearning\classification\emotionBaseline" />
+      <recent name="G:\01PythonCode\40_self-deepLearning\note" />
+      <recent name="G:\01PythonCode\40_self-deepLearning\poem_generate\data" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -75,9 +74,53 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.generate">
+  <component name="RunManager" selected="Python.data_help">
+    <configuration name="LayerNorm" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="40_self-deepLearning" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/baseNlp" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/baseNlp/LayerNorm.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="data_help" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="40_self-deepLearning" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/summationModel/summarization_prepareNet/data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/summationModel/summarization_prepareNet/data/data_help.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="generate" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="40_torch-self-learning" />
+      <module name="40_self-deepLearning" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -98,42 +141,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="simplify" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="40_torch-self-learning" />
+    <configuration name="test (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="40_self-deepLearning" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/poem_generate/data" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/summationModel/Transformer/transformer" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/poem_generate/data/simplify.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="40_torch-self-learning" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Transformer/transformer" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Transformer/transformer/test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/summationModel/Transformer/transformer/test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -143,7 +164,7 @@
       <method v="2" />
     </configuration>
     <configuration name="train (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="40_torch-self-learning" />
+      <module name="40_self-deepLearning" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -164,35 +185,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="train" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="40_torch-self-learning" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Transformer" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Transformer/train.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.generate" />
+        <item itemvalue="Python.data_help" />
         <item itemvalue="Python.train (1)" />
-        <item itemvalue="Python.simplify" />
-        <item itemvalue="Python.train" />
-        <item itemvalue="Python.test" />
+        <item itemvalue="Python.LayerNorm" />
+        <item itemvalue="Python.test (1)" />
+        <item itemvalue="Python.generate" />
       </list>
     </recent_temporary>
   </component>
@@ -210,91 +209,8 @@
       <workItem from="1608366105692" duration="12260000" />
       <workItem from="1608464736735" duration="30787000" />
       <workItem from="1608642591532" duration="67467000" />
-      <workItem from="1609204250168" duration="98268000" />
-    </task>
-    <task id="LOCAL-00001" summary="还原目录">
-      <created>1608375894163</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1608375894163</updated>
-    </task>
-    <task id="LOCAL-00002" summary="更改名字">
-      <created>1608643301271</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1608643301271</updated>
-    </task>
-    <task id="LOCAL-00003" summary="update">
-      <created>1608646098915</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1608646098915</updated>
-    </task>
-    <task id="LOCAL-00004" summary="add-Transformer">
-      <created>1608713484909</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1608713484909</updated>
-    </task>
-    <task id="LOCAL-00005" summary="UPdate">
-      <created>1609077714101</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1609077714180</updated>
-    </task>
-    <task id="LOCAL-00006" summary="update">
-      <created>1609210069724</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1609210069725</updated>
-    </task>
-    <task id="LOCAL-00007" summary="update">
-      <created>1609210730472</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1609210730472</updated>
-    </task>
-    <task id="LOCAL-00008" summary="UPdate">
-      <created>1609210817398</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1609210817398</updated>
-    </task>
-    <task id="LOCAL-00009" summary="UPdate">
-      <created>1609572485908</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1609572485908</updated>
-    </task>
-    <task id="LOCAL-00010" summary="UPdate">
-      <created>1609576411847</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1609576411847</updated>
-    </task>
-    <task id="LOCAL-00011" summary="UPdate">
-      <created>1609577314200</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1609577314200</updated>
-    </task>
-    <task id="LOCAL-00012" summary="UPdate">
-      <created>1609578654420</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1609578654420</updated>
+      <workItem from="1609204250168" duration="101961000" />
+      <workItem from="1609982719481" duration="46464000" />
     </task>
     <task id="LOCAL-00013" summary="完成seq2seq的transformer版本">
       <created>1609579108394</created>
@@ -527,7 +443,119 @@
       <option name="project" value="LOCAL" />
       <updated>1609941050938</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="add指针网络">
+      <created>1609941353535</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1609941353535</updated>
+    </task>
+    <task id="LOCAL-00047" summary="add指针网络-python3版本">
+      <created>1609943506150</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1609943506150</updated>
+    </task>
+    <task id="LOCAL-00048" summary="add笔记">
+      <created>1609943630292</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1609943630292</updated>
+    </task>
+    <task id="LOCAL-00049" summary="调整结构">
+      <created>1609982812962</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1609982812962</updated>
+    </task>
+    <task id="LOCAL-00050" summary="UPdate">
+      <created>1610110004965</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1610110004966</updated>
+    </task>
+    <task id="LOCAL-00051" summary="添加numpy">
+      <created>1610110166679</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1610110166679</updated>
+    </task>
+    <task id="LOCAL-00052" summary="add笔记">
+      <created>1610110494019</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1610110494019</updated>
+    </task>
+    <task id="LOCAL-00053" summary="UPdate">
+      <created>1610277995088</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1610277995089</updated>
+    </task>
+    <task id="LOCAL-00054" summary="添加numpy">
+      <created>1610288072621</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1610288072621</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Transformer摘要">
+      <created>1610288318429</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1610288318429</updated>
+    </task>
+    <task id="LOCAL-00056" summary="UPdate">
+      <created>1610327152639</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1610327152639</updated>
+    </task>
+    <task id="LOCAL-00057" summary="update data_helper">
+      <created>1610327419029</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1610327419029</updated>
+    </task>
+    <task id="LOCAL-00058" summary="UPdate">
+      <created>1610328238125</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1610328238125</updated>
+    </task>
+    <task id="LOCAL-00059" summary="添加numpy">
+      <created>1610328448499</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1610328448499</updated>
+    </task>
+    <task id="LOCAL-00060" summary="UPdate">
+      <created>1610328749362</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1610328749362</updated>
+    </task>
+    <task id="LOCAL-00061" summary="UPdate">
+      <created>1610329194350</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1610329194350</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -556,11 +584,17 @@
     <MESSAGE value="诗词翻译数据集处理" />
     <MESSAGE value="完成seq2seq的transformer版本" />
     <MESSAGE value="修改generate文件为多加载多模型" />
-    <MESSAGE value="UPdate" />
     <MESSAGE value="add summarization reference" />
     <MESSAGE value="modify-gene" />
+    <MESSAGE value="add指针网络" />
+    <MESSAGE value="add指针网络-python3版本" />
     <MESSAGE value="调整结构" />
-    <option name="LAST_COMMIT_MESSAGE" value="调整结构" />
+    <MESSAGE value="add笔记" />
+    <MESSAGE value="Transformer摘要" />
+    <MESSAGE value="update data_helper" />
+    <MESSAGE value="添加numpy" />
+    <MESSAGE value="UPdate" />
+    <option name="LAST_COMMIT_MESSAGE" value="UPdate" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -569,6 +603,16 @@
           <url>file://$PROJECT_DIR$/poem_generate/transformer/My_Translator.py</url>
           <line>66</line>
           <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/poem_generate/transformer/SubLayers.py</url>
+          <line>89</line>
+          <option name="timeStamp" value="74" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/summationModel/summarization_prepareNet/transFormerOrigin/train.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="77" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -579,17 +623,21 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$preprocess.coverage" NAME="preprocess Coverage Results" MODIFIED="1609143548186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$classifier.coverage" NAME="classifier Coverage Results" MODIFIED="1608376136266" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/01-A-6o-minute-blitz/Image-Classifier" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$GRU_seq2seq_oneHot.coverage" NAME="GRU-seq2seq-oneHot Coverage Results" MODIFIED="1608642330843" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/02-NlpFromScratch" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$test.coverage" NAME="test Coverage Results" MODIFIED="1609579638071" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer/transformer" />
+    <SUITE FILE_PATH="coverage/40_self_deepLearning$train__1_.coverage" NAME="train (1) Coverage Results" MODIFIED="1610280491593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$simplify.coverage" NAME="simplify Coverage Results" MODIFIED="1609593761163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate/data" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$translate.coverage" NAME="translate Coverage Results" MODIFIED="1609578995711" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$train.coverage" NAME="train Coverage Results" MODIFIED="1609588601194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$generate.coverage" NAME="generate Coverage Results" MODIFIED="1609814641371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
+    <SUITE FILE_PATH="coverage/40_self_deepLearning$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1610258705219" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/summationModel/Transformer/transformer" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$train__1_.coverage" NAME="train (1) Coverage Results" MODIFIED="1609655140694" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$GRU_seq2seq_oneHot__1_.coverage" NAME="GRU-seq2seq-oneHot (1) Coverage Results" MODIFIED="1608643971228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NlpFromScratch_2" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$myUtils.coverage" NAME="myUtils Coverage Results" MODIFIED="1608368089043" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/01-A-6o-minute-blitz/Image-Classifier" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$My_Translator.coverage" NAME="My_Translator Coverage Results" MODIFIED="1609573246498" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer/transformer" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$preprocess.coverage" NAME="preprocess Coverage Results" MODIFIED="1609143548186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$classifier.coverage" NAME="classifier Coverage Results" MODIFIED="1608376136266" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/01-A-6o-minute-blitz/Image-Classifier" />
+    <SUITE FILE_PATH="coverage/40_self_deepLearning$data_help.coverage" NAME="data_help Coverage Results" MODIFIED="1610288038080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/summationModel/summarization_prepareNet/data" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$test.coverage" NAME="test Coverage Results" MODIFIED="1609579638071" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer/transformer" />
+    <SUITE FILE_PATH="coverage/40_self_deepLearning$LayerNorm.coverage" NAME="LayerNorm Coverage Results" MODIFIED="1610263578647" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/baseNlp" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$translate.coverage" NAME="translate Coverage Results" MODIFIED="1609578995711" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$train.coverage" NAME="train Coverage Results" MODIFIED="1609588601194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$GRU_seq2seq_oneHot__1_.coverage" NAME="GRU-seq2seq-oneHot (1) Coverage Results" MODIFIED="1608643971228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NlpFromScratch_2" />
   </component>
 </project>
