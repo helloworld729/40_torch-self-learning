@@ -58,7 +58,7 @@ def main():
         opt.model = "weights/" + check_point
         model_name = "".join(opt.model.split("_")[2:])
         # 设定对应的输出目录
-        opt.output = 'data/gene_summarization/' + model_name + ".txt"
+        opt.output = '../data/gene_summarization/' + model_name + ".txt"
         # 加载模型
         translator = Translator(opt)
 
