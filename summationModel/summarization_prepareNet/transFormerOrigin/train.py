@@ -210,16 +210,16 @@ def main():
     import os
     os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     parser = argparse.ArgumentParser()
-    parser.add_argument('-data', default='data/save_file/file_saved.txt')  # 数据
+    parser.add_argument('-data', default='../data/save_file/file_saved.txt')  # 数据
     parser.add_argument('-has_validation', default=True)  # 数据
     parser.add_argument('-epoch', type=int, default=10)  # 10
-    parser.add_argument('-batch_size', type=int, default=2)  # 64
-    parser.add_argument('-d_model', type=int, default=15)  # 512
-    parser.add_argument('-d_inner_hid', type=int, default=30)  # 2048
-    parser.add_argument('-d_k', type=int, default=5)  # 64
-    parser.add_argument('-d_v', type=int, default=5)  # 64
-    parser.add_argument('-n_head', type=int, default=3)  # 8
-    parser.add_argument('-n_layers', type=int, default=2)  # 6
+    parser.add_argument('-batch_size', type=int, default=64)  # 64
+    parser.add_argument('-d_model', type=int, default=512)  # 512
+    parser.add_argument('-d_inner_hid', type=int, default=2048)  # 2048
+    parser.add_argument('-d_k', type=int, default=64)  # 64
+    parser.add_argument('-d_v', type=int, default=64)  # 64
+    parser.add_argument('-n_head', type=int, default=8)  # 8
+    parser.add_argument('-n_layers', type=int, default=6)  # 6
     parser.add_argument('-n_warmup_steps', type=int, default=100)  # 4000
     parser.add_argument('-dropout', type=float, default=0.1)  # 0.1
     # parser.add_argument('-embs_share_weight', action='store_true')
@@ -230,7 +230,7 @@ def main():
     parser.add_argument('-save_mode', type=str, choices=['all', 'best'], default='all')
     parser.add_argument('-no_cuda', action='store_true')
     # parser.add_argument('-label_smoothing', default=False)
-    parser.add_argument('-seed', default=37)
+    parser.add_argument('-seed', default=2021)
     opt = parser.parse_args()
     # action类型的参数，是指我们要在命令行中输入第一参数，例如：
     # parser.add_argument('-proj_share_weight', action='store_true')
@@ -250,17 +250,19 @@ def main():
 
     # ========= Loading Dataset ========= #
     data = torch.load(opt.data)
-    # 句子长度上限,用于截断
+    # 句子长度上限,用于求位置编码矩阵
     opt.max_token_seq_len = data['settings'].max_token_seq_len
 
     # 返回两个dataloader，已经包含batch_size，collect_fn 等信息
     training_data   = prepare_dataloaders(data, "train", opt)
     validation_data = prepare_dataloaders(data, "valid", opt) if opt.has_validation else None
+    # 用于生成词表
     opt.src_vocab_size = training_data.dataset.src_vocab_size
     opt.tgt_vocab_size = training_data.dataset.tgt_vocab_size
 
     # ========= Preparing Model ========= #
     if opt.embs_share_weight:
+        # 在定义解码器的时候，会把两者的weights共享
         assert training_data.dataset.src_word2idx == training_data.dataset.tgt_word2idx, \
             'The src/tgt word2idx table are different but asked to share word embedding.'
 
@@ -289,9 +291,10 @@ def main():
                     n_head=opt.n_head,
                     dropout=opt.dropout).to(device)
 
-                optimizer1 = optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr, momentum=0.9)
-                optimizer2 = optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr,
+                optimizer1 = optim.Adam(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr,
                                betas=(0.9, 0.98), eps=1e-09, weight_decay=1e-6)
+                optimizer2 = optim.SGD(filter(lambda x: x.requires_grad, transformer.parameters()), lr=lr, momentum=0.9)
+
                 optimizer = [optimizer1, optimizer2][optim_index]
 
                 # 模型，数据，优化器，设备，参数类
