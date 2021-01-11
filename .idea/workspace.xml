@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="添加numpy">
-      <change afterPath="$PROJECT_DIR$/.idea/40_self-deepLearning.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/40_torch-self-learning.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="摘要生成">
+      <change beforePath="$PROJECT_DIR$/.idea/40_self-deepLearning.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/40_self-deepLearning.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/summationModel/summarization_prepareNet/data/data_help.py" beforeDir="false" afterPath="$PROJECT_DIR$/summationModel/summarization_prepareNet/data/data_help.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/summationModel/summarization_prepareNet/transFormerOrigin/data/data_help.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/summationModel/summarization_prepareNet/transFormerOrigin/preprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/summationModel/summarization_prepareNet/data/preprocess.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +32,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/baseNlp" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/summationModel/summarization_prepareNet/transFormerOrigin" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -48,18 +43,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\01PythonCode\40_self-deepLearning\summationModel\summarization_prepareNet\transFormerOrigin" />
+      <recent name="G:\01PythonCode\40_self-deepLearning\summationModel\summarization_prepareNet\data" />
       <recent name="G:\01PythonCode\40_self-deepLearning\baseNlp" />
       <recent name="G:\01PythonCode\40_self-deepLearning\z_note" />
       <recent name="G:\01PythonCode\40_self-deepLearning\numpy" />
-      <recent name="G:\01PythonCode\40_torch-self-learning" />
-      <recent name="G:\01PythonCode\40_torch-self-learning\summationModel\pointer-generator-master-python3\pretrained_model" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\01PythonCode\40_self-deepLearning" />
       <recent name="G:\01PythonCode\40_self-deepLearning\summationModel\summarization_prepareNet\data" />
       <recent name="G:\01PythonCode\40_self-deepLearning\summationModel\summarization_prepareNet\transFormerOrigin\data" />
       <recent name="G:\01PythonCode\40_self-deepLearning\classification\emotionBaseline" />
       <recent name="G:\01PythonCode\40_self-deepLearning\note" />
-      <recent name="G:\01PythonCode\40_self-deepLearning\poem_generate\data" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -210,91 +205,7 @@
       <workItem from="1608464736735" duration="30787000" />
       <workItem from="1608642591532" duration="67467000" />
       <workItem from="1609204250168" duration="101961000" />
-      <workItem from="1609982719481" duration="46464000" />
-    </task>
-    <task id="LOCAL-00013" summary="完成seq2seq的transformer版本">
-      <created>1609579108394</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1609579108394</updated>
-    </task>
-    <task id="LOCAL-00014" summary="update 数据处理">
-      <created>1609588733662</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1609588733662</updated>
-    </task>
-    <task id="LOCAL-00015" summary="完成seq2seq的transformer版本">
-      <created>1609589226558</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1609589226558</updated>
-    </task>
-    <task id="LOCAL-00016" summary="完成seq2seq的transformer版本">
-      <created>1609589543691</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1609589543691</updated>
-    </task>
-    <task id="LOCAL-00017" summary="完成seq2seq的transformer版本">
-      <created>1609589914779</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1609589914779</updated>
-    </task>
-    <task id="LOCAL-00018" summary="新建诗词翻译">
-      <created>1609591945349</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1609591945349</updated>
-    </task>
-    <task id="LOCAL-00019" summary="诗词翻译数据集处理">
-      <created>1609593977318</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1609593977318</updated>
-    </task>
-    <task id="LOCAL-00020" summary="完成seq2seq的transformer版本">
-      <created>1609652656602</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1609652656602</updated>
-    </task>
-    <task id="LOCAL-00021" summary="完成seq2seq的transformer版本">
-      <created>1609654356678</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1609654356678</updated>
-    </task>
-    <task id="LOCAL-00022" summary="完成seq2seq的transformer版本">
-      <created>1609656023058</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1609656023058</updated>
-    </task>
-    <task id="LOCAL-00023" summary="完成seq2seq的transformer版本">
-      <created>1609656367462</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1609656367462</updated>
-    </task>
-    <task id="LOCAL-00024" summary="UPdate">
-      <created>1609657143813</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1609657143813</updated>
+      <workItem from="1609982719481" duration="56771000" />
     </task>
     <task id="LOCAL-00025" summary="完成seq2seq的transformer版本">
       <created>1609657938801</created>
@@ -555,7 +466,91 @@
       <option name="project" value="LOCAL" />
       <updated>1610329194350</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="UPdate">
+      <created>1610344598246</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1610344598246</updated>
+    </task>
+    <task id="LOCAL-00063" summary="UPdate">
+      <created>1610344790110</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1610344790110</updated>
+    </task>
+    <task id="LOCAL-00064" summary="UPdate">
+      <created>1610344976395</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1610344976395</updated>
+    </task>
+    <task id="LOCAL-00065" summary="UPdate">
+      <created>1610345051889</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1610345051889</updated>
+    </task>
+    <task id="LOCAL-00066" summary="UPdate">
+      <created>1610345133398</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1610345133398</updated>
+    </task>
+    <task id="LOCAL-00067" summary="UPdate">
+      <created>1610346538361</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1610346538361</updated>
+    </task>
+    <task id="LOCAL-00068" summary="UPdate">
+      <created>1610347489343</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1610347489343</updated>
+    </task>
+    <task id="LOCAL-00069" summary="添加prepareNets">
+      <created>1610349098589</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1610349098589</updated>
+    </task>
+    <task id="LOCAL-00070" summary="添加gpu logs">
+      <created>1610349150975</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1610349150975</updated>
+    </task>
+    <task id="LOCAL-00071" summary="调整结构">
+      <created>1610349884583</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1610349884583</updated>
+    </task>
+    <task id="LOCAL-00072" summary="调整结构">
+      <created>1610350193771</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1610350193772</updated>
+    </task>
+    <task id="LOCAL-00073" summary="摘要生成">
+      <created>1610366586718</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1610366586718</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -588,13 +583,16 @@
     <MESSAGE value="modify-gene" />
     <MESSAGE value="add指针网络" />
     <MESSAGE value="add指针网络-python3版本" />
-    <MESSAGE value="调整结构" />
     <MESSAGE value="add笔记" />
     <MESSAGE value="Transformer摘要" />
     <MESSAGE value="update data_helper" />
     <MESSAGE value="添加numpy" />
     <MESSAGE value="UPdate" />
-    <option name="LAST_COMMIT_MESSAGE" value="UPdate" />
+    <MESSAGE value="添加prepareNets" />
+    <MESSAGE value="添加gpu logs" />
+    <MESSAGE value="调整结构" />
+    <MESSAGE value="摘要生成" />
+    <option name="LAST_COMMIT_MESSAGE" value="摘要生成" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -608,11 +606,6 @@
           <url>file://$PROJECT_DIR$/poem_generate/transformer/SubLayers.py</url>
           <line>89</line>
           <option name="timeStamp" value="74" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/summationModel/summarization_prepareNet/transFormerOrigin/train.py</url>
-          <line>1</line>
-          <option name="timeStamp" value="77" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
