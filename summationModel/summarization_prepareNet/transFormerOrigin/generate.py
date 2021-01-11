@@ -39,7 +39,7 @@ def main():
     test_src_word_insts = read_instances_from_file(
         opt.src,
         max_trans_len,
-        preprocess_settings.keep_case)
+        False)
     # 将句子序列转化为
     test_src_insts = convert_instance_to_idx_seq(
         test_src_word_insts, preprocess_data['dict']['src'])
