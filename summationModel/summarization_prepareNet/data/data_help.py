@@ -12,13 +12,9 @@ def parse(file_path, write_name):
     latter = open("./" + write_name + ".latter.txt", mode="w", encoding="UTF-8")
 
     for i in range(len(soup)):
-        weibo = soup[i].summary.text
-        short_text = soup[i].short_text.text
-        # print(i)
-        # print(weibo .strip())
-        # print(short_text.strip())
-        # print("\n")
         try:
+            weibo = soup[i].summary.text
+            short_text = soup[i].short_text.text
             former.write(weibo.replace("<br/>", "").strip() + "\n")
             latter.write(short_text.replace("<br/>", "").strip() + "\n")
         except Exception as e:
@@ -30,11 +26,15 @@ def parse(file_path, write_name):
     former.close()
     latter.close()
 
+print("INFO: begin")
+print("INFO: train")
 file_path = "PART_I.txt"
 parse(file_path, "train")
+# print("INFO: valid")
 # file_path = "PART_II.txt"
 # parse(file_path, "valid")
+# print("INFO: test")
 # file_path = "PART_III.txt"
-# parse(file_path, "text")
+# parse(file_path, "test")
 
 # 村民大喊“潮水来了”<br/>他们戴着耳机没听见

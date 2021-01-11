@@ -17,8 +17,8 @@ def parse(file_path, write_name):
             short_text = soup[i].short_text.text
             former.write(weibo.replace("<br/>", "").strip() + "\n")
             latter.write(short_text.replace("<br/>", "").strip() + "\n")
-        except Exception as e:
-            print(e)
+        # except Exception as e:
+        except:
             print(soup[i])
             print("\n\n")
 
