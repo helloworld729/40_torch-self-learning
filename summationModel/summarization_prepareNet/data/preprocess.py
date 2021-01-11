@@ -71,7 +71,7 @@ def build_vocab_idx(word_insts, min_word_count):
     def isNeed(word):
         return isChinese(word) or isNumOrChar(word) or isPunctuation(word)
     full_vocab = set(w for sent in word_insts for w in sent)
-    print('[Info] Original Vocabulary size =', len(full_vocab))
+    print('[Info] 原始词表容量 =', len(full_vocab))
 
     word2idx = {
         Constants.BOS_WORD: Constants.BOS,
@@ -116,7 +116,7 @@ def main():
     parser.add_argument('-valid_tgt', default='valid.latter.txt')
     parser.add_argument('-save_data', default='save_file/file_saved.txt')
     # 变量 注释 参数, 好像只能用--后面的参数
-    parser.add_argument('-max_len', '--max_word_seq_len', type=int, default=60)
+    parser.add_argument('-max_len', '--max_word_seq_len', type=int, default=150)
     parser.add_argument('-min_word_count', type=int, default=10)
     # parser.add_argument('-keep_case', action='store_true')  # 是否保持小写
     # parser.add_argument('-share_vocab', action='store_true')
@@ -146,9 +146,9 @@ def main():
     # Validation set
     if opt.has_validation:
         valid_src_word_insts = read_instances_from_file(
-            opt.valid_src, opt.max_word_seq_len)
+            opt.valid_src, opt.max_word_seq_len, False)
         valid_tgt_word_insts = read_instances_from_file(
-            opt.valid_tgt, opt.max_word_seq_len)
+            opt.valid_tgt, opt.max_word_seq_len, False)
 
         if len(valid_src_word_insts) != len(valid_tgt_word_insts):
             print('[Warning] 验证集两侧数据不相等.')
