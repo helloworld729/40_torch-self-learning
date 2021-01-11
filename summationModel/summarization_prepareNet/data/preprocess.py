@@ -1,7 +1,7 @@
 ''' Handling the data io '''
 import argparse
 import torch
-import summationModel.summarization_prepareNet.transFormerOrigin.transformer.Constants as Constants
+import ../transFormerOrigin.transformer.Constants as Constants
 
 def isNumOrChar(word):
     if "0"<= word <= "9" or "a" <= word <= "z" or "A" <= word <= "Z":
