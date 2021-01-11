@@ -9,9 +9,9 @@ def main():
     parser = argparse.ArgumentParser(description='generate.py')
     # parser.add_argument('-model', default='weights/transformer_accu_38.785.chkpt',
     #                     help='Path to model .pt file')
-    parser.add_argument('-src', default='data/test.former.txt',
+    parser.add_argument('-src', default='../data/test.former.txt',
                         help='Source sequence to decode (one line per sequence)')
-    parser.add_argument('-vocab', default='data/save_file/file_saved.txt',
+    parser.add_argument('-vocab', default='../data/save_file/file_saved.txt',
                         help='Source sequence to decode (one line per sequence)')
     # parser.add_argument('-output', default='data/pred2.txt',  # 翻译结果保存文件路径
     #                     help="""Path to output the predictions (each line will
