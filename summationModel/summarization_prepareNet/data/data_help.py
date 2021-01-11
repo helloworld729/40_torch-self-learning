@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 def parse(file_path, write_name):
     text = open("DATA/" + file_path, encoding="UTF-8")
-    soup = BeautifulSoup(text, features="lxml").find_all("doc")
+    soup = BeautifulSoup(text, features="html.parser").find_all("doc")
 
     former = open("./" + write_name + ".former.txt", mode="w", encoding="UTF-8")
     latter = open("./" + write_name + ".latter.txt", mode="w", encoding="UTF-8")
