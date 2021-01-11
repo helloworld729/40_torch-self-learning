@@ -158,6 +158,6 @@ class Translator(object):
                 # print("\n\n")
                 # 每一句话对应得分最高的答案
                 best = sen_candidate[0]
-                return_list.append({"poem_idx": best['id_sec'], "EOS": best['EOS']})
+                return_list.append({"summarization_idx": best['id_sec'], "EOS": best['EOS']})
             return return_list, 0
 
