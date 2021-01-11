@@ -13,10 +13,10 @@ def parse(file_path, write_name):
 
     for i in range(len(soup)):
         try:
-            weibo = soup[i].summary.text
+            summary = soup[i].summary.text
             short_text = soup[i].short_text.text
-            former.write(weibo.replace("<br/>", "").strip() + "\n")
-            latter.write(short_text.replace("<br/>", "").strip() + "\n")
+            former.write(short_text.replace("<br/>", "").strip() + "\n")
+            latter.write(summary.replace("<br/>", "").strip() + "\n")
         # except Exception as e:
         except:
             print(soup[i])
@@ -37,4 +37,4 @@ print("INFO: test")
 file_path = "PART_III.txt"
 parse(file_path, "test")
 
-# 村民大喊“潮水来了”<br/>他们戴着耳机没听见
+
