@@ -222,3 +222,17 @@ def main():
 if __name__ == '__main__':
     main()
 
+# [Info] Get 488644 instances from train.former.txt
+# [Info] Get 488644 instances from train.latter.txt
+# [Info] Get 10666 instances from valid.former.txt
+# [Warning] 4 instances are trimmed to the max sentence length 150.
+# [Info] Get 10666 instances from valid.latter.txt
+# [Info] 两侧的词表融合.开构建词表...
+# [Info] 原始词表容量 = 8474
+# [Info] 修剪之后的词表规模:= 5649, 每个单词至少出现过:= 10
+# [Info] 忽略的单词数目:= 2827
+# [Info] 将源侧句子索引化.
+# [Info] 将终侧句子索引化.
+# [Info] 数据保存 save_file/file_saved.txt
+# [Info] Finish.
+
