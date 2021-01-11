@@ -115,7 +115,7 @@ def main():
     parser.add_argument('-valid_src', default='valid.former.txt')
     parser.add_argument('-valid_tgt', default='valid.latter.txt')
     parser.add_argument('-save_data', default='save_file/file_saved.txt')
-    # 变量 注释 参数
+    # 变量 注释 参数, 好像只能用--后面的参数
     parser.add_argument('-max_len', '--max_word_seq_len', type=int, default=60)
     parser.add_argument('-min_word_count', type=int, default=10)
     # parser.add_argument('-keep_case', action='store_true')  # 是否保持小写
@@ -125,7 +125,7 @@ def main():
 
     opt = parser.parse_args()
     # 设置句子长度上限值
-    opt.max_token_seq_len = opt.max_len + 2 # include the <s> and </s>
+    opt.max_token_seq_len = opt.max_word_seq_len + 2 # include the <s> and </s>
 
     # Training set
     train_src_word_insts = read_instances_from_file(
