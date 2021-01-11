@@ -2,15 +2,14 @@
 from tqdm import tqdm
 import torch, torch.utils.data, argparse, os
 from dataset import collate_fn, TranslationDataset
+from transformer.My_Translator import Translator
 from preprocess import read_instances_from_file, convert_instance_to_idx_seq
 
-def main(author=False):
-    if author:from transformer.Translator import Translator
-    else:from transformer.My_Translator import Translator
+def main():
     parser = argparse.ArgumentParser(description='generate.py')
     # parser.add_argument('-model', default='weights/transformer_accu_38.785.chkpt',
     #                     help='Path to model .pt file')
-    parser.add_argument('-src', default='data/test.formmer',
+    parser.add_argument('-src', default='data/test.former.txt',
                         help='Source sequence to decode (one line per sequence)')
     parser.add_argument('-vocab', default='data/save_file/file_saved.txt',
                         help='Source sequence to decode (one line per sequence)')
@@ -59,7 +58,7 @@ def main(author=False):
         opt.model = "weights/" + check_point
         model_name = "".join(opt.model.split("_")[2:])
         # 设定对应的输出目录
-        opt.output = 'data/gene_poems/'+ model_name + ".txt"
+        opt.output = 'data/gene_summarization/' + model_name + ".txt"
         # 加载模型
         translator = Translator(opt)
 
@@ -70,10 +69,10 @@ def main(author=False):
                 # (列表有两部分内容，1是seq的id序列，2是对应的未知序列)
                 all_hyp, all_scores = translator.translate_batch(*batch)
                 for i in range(len(all_hyp)):
-                    idx_seqs, eos = all_hyp[i]["poem_idx"], all_hyp[i]["EOS"]
+                    # idx 序列，结束标志
+                    idx_seqs, eos = all_hyp[i]["summarization_idx"], all_hyp[i]["EOS"]
                     idx2word = test_loader.dataset.tgt_idx2word
-                    if not author: pred_line = ''.join([idx2word[idx] for idx in idx_seqs])
-                    else:          pred_line = ''.join([idx2word[idx] for idx in idx_seqs[0]][0])
+                    pred_line = ''.join([idx2word[idx] for idx in idx_seqs])
                     formmer = ''.join([idx2word[idx] for idx in batch[0][i].data.numpy()]).\
                         replace("\n", "").replace("<s>", "").replace("</s>", "").replace("<blank>", "")
                     latter = pred_line.replace("\n", "").replace("<s>", "") + "。"
