@@ -31,10 +31,10 @@ print("INFO: train")
 file_path = "PART_I.txt"
 parse(file_path, "train")
 print("INFO: valid")
-# file_path = "PART_II.txt"
-# parse(file_path, "valid")
-# print("INFO: test")
-# file_path = "PART_III.txt"
-# parse(file_path, "test")
+file_path = "PART_II.txt"
+parse(file_path, "valid")
+print("INFO: test")
+file_path = "PART_III.txt"
+parse(file_path, "test")
 
 # 村民大喊“潮水来了”<br/>他们戴着耳机没听见
