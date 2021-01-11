@@ -1,4 +1,4 @@
-''' Define the Transformer model '''
+''' Define the Transformer_originTorch model '''
 import torch
 import torch.nn as nn
 import numpy as np
