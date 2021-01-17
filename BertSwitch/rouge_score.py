@@ -67,3 +67,4 @@ def compute_rouge_score(preds, refs):
                 ret_scores.append(results['f'])
         print()
     return ret_scores[:3]
+
