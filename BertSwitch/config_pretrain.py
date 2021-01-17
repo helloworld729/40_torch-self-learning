@@ -3,7 +3,7 @@ CONFIG= {
     'learning_rate': 0.0001,
     'embedding_dim': 100,
     'hidden_dim': 200,
-    'batch_size': 5, # 32
+    'batch_size': 32, # 32
     'eval_batch_size': 32,
     'epoch': 300,
     'random_seed': 1,
