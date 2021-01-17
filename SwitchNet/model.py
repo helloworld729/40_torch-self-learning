@@ -129,6 +129,9 @@ class MyModel(nn.Module):
         return paragraph_embeds, paragraph_lengths
 
     def forward(self, paragraphs, cand_pool=None):
+        # paragraphs被处理的冗余了，目前是一个batch构成的列表，每个元素对应一篇文章
+        # 元素为列表嵌套，有两个列表构成：n个tensor，每个tensor都对应一个句子的index序列 + 当前文章每句话单词数列表n
+        # n句话，n个tensor
         #print(paragraph_embeds)
         batch_size = len(paragraphs)
         if cand_pool is not None:
@@ -138,13 +141,18 @@ class MyModel(nn.Module):
             paragraph_embeds = paragraph_embeds[:batch_size]
             paragraph_lengths = paragraph_lengths[:batch_size]
         else:
+            # 为了pad所以，现在是基于文章分了组，构成列表
             paragraph_embeds, paragraph_lengths = \
                 self.encode_sentences(paragraphs)
         doc_size = max(paragraph_lengths)
-        padded_paragraph_embeds = pad_sequence(paragraph_embeds,  # batch对应文章, seq_len, hidden_size*2
+
+        # batch对应文章, doc_len, hidden_size*2
+        padded_paragraph_embeds = pad_sequence(paragraph_embeds,
                                                batch_first=True)
-        masks = self.mask_lengths(batch_size, doc_size, paragraph_lengths)
-        outs = self.self_attention(padded_paragraph_embeds, masks)  # mask前后 shape不变   # batch对应文章, seq_len, hidden_size*2
+        masks = self.mask_lengths(batch_size, doc_size, paragraph_lengths)  # mask shape: batchSize, docLen padding的位置为0
+
+        # mask前后 shape不变   # batch对应文章, doc_len, hidden_size*2
+        outs = self.self_attention(padded_paragraph_embeds, masks)
         if cand_pool is not None:
             return outs, cand_pool_embeds
         else:

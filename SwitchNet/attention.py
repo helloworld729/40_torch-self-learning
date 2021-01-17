@@ -47,13 +47,15 @@ class MultiHeadedAttention(nn.Module):
             [l(x).view(nbatches, -1, self.h, self.d_k).transpose(1, 2)
              for l, x in zip(self.linears, (query, key, value))]
 
-        # 2) Apply attention on all the projected vectors in batch. 
+        # 2) Apply attention on all the projected vectors in batch.
+        # 返回attention的结果与权重分布
         x, self.attn = attention(query, key, value, mask=mask,
                                  dropout=self.dropout)
 
         # 3) "Concat" using a view and apply a final linear. 
         x = x.transpose(1, 2).contiguous() \
              .view(nbatches, -1, self.h * self.d_k)
+        # 返回多头attention后的结果
         return self.linears[-1](x)
 
 class PositionwiseFeedForward(nn.Module):
@@ -84,8 +86,7 @@ class PositionalEncoding(nn.Module):
         self.register_buffer('pe', pe)
 
     def forward(self, x):
-        x = x + Variable(self.pe[:, :x.size(1)],
-                         requires_grad=False)
+        x = x + Variable(self.pe[:, :x.size(1)], requires_grad=False)
         return self.dropout(x)
 
 class LayerNorm(nn.Module):
@@ -126,7 +127,13 @@ class EncoderLayer(nn.Module):
 
     def forward(self, x, mask):
         "Follow Figure 1 (left) for connections."
+        # 第一子层：归一化+多头attention+残差
+        # lambda整体作为SublayerConnection forward的sublayer
+        # 先归一化，再进网络，出来求残差
         x = self.sublayer[0](x, lambda x: self.self_attn(x, x, x, mask))
+        # 第二子层：归一化+前向+残差
+        # self.feed_forward作为SublayerConnection forward的sublayer
+        # 先归一化，再进网络，出来求残差
         return self.sublayer[1](x, self.feed_forward)
 
 class Encoder(nn.Module):
@@ -162,15 +169,41 @@ class SimpleEncoder(nn.Module):
         x = self.encoder(x, mask)
         return x
 
-if __name__ == '__main__':
-    encoder = SimpleEncoder(300, 4, 2)
-    inputs = torch.zeros(1000,50,300)
-    mask = torch.ones(1000, 50)
-    mask[:10,30:] = 0
-    mask[20:30,20:] = 0
-    print(mask)
-    lens  = [10] * 1000
-    out = encoder(inputs, mask)
-    print(out.size())
-    print(out[0])
-    print(out[-1])
+# if __name__ == '__main__':
+#     encoder = SimpleEncoder(300, 4, 2)
+#     # batch, docLen, hiddenSize
+#     inputs = torch.zeros(1000, 50, 300)
+#     mask = torch.ones(1000, 50)
+#     mask[:10, 30:] = 0
+#     mask[20:30, 20:] = 0
+#     print(mask)
+#     lens  = [10] * 1000
+#     out = encoder(inputs, mask)
+#     print(out.size())
+#     print(out[0])
+#     print(out[-1])
+
+# tensor([[1., 1., 1.,  ..., 0., 0., 0.],
+#         [1., 1., 1.,  ..., 0., 0., 0.],
+#         [1., 1., 1.,  ..., 0., 0., 0.],
+#         ...,
+#         [1., 1., 1.,  ..., 1., 1., 1.],
+#         [1., 1., 1.,  ..., 1., 1., 1.],
+#         [1., 1., 1.,  ..., 1., 1., 1.]])
+# torch.Size([1000, 50, 300])
+# tensor([[ 0.9087, -0.2573,  1.8975,  ...,  0.7703, -0.1817,  1.4127],
+#         [ 1.2165, -1.1043,  1.6587,  ...,  0.8845, -0.5554,  1.5407],
+#         [ 0.1893, -2.8588,  1.8796,  ...,  0.6898, -0.0979,  1.0685],
+#         ...,
+#         [ 0.4347, -2.4928,  1.3567,  ...,  1.3670, -0.5064,  1.2395],
+#         [-0.6836, -1.5751,  2.2632,  ...,  0.9626, -0.3131,  1.5531],
+#         [-0.8954, -1.2491,  1.9622,  ...,  1.4277, -0.4073,  1.2929]],
+#        grad_fn=<SelectBackward>)
+# tensor([[ 0.3866, -0.3584,  0.6327,  ...,  1.3499, -0.7031,  1.6593],
+#         [ 1.0766, -0.8731,  2.0193,  ...,  1.4657, -0.1532,  2.0208],
+#         [ 1.9742, -1.8697,  1.8364,  ...,  1.2257, -0.4974,  1.6724],
+#         ...,
+#         [ 0.1173, -2.4423,  0.7331,  ...,  1.4184, -0.0257,  1.6040],
+#         [-0.3734, -2.4962,  0.7725,  ...,  1.1138, -0.3450,  1.3697],
+#         [-1.1002, -1.2486,  1.6939,  ...,  0.9329, -0.6567,  0.5855]],
+#        grad_fn=<SelectBackward>)
