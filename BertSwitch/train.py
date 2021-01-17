@@ -171,7 +171,7 @@ def train(train_data, dev_data, my_vocab, train_target, dev_target):
         random.shuffle(train_idx)
         for current_batch in range(int((len(train_data)-1)/batch_size) + 1):
             if current_batch%100 ==0:
-                print(current_batch)
+                print(epoch_i, "|", current_batch)
             model_optim.zero_grad()
             classification_layer.zero_grad()
             paragraphs = all_paragraphs[current_batch*batch_size:
