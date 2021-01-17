@@ -19,6 +19,9 @@ from linearModel import LinearRegressionModel
 import random
 import itertools
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
 batch_size = conf['batch_size']
 num_epoch = conf['epoch']
 device = conf['device']
