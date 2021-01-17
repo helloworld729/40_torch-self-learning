@@ -16,10 +16,7 @@ torch.manual_seed(random_seed)
 
 
 class Packed(nn.Module):
-    '''
-    usage:
-    initialize your LSTM as lstm = Packed(nn.LSTM(...))
-    '''
+    '''LSTM内核的packpad操作，返回y与隐层'''
 
     def __init__(self, rnn):
         super().__init__()
@@ -33,9 +30,14 @@ class Packed(nn.Module):
         lengths = torch.tensor(lengths)
         lens, indices = torch.sort(lengths, 0, True)
         inputs = inputs[indices] if self.batch_first else inputs[:, indices]
-        outputs, (h, c) = self.rnn(nn.utils.rnn.pack_padded_sequence(inputs, lens.tolist(), batch_first=self.batch_first), hidden)
-        outputs, _ = nn.utils.rnn.pad_packed_sequence(outputs, batch_first=self.batch_first, total_length=max_length)
+        # 打包与前向
+        outputs, (h, c) = self.rnn(nn.utils.rnn.pack_padded_sequence(
+            inputs, lens.tolist(), batch_first=self.batch_first), hidden)
+        # padding 输出结果
+        outputs, _ = nn.utils.rnn.pad_packed_sequence(
+            outputs, batch_first=self.batch_first, total_length=max_length)
         _, _indices = torch.sort(indices, 0)
+        # 输出还原
         outputs = outputs[_indices] if self.batch_first else outputs[:, _indices]
         h, c = h[:, _indices, :], c[:, _indices, :]
         return outputs, (h, c)
@@ -50,20 +52,33 @@ class BiLSTM(nn.Module):
         # with dimensionality hidden_dim.
         self.embedding = nn.Embedding(vocab_size, embedding_dim)
         self.embedding.weight.data.copy_(torch.from_numpy(vocab_embedding))
-        self.lstm = Packed(nn.LSTM(embedding_dim, hidden_dim,
-                                   bidirectional=True))
+        self.lstm = Packed(nn.LSTM(embedding_dim, hidden_dim, bidirectional=True))
 
     def forward(self, padded_sentences, lengths):
+        """输入pad之后的文本索引，返回隐层向量"""
+        # self.embedding 传入索引，输出向量
         padded_embeds = self.embedding(padded_sentences)
-        #print(len(padded_sentences))
-        lstm_out, hidden_state = self.lstm(padded_embeds, lengths)  # seq_lens, batch_sen_counts, embedding, 返回编码输出， 隐层状态;hidden state是lstm两个隐层向量hn、cn shape：layers*direcrions, batch, hiddenSize
-        permuted_hidden = hidden_state[0].permute([1,0,2]).contiguous()  # batch, layers*direcrions, hiddenSize
+
+        # padded_embeds shape: seq_lens, batch_sen_counts, embedding
+        # hidden state是lstm两个隐层向量hn、cn shape：layers*direcrions, batch, hiddenSize
+        lstm_out, hidden_state = self.lstm(padded_embeds, lengths)
+
+        # 隐层变成batchFirst：batch_sen_counts, layers*direcrions, hiddenSize
+        # 隐层输出不会受batchFirst等参数的影响，每一个序列都有 有效的最后一步
+        # 所以对应的是句子的个数
+        permuted_hidden = hidden_state[0].permute([1,0,2]).contiguous()
+
+        # 最后返回：batch，hiddenSize*2 顺便把两个方向的拼接了
+        # 这里的batch对应的是batch中所有的句子数
         return permuted_hidden.view(-1, self.hidden_dim*2)
+
 
 class MyModel(nn.Module):
     def __init__(self, my_vocab):
         super(MyModel, self).__init__()
         my_embed = my_vocab.embedding.idx_to_vec
+        # 用单词个数、embedding矩阵初始化
+        # forward 输入pad之后的文本索引，返回隐层向量
         self.sentence_encoder = BiLSTM(len(my_embed), my_embed.asnumpy())
         self.self_attention = SimpleEncoder(hidden_dim*2, 4, 5)
 
@@ -102,9 +117,14 @@ class MyModel(nn.Module):
         doc_size = max(paragraph_lengths)
         #print(sentences)
         padded_sentences = pad_sequence(sentences, padding_value=1).long().to(device)
-        sentence_embeds = self.sentence_encoder(padded_sentences,  # 隐层输出： batch句子数， hidden_size*2
+
+        # 输入pad之后的文本索引，返回隐层向量
+        # sentence_embeds shape： 整个batch的句子数， hidden_size*2
+        # 也就是说得到了整个batch句子的隐层输出
+        sentence_embeds = self.sentence_encoder(padded_sentences,
                                                 sentence_lengths)
-        paragraph_embeds = self.unpack_paragraph(sentence_embeds,   # 分解为batch_size个子集，即按照文章划分
+        # 分解为batch_size个子集，即按照文章划分
+        paragraph_embeds = self.unpack_paragraph(sentence_embeds,
                                                  paragraph_lengths)
         return paragraph_embeds, paragraph_lengths
 
@@ -130,3 +150,4 @@ class MyModel(nn.Module):
         else:
             return outs
         #return paragraph_embeds, cand_pool_embeds
+
