@@ -1,8 +1,8 @@
 #import rouge
 import pyrouge
 import logging
-from config_pretrain import CONFIG as conf
-# from config import CONFIG as conf
+# from config_pretrain import CONFIG as conf
+from config import CONFIG as conf
 ref_folder = conf['ref_folder']
 pred_folder = conf['pred_folder']
 
