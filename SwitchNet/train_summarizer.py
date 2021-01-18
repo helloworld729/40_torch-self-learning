@@ -1,7 +1,8 @@
 from data_loader import get_train_dev_test_data, read_oracle, read_target_txt
 from utils import build_vocab, build_paragraph, filter_output, mask_sentence,\
     save_vocab, load_vocab
-from config import CONFIG as conf
+from config_summarize import CONFIG as conf
+# from config import CONFIG as conf
 from model import MyModel
 from summarize_model import SummarizeModel
 import torch
@@ -66,7 +67,10 @@ def train(train_data, dev_data, my_vocab, train_target, dev_target,
     #model = nn.DataParallel(model)
     embed_model = embed_model
     if summarizer_embed_model_path  is not None:
-        embed_model = torch.load(summarizer_embed_model_path)
+        if torch.cuda.is_available():
+            embed_model = torch.load(summarizer_embed_model_path)
+        else:
+            embed_model = torch.load(summarizer_embed_model_path, map_location=torch.device('cpu'))
         #load_embed_model = torch.load(summarizer_embed_model_path)
         #sent_enc_stat = load_embed_model.sentence_encoder.state_dict()
         #embed_model.sentence_encoder.load_state_dict(sent_enc_stat)

@@ -9,9 +9,9 @@ pred_folder = conf['pred_folder']
 def rouge_eval(ref_str, pred_str):
     """Evaluate the files in ref_dir and dec_dir with pyrouge, returning results_dict"""
     for i in range(len(ref_str)):
-        with open(ref_folder+str(i)+'_reference.txt', 'w') as f_out:
+        with open(ref_folder+str(i)+'_reference.txt', 'w', encoding="UTF-8") as f_out:
             f_out.write(ref_str[i])
-        with open(pred_folder+str(i)+'_decoded.txt', 'w') as f_out:
+        with open(pred_folder+str(i)+'_decoded.txt', 'w', encoding="UTF-8") as f_out:
             f_out.write(pred_str[i])
     r = pyrouge.Rouge155()
     r.model_filename_pattern = '#ID#_reference.txt'
