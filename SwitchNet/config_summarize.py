@@ -1,5 +1,6 @@
 import torch
-basic_path = '/mnt/sshd/hongwang/results/'
+# basic_path = '/mnt/sshd/hongwang/results/'
+basic_path = "../SwitchNet/results/"
 #basic_name = 'basic'
 #basic_name = 'mask'
 #basic_name = 'replace'
@@ -20,8 +21,8 @@ CONFIG= {
     'learning_rate': 0.00001,
     'embedding_dim': 100,
     'hidden_dim': 200,
-    'batch_size': 32,
-    'eval_batch_size': 32,
+    'batch_size': 2,  # 32
+    'eval_batch_size': 2,  # 32
     'epoch': 300,
     'random_seed': 1,
     'mask_pro': 0.15,
@@ -44,5 +45,5 @@ CONFIG= {
     'load_model_path':None,
     'exp_name':basic_path+'reruns_summarization/'+basic_name,
     'debug':False,
-    'device': torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    'device': torch.device('cuda:1' if torch.cuda.is_available() else 'cpu')
 }

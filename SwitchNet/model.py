@@ -1,8 +1,8 @@
 import torch.nn as nn
 import torch
 from torch.nn.utils.rnn import pack_padded_sequence, pad_sequence
-# from config import CONFIG as conf
-from config_pretrain import CONFIG as conf
+from config import CONFIG as conf
+# from config_pretrain import CONFIG as conf
 import numpy as np
 import torch.nn.functional as F
 from attention import SimpleEncoder

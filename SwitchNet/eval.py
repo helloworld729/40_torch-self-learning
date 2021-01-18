@@ -2,8 +2,8 @@ import torch
 from utils import build_vocab, build_paragraph, filter_output, mask_sentence, \
     load_vocab, replace_sentence, gen_mask_based_length, switch_sentence, \
     local_sort_sentence, get_fetch_idx
-# from config import CONFIG as conf
-from config_pretrain import CONFIG as conf
+from config import CONFIG as conf
+# from config_pretrain import CONFIG as conf
 from data_loader import get_train_dev_test_data, read_oracle, read_target_txt
 import torch.nn as nn
 from rouge_score import compute_rouge_score, rouge_eval

@@ -2,8 +2,8 @@ import gluonnlp  # NLP工具包
 import torch
 import torch.nn as nn
 from torch.nn.utils.rnn import pad_sequence
-# from config import CONFIG as conf
-from config_pretrain import CONFIG as conf
+from config import CONFIG as conf
+# from config_pretrain import CONFIG as conf
 import random
 import json
 

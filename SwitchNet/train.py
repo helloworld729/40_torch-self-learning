@@ -3,8 +3,8 @@ from data_loader import get_train_dev_test_data, read_oracle, read_target_txt,\
 from utils import build_vocab, build_paragraph, filter_output, mask_sentence,\
     replace_sentence, load_vocab, switch_sentence, local_sort_sentence, \
     get_fetch_idx
-# from config import CONFIG as conf
-from config_pretrain import CONFIG as conf
+from config import CONFIG as conf
+# from config_pretrain import CONFIG as conf
 from model import MyModel
 from sorter_model import LocalSorterModel
 from classification_model import ClassificationModel
