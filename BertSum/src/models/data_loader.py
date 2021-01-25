@@ -7,7 +7,6 @@ import torch
 from others.logging import logger
 
 
-
 class Batch(object):
     def _pad(self, data, pad_id, width=-1):
         if (width == -1):
@@ -28,10 +27,11 @@ class Batch(object):
 
             labels = torch.tensor(self._pad(pre_labels, 0))
             segs = torch.tensor(self._pad(pre_segs, 0))
-            mask = 1 - (src == 0)
-
+            # mask = 1 - (src == 0)
+            mask = ~(src == 0)
             clss = torch.tensor(self._pad(pre_clss, -1))
-            mask_cls = 1 - (clss == -1)
+            # mask_cls = 1 - (clss == -1)
+            mask_cls = ~(clss == -1)
             clss[clss == -1] = 0
 
             setattr(self, 'clss', clss.to(device))
@@ -57,7 +57,7 @@ def batch(data, batch_size):
     for ex in data:
         minibatch.append(ex)
         size_so_far = simple_batch_size_fn(ex, len(minibatch))
-        if size_so_far == batch_size:
+        if size_so_far == batch_size:  # 单词量的size
             yield minibatch
             minibatch, size_so_far = [], 0
         elif size_so_far > batch_size:
@@ -195,7 +195,7 @@ class DataIterator(object):
         for ex in data:
             if(len(ex['src'])==0):
                 continue
-            ex = self.preprocess(ex, self.is_test)
+            ex = self.preprocess(ex, self.is_test) # src,labels,segs, clss
             if(ex is None):
                 continue
             minibatch.append(ex)
@@ -204,14 +204,14 @@ class DataIterator(object):
                 yield minibatch
                 minibatch, size_so_far = [], 0
             elif size_so_far > batch_size:
-                yield minibatch[:-1]
+                yield minibatch[:-1] if minibatch[:-1] else minibatch
                 minibatch, size_so_far = minibatch[-1:], simple_batch_size_fn(ex, 1)
         if minibatch:
             yield minibatch
 
     def create_batches(self):
         """ Create batches """
-        data = self.data()
+        data = self.data()  # 字典列表，字典的内容包含
         for buffer in self.batch_buffer(data, self.batch_size * 50):
 
             p_batch = sorted(buffer, key=lambda x: len(x[3]))

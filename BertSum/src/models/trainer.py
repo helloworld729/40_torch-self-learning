@@ -130,7 +130,7 @@ class Trainer(object):
         true_batchs = []
         accum = 0
         normalization = 0
-        train_iter = train_iter_fct()
+        train_iter = train_iter_fct()  # data loader
 
         total_stats = Statistics()
         report_stats = Statistics()
