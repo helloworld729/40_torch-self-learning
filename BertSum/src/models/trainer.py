@@ -91,7 +91,7 @@ class Trainer(object):
         # step =  self.optim._step + 1
         step =  self.optim._step + 1
         true_batchs = []
-        accum = 0
+
         normalization = 0
         train_iter = train_iter_fct()  # data loader
 
