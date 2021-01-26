@@ -4,7 +4,7 @@ import random
 
 import torch
 
-from others.logging import logger
+from myBertSum.src.others.logging import logger
 
 
 class Batch(object):
