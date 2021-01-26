@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="摘要生成">
+    <list default="true" id="85b472e6-36c9-4cf2-964f-525a02ac8853" name="Default Changelist" comment="UPdate">
+      <change afterPath="$PROJECT_DIR$/.idea/sshConfigs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/40_self-deepLearning.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/40_self-deepLearning.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myBertSum/src/models/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/myBertSum/src/models/trainer.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +20,17 @@
       </list>
     </option>
   </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
@@ -25,65 +38,47 @@
       </list>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
+  <component name="JupyterTrust" id="274cdb55-6113-42c5-a5ae-5e26b55534eb" />
   <component name="ProjectId" id="1lokCHwc82u9O45bT3qKASe4LWp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/summationModel/summarization_prepareNet/transFormerOrigin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="DockerRegistry" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="G:\01PythonCode\40_self-deepLearning\summationModel\summarization_prepareNet\transFormerOrigin" />
-      <recent name="G:\01PythonCode\40_self-deepLearning\summationModel\summarization_prepareNet\data" />
-      <recent name="G:\01PythonCode\40_self-deepLearning\baseNlp" />
-      <recent name="G:\01PythonCode\40_self-deepLearning\z_note" />
-      <recent name="G:\01PythonCode\40_self-deepLearning\numpy" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="G:\01PythonCode\40_self-deepLearning" />
-      <recent name="G:\01PythonCode\40_self-deepLearning\summationModel\summarization_prepareNet\data" />
-      <recent name="G:\01PythonCode\40_self-deepLearning\summationModel\summarization_prepareNet\transFormerOrigin\data" />
-      <recent name="G:\01PythonCode\40_self-deepLearning\classification\emotionBaseline" />
-      <recent name="G:\01PythonCode\40_self-deepLearning\note" />
+      <recent name="G:\01PythonCode\40_torch-self-learning" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager" selected="Python.data_help">
-    <configuration name="LayerNorm" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="40_self-deepLearning" />
+  <component name="RunManager" selected="Python.train">
+    <configuration name="My_Translator (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="40_torch-self-learning" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/baseNlp" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/poem_generate/transformer" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/baseNlp/LayerNorm.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/poem_generate/transformer/My_Translator.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -92,20 +87,20 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="data_help" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="40_self-deepLearning" />
+    <configuration name="data_help" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="40_torch-self-learning" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/summationModel/summarization_prepareNet/data" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/summationModel/summarization_prepareNet/transFormerOrigin/data" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/summationModel/summarization_prepareNet/data/data_help.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/summationModel/summarization_prepareNet/transFormerOrigin/data/data_help.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -114,7 +109,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="generate" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="data_loader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="40_self-deepLearning" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -122,12 +117,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/poem_generate" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BertSum/src/models" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/poem_generate/generate.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BertSum/src/models/data_loader.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -136,7 +131,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="rnnPackPad" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="40_self-deepLearning" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -144,12 +139,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/summationModel/Transformer/transformer" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MyRnn" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/summationModel/Transformer/transformer/test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MyRnn/rnnPackPad.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -158,7 +153,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="train (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="40_self-deepLearning" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -166,12 +161,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/poem_generate" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/BertSum/src" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/poem_generate/train.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BertSum/src/train.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -182,14 +177,15 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.train" />
+        <item itemvalue="Python.data_loader" />
+        <item itemvalue="Python.rnnPackPad" />
         <item itemvalue="Python.data_help" />
-        <item itemvalue="Python.train (1)" />
-        <item itemvalue="Python.LayerNorm" />
-        <item itemvalue="Python.test (1)" />
-        <item itemvalue="Python.generate" />
+        <item itemvalue="Python.My_Translator (1)" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -204,411 +200,434 @@
       <workItem from="1608366105692" duration="12260000" />
       <workItem from="1608464736735" duration="30787000" />
       <workItem from="1608642591532" duration="67467000" />
-      <workItem from="1609204250168" duration="101961000" />
-      <workItem from="1609982719481" duration="56771000" />
+      <workItem from="1609204250168" duration="40213000" />
+      <workItem from="1609596684367" duration="419000" />
+      <workItem from="1609597144591" duration="188000" />
+      <workItem from="1609597367629" duration="15695000" />
+      <workItem from="1609645014852" duration="1236000" />
+      <workItem from="1609646980168" duration="385000" />
+      <workItem from="1609686786832" duration="2869000" />
+      <workItem from="1609689906133" duration="358000" />
+      <workItem from="1609690935843" duration="4278000" />
+      <workItem from="1609777026178" duration="213000" />
+      <workItem from="1610013731975" duration="19000" />
+      <workItem from="1610195072091" duration="4950000" />
+      <workItem from="1610291390193" duration="4210000" />
+      <workItem from="1610549107815" duration="1305000" />
+      <workItem from="1610808361958" duration="1229000" />
+      <workItem from="1610896485601" duration="142000" />
+      <workItem from="1610980231007" duration="412000" />
+      <workItem from="1611143128046" duration="14000" />
+      <workItem from="1611199679982" duration="2758000" />
+      <workItem from="1611307335564" duration="1079000" />
+      <workItem from="1611381604863" duration="17987000" />
+      <workItem from="1611535833156" duration="20915000" />
+      <workItem from="1611636206383" duration="4926000" />
     </task>
-    <task id="LOCAL-00025" summary="完成seq2seq的transformer版本">
-      <created>1609657938801</created>
+    <task id="LOCAL-00001" summary="还原目录">
+      <created>1608375894163</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1608375894163</updated>
+    </task>
+    <task id="LOCAL-00002" summary="更改名字">
+      <created>1608643301271</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1608643301271</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update">
+      <created>1608646098915</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1608646098915</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add-Transformer">
+      <created>1608713484909</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1608713484909</updated>
+    </task>
+    <task id="LOCAL-00005" summary="UPdate">
+      <created>1609077714101</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1609077714180</updated>
+    </task>
+    <task id="LOCAL-00006" summary="update">
+      <created>1609210069724</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1609210069725</updated>
+    </task>
+    <task id="LOCAL-00007" summary="update">
+      <created>1609210730472</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1609210730472</updated>
+    </task>
+    <task id="LOCAL-00008" summary="UPdate">
+      <created>1609210817398</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1609210817398</updated>
+    </task>
+    <task id="LOCAL-00009" summary="UPdate">
+      <created>1609572485908</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1609572485908</updated>
+    </task>
+    <task id="LOCAL-00010" summary="UPdate">
+      <created>1609576411847</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1609576411847</updated>
+    </task>
+    <task id="LOCAL-00011" summary="UPdate">
+      <created>1609606020222</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1609606020222</updated>
+    </task>
+    <task id="LOCAL-00012" summary="UPdate">
+      <created>1609606755105</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1609606755105</updated>
+    </task>
+    <task id="LOCAL-00013" summary="UPdate">
+      <created>1609607075780</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1609607075780</updated>
+    </task>
+    <task id="LOCAL-00014" summary="UPdate">
+      <created>1609607212087</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1609607212087</updated>
+    </task>
+    <task id="LOCAL-00015" summary="UPdate">
+      <created>1609609437838</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1609609437838</updated>
+    </task>
+    <task id="LOCAL-00016" summary="UPdate">
+      <created>1609609943044</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1609609943044</updated>
+    </task>
+    <task id="LOCAL-00017" summary="UPdate">
+      <created>1609610199029</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1609610199029</updated>
+    </task>
+    <task id="LOCAL-00018" summary="UPdate">
+      <created>1609610511316</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1609610511316</updated>
+    </task>
+    <task id="LOCAL-00019" summary="UPdate">
+      <created>1609610543749</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1609610543749</updated>
+    </task>
+    <task id="LOCAL-00020" summary="UPdate">
+      <created>1609644637686</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1609644637686</updated>
+    </task>
+    <task id="LOCAL-00021" summary="UPdate">
+      <created>1609647193219</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1609647193219</updated>
+    </task>
+    <task id="LOCAL-00022" summary="UPdate">
+      <created>1609688887021</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1609688887021</updated>
+    </task>
+    <task id="LOCAL-00023" summary="UPdate">
+      <created>1609689455750</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1609689455750</updated>
+    </task>
+    <task id="LOCAL-00024" summary="UPdate">
+      <created>1609690127590</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1609690127590</updated>
+    </task>
+    <task id="LOCAL-00025" summary="UPdate">
+      <created>1609690983628</created>
       <option name="number" value="00025" />
       <option name="presentableId" value="LOCAL-00025" />
       <option name="project" value="LOCAL" />
-      <updated>1609657938801</updated>
+      <updated>1609690983629</updated>
     </task>
-    <task id="LOCAL-00026" summary="完成seq2seq的transformer版本">
-      <created>1609661421706</created>
+    <task id="LOCAL-00026" summary="UPdate">
+      <created>1609774923706</created>
       <option name="number" value="00026" />
       <option name="presentableId" value="LOCAL-00026" />
       <option name="project" value="LOCAL" />
-      <updated>1609661421706</updated>
+      <updated>1609774923706</updated>
     </task>
     <task id="LOCAL-00027" summary="UPdate">
-      <created>1609663773098</created>
+      <created>1609775715258</created>
       <option name="number" value="00027" />
       <option name="presentableId" value="LOCAL-00027" />
       <option name="project" value="LOCAL" />
-      <updated>1609663773098</updated>
+      <updated>1609775715258</updated>
     </task>
-    <task id="LOCAL-00028" summary="完成seq2seq的transformer版本">
-      <created>1609669786861</created>
+    <task id="LOCAL-00028" summary="UPdate">
+      <created>1609777057899</created>
       <option name="number" value="00028" />
       <option name="presentableId" value="LOCAL-00028" />
       <option name="project" value="LOCAL" />
-      <updated>1609669786861</updated>
+      <updated>1609777057899</updated>
     </task>
-    <task id="LOCAL-00029" summary="完成seq2seq的transformer版本">
-      <created>1609671213840</created>
+    <task id="LOCAL-00029" summary="UPdate">
+      <created>1610291846968</created>
       <option name="number" value="00029" />
       <option name="presentableId" value="LOCAL-00029" />
       <option name="project" value="LOCAL" />
-      <updated>1609671213840</updated>
+      <updated>1610291846968</updated>
     </task>
-    <task id="LOCAL-00030" summary="完成seq2seq的transformer版本">
-      <created>1609671361729</created>
+    <task id="LOCAL-00030" summary="UPdate">
+      <created>1610292320580</created>
       <option name="number" value="00030" />
       <option name="presentableId" value="LOCAL-00030" />
       <option name="project" value="LOCAL" />
-      <updated>1609671361729</updated>
+      <updated>1610292320580</updated>
     </task>
-    <task id="LOCAL-00031" summary="完成seq2seq的transformer版本">
-      <created>1609671454969</created>
+    <task id="LOCAL-00031" summary="UPdate">
+      <created>1610292957004</created>
       <option name="number" value="00031" />
       <option name="presentableId" value="LOCAL-00031" />
       <option name="project" value="LOCAL" />
-      <updated>1609671454969</updated>
+      <updated>1610292957004</updated>
     </task>
-    <task id="LOCAL-00032" summary="完成seq2seq的transformer版本">
-      <created>1609671532025</created>
+    <task id="LOCAL-00032" summary="UPdate">
+      <created>1611535863896</created>
       <option name="number" value="00032" />
       <option name="presentableId" value="LOCAL-00032" />
       <option name="project" value="LOCAL" />
-      <updated>1609671532025</updated>
+      <updated>1611535863896</updated>
     </task>
-    <task id="LOCAL-00033" summary="完成seq2seq的transformer版本">
-      <created>1609673042913</created>
+    <task id="LOCAL-00033" summary="addMybertsum">
+      <created>1611640150661</created>
       <option name="number" value="00033" />
       <option name="presentableId" value="LOCAL-00033" />
       <option name="project" value="LOCAL" />
-      <updated>1609673042913</updated>
+      <updated>1611640150661</updated>
     </task>
-    <task id="LOCAL-00034" summary="完成seq2seq的transformer版本">
-      <created>1609675502716</created>
+    <task id="LOCAL-00034" summary="UPdate">
+      <created>1611640296991</created>
       <option name="number" value="00034" />
       <option name="presentableId" value="LOCAL-00034" />
       <option name="project" value="LOCAL" />
-      <updated>1609675502716</updated>
+      <updated>1611640296991</updated>
     </task>
-    <task id="LOCAL-00035" summary="修改generate文件为多加载多模型">
-      <created>1609728187133</created>
+    <task id="LOCAL-00035" summary="UPdate">
+      <created>1611640650932</created>
       <option name="number" value="00035" />
       <option name="presentableId" value="LOCAL-00035" />
       <option name="project" value="LOCAL" />
-      <updated>1609728187133</updated>
+      <updated>1611640650932</updated>
     </task>
     <task id="LOCAL-00036" summary="UPdate">
-      <created>1609738722630</created>
+      <created>1611640859007</created>
       <option name="number" value="00036" />
       <option name="presentableId" value="LOCAL-00036" />
       <option name="project" value="LOCAL" />
-      <updated>1609738722630</updated>
+      <updated>1611640859007</updated>
     </task>
     <task id="LOCAL-00037" summary="UPdate">
-      <created>1609739826214</created>
+      <created>1611641270971</created>
       <option name="number" value="00037" />
       <option name="presentableId" value="LOCAL-00037" />
       <option name="project" value="LOCAL" />
-      <updated>1609739826214</updated>
+      <updated>1611641270971</updated>
     </task>
     <task id="LOCAL-00038" summary="UPdate">
-      <created>1609739928302</created>
+      <created>1611641586054</created>
       <option name="number" value="00038" />
       <option name="presentableId" value="LOCAL-00038" />
       <option name="project" value="LOCAL" />
-      <updated>1609739928302</updated>
+      <updated>1611641586054</updated>
     </task>
-    <task id="LOCAL-00039" summary="UPdate">
-      <created>1609740360590</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1609740360590</updated>
-    </task>
-    <task id="LOCAL-00040" summary="add summarization reference">
-      <created>1609769251869</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1609769251869</updated>
-    </task>
-    <task id="LOCAL-00041" summary="modify-gene">
-      <created>1609815336214</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1609815336214</updated>
-    </task>
-    <task id="LOCAL-00042" summary="modify-gene">
-      <created>1609822268622</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1609822268622</updated>
-    </task>
-    <task id="LOCAL-00043" summary="modify-gene">
-      <created>1609822434940</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1609822434940</updated>
-    </task>
-    <task id="LOCAL-00044" summary="modify-gene">
-      <created>1609824482632</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1609824482632</updated>
-    </task>
-    <task id="LOCAL-00045" summary="调整结构">
-      <created>1609941050938</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1609941050938</updated>
-    </task>
-    <task id="LOCAL-00046" summary="add指针网络">
-      <created>1609941353535</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1609941353535</updated>
-    </task>
-    <task id="LOCAL-00047" summary="add指针网络-python3版本">
-      <created>1609943506150</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1609943506150</updated>
-    </task>
-    <task id="LOCAL-00048" summary="add笔记">
-      <created>1609943630292</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1609943630292</updated>
-    </task>
-    <task id="LOCAL-00049" summary="调整结构">
-      <created>1609982812962</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1609982812962</updated>
-    </task>
-    <task id="LOCAL-00050" summary="UPdate">
-      <created>1610110004965</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1610110004966</updated>
-    </task>
-    <task id="LOCAL-00051" summary="添加numpy">
-      <created>1610110166679</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1610110166679</updated>
-    </task>
-    <task id="LOCAL-00052" summary="add笔记">
-      <created>1610110494019</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1610110494019</updated>
-    </task>
-    <task id="LOCAL-00053" summary="UPdate">
-      <created>1610277995088</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1610277995089</updated>
-    </task>
-    <task id="LOCAL-00054" summary="添加numpy">
-      <created>1610288072621</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1610288072621</updated>
-    </task>
-    <task id="LOCAL-00055" summary="Transformer摘要">
-      <created>1610288318429</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1610288318429</updated>
-    </task>
-    <task id="LOCAL-00056" summary="UPdate">
-      <created>1610327152639</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1610327152639</updated>
-    </task>
-    <task id="LOCAL-00057" summary="update data_helper">
-      <created>1610327419029</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1610327419029</updated>
-    </task>
-    <task id="LOCAL-00058" summary="UPdate">
-      <created>1610328238125</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1610328238125</updated>
-    </task>
-    <task id="LOCAL-00059" summary="添加numpy">
-      <created>1610328448499</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1610328448499</updated>
-    </task>
-    <task id="LOCAL-00060" summary="UPdate">
-      <created>1610328749362</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1610328749362</updated>
-    </task>
-    <task id="LOCAL-00061" summary="UPdate">
-      <created>1610329194350</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1610329194350</updated>
-    </task>
-    <task id="LOCAL-00062" summary="UPdate">
-      <created>1610344598246</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1610344598246</updated>
-    </task>
-    <task id="LOCAL-00063" summary="UPdate">
-      <created>1610344790110</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1610344790110</updated>
-    </task>
-    <task id="LOCAL-00064" summary="UPdate">
-      <created>1610344976395</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1610344976395</updated>
-    </task>
-    <task id="LOCAL-00065" summary="UPdate">
-      <created>1610345051889</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1610345051889</updated>
-    </task>
-    <task id="LOCAL-00066" summary="UPdate">
-      <created>1610345133398</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1610345133398</updated>
-    </task>
-    <task id="LOCAL-00067" summary="UPdate">
-      <created>1610346538361</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1610346538361</updated>
-    </task>
-    <task id="LOCAL-00068" summary="UPdate">
-      <created>1610347489343</created>
-      <option name="number" value="00068" />
-      <option name="presentableId" value="LOCAL-00068" />
-      <option name="project" value="LOCAL" />
-      <updated>1610347489343</updated>
-    </task>
-    <task id="LOCAL-00069" summary="添加prepareNets">
-      <created>1610349098589</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1610349098589</updated>
-    </task>
-    <task id="LOCAL-00070" summary="添加gpu logs">
-      <created>1610349150975</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1610349150975</updated>
-    </task>
-    <task id="LOCAL-00071" summary="调整结构">
-      <created>1610349884583</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1610349884583</updated>
-    </task>
-    <task id="LOCAL-00072" summary="调整结构">
-      <created>1610350193771</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1610350193772</updated>
-    </task>
-    <task id="LOCAL-00073" summary="摘要生成">
-      <created>1610366586718</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1610366586718</updated>
-    </task>
-    <option name="localTasksCounter" value="74" />
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="还原目录" />
     <MESSAGE value="更改名字" />
     <MESSAGE value="add-Transformer" />
     <MESSAGE value="update" />
-    <MESSAGE value="update 数据处理" />
-    <MESSAGE value="新建诗词翻译" />
-    <MESSAGE value="诗词翻译数据集处理" />
-    <MESSAGE value="完成seq2seq的transformer版本" />
-    <MESSAGE value="修改generate文件为多加载多模型" />
-    <MESSAGE value="add summarization reference" />
-    <MESSAGE value="modify-gene" />
-    <MESSAGE value="add指针网络" />
-    <MESSAGE value="add指针网络-python3版本" />
-    <MESSAGE value="add笔记" />
-    <MESSAGE value="Transformer摘要" />
-    <MESSAGE value="update data_helper" />
-    <MESSAGE value="添加numpy" />
+    <MESSAGE value="addMybertsum" />
     <MESSAGE value="UPdate" />
-    <MESSAGE value="添加prepareNets" />
-    <MESSAGE value="添加gpu logs" />
-    <MESSAGE value="调整结构" />
-    <MESSAGE value="摘要生成" />
-    <option name="LAST_COMMIT_MESSAGE" value="摘要生成" />
+    <option name="LAST_COMMIT_MESSAGE" value="UPdate" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="409" y="163" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1609601330547">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="409" y="163" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1609601330547" />
+    <state x="413" y="109" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1609605539683">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="413" y="109" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.728@0.0.1366.728" timestamp="1609605539683" />
+    <state x="8" y="46" width="1674" height="800" key="#xdebugger.evaluate" timestamp="1611574421305">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2" y="0" width="1347" height="728" key="#xdebugger.evaluate/0.0.1366.728@0.0.1366.728" timestamp="1609645308905" />
+    <state x="8" y="46" width="1674" height="800" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1611574421305" />
+    <state x="395" y="0" key="CommitChangelistDialog2" timestamp="1611641583663">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="281" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1611535859115" />
+    <state x="395" y="0" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1611641583663" />
+    <state width="1616" height="466" key="DebuggerActiveHint" timestamp="1611574500978">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1616" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1611574500978" />
+    <state width="1876" height="382" key="GridCell.Tab.0.bottom" timestamp="1611640914961">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="411" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1611307397942" />
+    <state width="1322" height="327" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1610464399885" />
+    <state width="1876" height="382" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1611640914961" />
+    <state width="1876" height="382" key="GridCell.Tab.0.center" timestamp="1611640914961">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="411" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1611307397942" />
+    <state width="1322" height="327" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1610464399885" />
+    <state width="1876" height="382" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1611640914961" />
+    <state width="1876" height="382" key="GridCell.Tab.0.left" timestamp="1611640914961">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="411" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1611307397942" />
+    <state width="1322" height="327" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1610464399885" />
+    <state width="1876" height="382" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1611640914961" />
+    <state width="1876" height="382" key="GridCell.Tab.0.right" timestamp="1611640914961">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="411" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1366.728@1366.0.1366.728" timestamp="1611307397942" />
+    <state width="1322" height="327" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1610464399885" />
+    <state width="1876" height="382" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1611640914961" />
+    <state width="1876" height="181" key="GridCell.Tab.1.bottom" timestamp="1611633273522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="116" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1610464398697" />
+    <state width="1876" height="181" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1611633273522" />
+    <state width="1876" height="181" key="GridCell.Tab.1.center" timestamp="1611633273522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="116" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1610464398697" />
+    <state width="1876" height="181" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1611633273522" />
+    <state width="1876" height="181" key="GridCell.Tab.1.left" timestamp="1611633273522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="116" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1610464398697" />
+    <state width="1876" height="181" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1611633273522" />
+    <state width="1876" height="181" key="GridCell.Tab.1.right" timestamp="1611633273522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="116" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1610464398697" />
+    <state width="1876" height="181" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1611633273522" />
+    <state width="1876" height="181" key="GridCell.Tab.2.bottom" timestamp="1611633273522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="116" key="GridCell.Tab.2.bottom/0.0.1366.728@0.0.1366.728" timestamp="1610464398682" />
+    <state width="1876" height="181" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1611633273522" />
+    <state width="1876" height="181" key="GridCell.Tab.2.center" timestamp="1611633273522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="116" key="GridCell.Tab.2.center/0.0.1366.728@0.0.1366.728" timestamp="1610464398682" />
+    <state width="1876" height="181" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1611633273522" />
+    <state width="1876" height="181" key="GridCell.Tab.2.left" timestamp="1611633273522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="116" key="GridCell.Tab.2.left/0.0.1366.728@0.0.1366.728" timestamp="1610464398682" />
+    <state width="1876" height="181" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1611633273522" />
+    <state width="1876" height="181" key="GridCell.Tab.2.right" timestamp="1611633273522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1322" height="116" key="GridCell.Tab.2.right/0.0.1366.728@0.0.1366.728" timestamp="1610464398682" />
+    <state width="1876" height="181" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1611633273522" />
+    <state x="27" y="11" width="1304" height="706" key="MergeDialog" timestamp="1610549237844">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="27" y="11" width="1304" height="706" key="MergeDialog/0.0.1366.728@0.0.1366.728" timestamp="1610549237844" />
+    <state x="184" y="0" key="SettingsEditor" timestamp="1609597058796">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1609597058796" />
+    <state x="387" y="136" key="Vcs.Push.Dialog.v2" timestamp="1611641589366">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="275" y="95" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1611535864427" />
+    <state x="387" y="136" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1611641589366" />
+    <state width="968" height="528" key="XDebugger.FullValuePopup" timestamp="1611564677327">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="968" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040@0.0.1920.1040" timestamp="1611564677327" />
+    <state x="683" y="393" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1611410373481">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="486" y="275" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1611201654877" />
+    <state x="683" y="393" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1611410373481" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/poem_generate/transformer/My_Translator.py</url>
-          <line>66</line>
-          <option name="timeStamp" value="64" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/poem_generate/transformer/SubLayers.py</url>
-          <line>89</line>
-          <option name="timeStamp" value="74" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="src_pos" />
@@ -616,21 +635,21 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$GRU_seq2seq_oneHot.coverage" NAME="GRU-seq2seq-oneHot Coverage Results" MODIFIED="1608642330843" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/02-NlpFromScratch" />
-    <SUITE FILE_PATH="coverage/40_self_deepLearning$train__1_.coverage" NAME="train (1) Coverage Results" MODIFIED="1610280491593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$simplify.coverage" NAME="simplify Coverage Results" MODIFIED="1609593761163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate/data" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$generate.coverage" NAME="generate Coverage Results" MODIFIED="1609814641371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
-    <SUITE FILE_PATH="coverage/40_self_deepLearning$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1610258705219" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/summationModel/Transformer/transformer" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$train__1_.coverage" NAME="train (1) Coverage Results" MODIFIED="1609655140694" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$myUtils.coverage" NAME="myUtils Coverage Results" MODIFIED="1608368089043" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/01-A-6o-minute-blitz/Image-Classifier" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$My_Translator.coverage" NAME="My_Translator Coverage Results" MODIFIED="1609573246498" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer/transformer" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$preprocess.coverage" NAME="preprocess Coverage Results" MODIFIED="1609143548186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$classifier.coverage" NAME="classifier Coverage Results" MODIFIED="1608376136266" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/01-A-6o-minute-blitz/Image-Classifier" />
-    <SUITE FILE_PATH="coverage/40_self_deepLearning$data_help.coverage" NAME="data_help Coverage Results" MODIFIED="1610288038080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/summationModel/summarization_prepareNet/data" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$test.coverage" NAME="test Coverage Results" MODIFIED="1609579638071" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer/transformer" />
-    <SUITE FILE_PATH="coverage/40_self_deepLearning$LayerNorm.coverage" NAME="LayerNorm Coverage Results" MODIFIED="1610263578647" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/baseNlp" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$translate.coverage" NAME="translate Coverage Results" MODIFIED="1609578995711" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
-    <SUITE FILE_PATH="coverage/40_torch_self_learning$train.coverage" NAME="train Coverage Results" MODIFIED="1609588601194" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$generate.coverage" NAME="generate Coverage Results" MODIFIED="1609690018043" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$translate.coverage" NAME="translate Coverage Results" MODIFIED="1609577284008" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$GRU_seq2seq_oneHot.coverage" NAME="GRU-seq2seq-oneHot Coverage Results" MODIFIED="1608642330843" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/02-NlpFromScratch" />
     <SUITE FILE_PATH="coverage/40_torch_self_learning$GRU_seq2seq_oneHot__1_.coverage" NAME="GRU-seq2seq-oneHot (1) Coverage Results" MODIFIED="1608643971228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NlpFromScratch_2" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$myUtils.coverage" NAME="myUtils Coverage Results" MODIFIED="1608368089043" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/01-A-6o-minute-blitz/Image-Classifier" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$preprocess.coverage" NAME="preprocess Coverage Results" MODIFIED="1609143548186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$My_Translator.coverage" NAME="My_Translator Coverage Results" MODIFIED="1609573246498" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer/transformer" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$train__1_.coverage" NAME="train (1) Coverage Results" MODIFIED="1609645180146" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$simplify.coverage" NAME="simplify Coverage Results" MODIFIED="1609645174772" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate/data" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$rnnPackPad.coverage" NAME="rnnPackPad Coverage Results" MODIFIED="1611307386773" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MyRnn" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$My_Translator__1_.coverage" NAME="My_Translator (1) Coverage Results" MODIFIED="1609776722412" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/poem_generate/transformer" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$data_loader.coverage" NAME="data_loader Coverage Results" MODIFIED="1611565675083" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BertSum/src/models" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$train.coverage" NAME="train Coverage Results" MODIFIED="1611640805345" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BertSum/src" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$data_help.coverage" NAME="data_help Coverage Results" MODIFIED="1610294714937" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/summationModel/summarization_prepareNet/transFormerOrigin/data" />
+    <SUITE FILE_PATH="coverage/40_torch_self_learning$test.coverage" NAME="test Coverage Results" MODIFIED="1609119576378" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Transformer/transformer" />
   </component>
 </project>
