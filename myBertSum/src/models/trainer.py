@@ -4,7 +4,6 @@ import numpy as np
 import torch
 from tensorboardX import SummaryWriter
 
-import distributed
 # import onmt
 from models.reporter import ReportMgr
 from models.stats import Statistics
@@ -271,20 +270,10 @@ class Trainer(object):
 
             batch_stats = Statistics(float(loss.cpu().data.numpy()), normalization)
 
-
             total_stats.update(batch_stats)
             report_stats.update(batch_stats)
 
-            # 4. Update the parameters and statistics.
-            if self.grad_accum_count == 1:
-                # Multi GPU gradient gather
-                if self.n_gpu > 1:
-                    grads = [p.grad.data for p in self.model.parameters()
-                             if p.requires_grad
-                             and p.grad is not None]
-                    distributed.all_reduce_and_rescale_tensors(
-                        grads, float(1))
-                self.optim.step()
+            self.optim.step()
 
     def _save(self, step):
         real_model = self.model
