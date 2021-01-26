@@ -21,7 +21,7 @@ from others.logging import logger, init_logger
 
 import os
 if torch.cuda.is_available():
-    os.environ["CUDA_VISIBLE_DEVICES"] = "7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
 model_flags = ['hidden_size', 'ff_size', 'heads', 'inter_layers','encoder','ff_actv', 'use_interval','rnn_size']
 
@@ -201,7 +201,7 @@ if __name__ == '__main__':
     parser.add_argument("-temp_dir", default='../temp')
     parser.add_argument("-bert_config_path", default='../bert_config_uncased_base.json')
 
-    parser.add_argument("-batch_size", default=100, type=int)  # 1000
+    parser.add_argument("-batch_size", default=1000, type=int)  # 1000
 
     parser.add_argument("-use_interval", type=str2bool, nargs='?',const=True,default=True)
     parser.add_argument("-hidden_size", default=128, type=int)
