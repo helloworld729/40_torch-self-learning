@@ -223,6 +223,8 @@ class DataIterator(object):
 
 
 if 1:
+    import os
+    print(os.getcwd())
     total_news = 0
     lastStep   = 0
     curStep    = 0
