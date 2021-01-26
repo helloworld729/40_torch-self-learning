@@ -241,8 +241,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     init_logger(args.log_file)
-    device = "cpu" if not torch.cuda.is_available() else "cuda"
-    device_id = 0 if device == "cuda" else -1
+    # device = "cpu" if not torch.cuda.is_available() else "cuda"
+    # device_id = 0 if device == "cuda" else -1
+    device = "cpu"
+    device_id = -1
 
     if (args.mode == 'train'):
         train(args, device_id)
