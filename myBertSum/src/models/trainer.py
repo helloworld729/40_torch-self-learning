@@ -330,7 +330,7 @@ class Trainer(object):
         if self.report_manager is not None:
             return self.report_manager.report_training(
                 step, num_steps, learning_rate, report_stats,
-                multigpu=self.n_gpu > 1)
+                multigpu=False)
 
     def _report_step(self, learning_rate, step, train_stats=None,
                      valid_stats=None):
