@@ -224,7 +224,7 @@ class DataIterator(object):
             return
 
 
-if 1:
+if 0:
     total_news = 0
     lastStep   = 0
     curStep    = 0
@@ -273,3 +273,7 @@ if 1:
 
 # 问题：一个epoch有过少两个steps
 # 每个文件有几个例子，有几个steps
+# 文件名:cnndm.train.99.bert.pt 新闻数:2000
+# batch_size: 6400
+# 总步数: 23971
+# 新闻总数: 287084
