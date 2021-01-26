@@ -224,16 +224,23 @@ class DataIterator(object):
 
 if 1:
     total_news = 0
+    lastStep   = 0
+    curStep    = 0
     def myLoadDataset(args, corpus_type, shuffle):
         # 每一个语料库都有很多的数据，数据被组织成了不同的文件
         # 函数是一个生成器，每次返回一个文件中包含的数据
         # 这个数据是一个字典列表，字典中是每一篇文章的数据字典。
 
         def _lazy_dataset_loader(pt_file, corpus_type):
-            dataset = torch.load(pt_file)
-            print("文件名:{} 新闻数:{}".format(pt_file.split("\\")[-1], len(dataset)))
+            global lastStep
             global total_news
+            dataset = torch.load(pt_file)
+            print("步数：", curStep-lastStep)
+            print("\n")
+            print("文件名:{} 新闻数:{}".format(pt_file.split("\\")[-1], len(dataset)))
+
             total_news += len(dataset)
+            lastStep = curStep
             return dataset
 
         pts = sorted(glob.glob(args.bert_data_path + '.' + corpus_type + '.[0-9]*.pt'))
@@ -257,8 +264,9 @@ if 1:
     dataLoader = Dataloader(args, datasets, "cpu", shuffle=False, is_test=False)
 
     for step, batch in enumerate(dataLoader):
-        None
-    print("总步数:", step, "\n")
+        curStep = step
+    print("batch_size:", args.batch_size)
+    print("总步数:", curStep, "\n")
     print("新闻总数:", total_news, "\n")
 
 # 问题：一个epoch有过少两个steps
