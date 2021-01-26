@@ -6,7 +6,7 @@ import torch
 import os
 # os.chdir("/share/home/bingxianren/40_torch-self-learning/myBertSum")
 # print(os.getcwd())
-from myBertSum.src.others.logging import logger
+from others.logging import logger
 
 
 class Batch(object):
