@@ -3,7 +3,9 @@ import glob
 import random
 
 import torch
-
+import os
+# os.chdir("/share/home/bingxianren/40_torch-self-learning/myBertSum")
+# print(os.getcwd())
 from myBertSum.src.others.logging import logger
 
 
@@ -223,8 +225,6 @@ class DataIterator(object):
 
 
 if 1:
-    import os
-    print(os.getcwd())
     total_news = 0
     lastStep   = 0
     curStep    = 0

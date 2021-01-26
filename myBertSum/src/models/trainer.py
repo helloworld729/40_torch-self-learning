@@ -74,7 +74,7 @@ class Trainer(object):
     def train_iter_fct(self):  # 甘泉宫
         device = "cpu" if not torch.cuda.is_available() else "cuda"
         return data_loader.Dataloader(self.args, load_dataset(self.args, 'train', shuffle=True),
-                                      self.args.batch_size, device, shuffle=True, is_test=False)
+                                      device, shuffle=True, is_test=False)
 
     def train(self, train_steps, valid_iter_fct=None, valid_steps=-1):
         # train_steps:全局步数
