@@ -2,14 +2,8 @@
 # Author:Knight
 # @Time:2020/12/18 14:55
 
-lst = ["a", "b", "c"]
+from tqdm import tqdm
+a = ["a", "b", "c"]
+for d in tqdm(a):
+    print(d)
 
-# a = [d for d in lst]
-
-def nextTest():
-    a = (d for d in lst)
-    while True:
-        while a is not None:
-            print(next(a))
-
-nextTest()

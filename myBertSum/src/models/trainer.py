@@ -1,5 +1,5 @@
 import os
-
+from tqdm import tqdm
 import numpy as np
 import torch
 from tensorboardX import SummaryWriter
@@ -91,13 +91,17 @@ class Trainer(object):
         while step <= train_steps:
 
             # 下面的for循环表示一个epoch
-            for i, batch in enumerate(data_loader):
+            # for _, batch in enumerate(data_loader):
+            print("step/totalSteps:", step, "/", train_steps)
+            bar = tqdm(data_loader)
+            for batch in bar:
 
                 normalization += batch.batch_size
 
-                # self._gradient_accumulation(
-                #     batch, normalization, total_stats,
-                #     report_stats)
+                loss = self._gradient_accumulation(
+                    batch, normalization, total_stats,
+                    report_stats)
+                bar.set_description("loss: %s" % loss)
 
                 report_stats = self._maybe_report_training(
                     step, train_steps,
@@ -106,8 +110,8 @@ class Trainer(object):
 
 
                 normalization = 0
-                # if (step % self.save_checkpoint_steps == 0):
-                #     self._save(step) Todo
+                if (step % self.save_checkpoint_steps == 0):
+                    self._save(step)
 
                 step += 1
                 if step > train_steps:
@@ -264,6 +268,7 @@ class Trainer(object):
         report_stats.update(batch_stats)
 
         self.optim.step()
+        return loss.item()
 
     def _save(self, step):
         real_model = self.model
