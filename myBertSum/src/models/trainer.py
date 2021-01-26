@@ -5,6 +5,8 @@ import torch
 from tensorboardX import SummaryWriter
 
 # import onmt
+from models.data_loader import load_dataset
+from models import data_loader, model_builder
 from models.reporter import ReportMgr
 from models.stats import Statistics
 from others.logging import logger
@@ -16,19 +18,7 @@ def _tally_parameters(model):
     return n_params
 
 
-def build_trainer(args, device_id, model, optim):
-    """
-    Simplify `Trainer` creation based on user `opt`s*
-    Args:
-        opt (:obj:`Namespace`): user options (usually from argument parsing)
-        model (:obj:`onmt.models.NMTModel`): the model to train
-        fields (dict): dict of fields
-        optim (:obj:`onmt.utils.Optimizer`): optimizer used during training
-        data_type (str): string describing the type of data
-            e.g. "text", "img", "audio"
-        model_saver(:obj:`onmt.models.ModelSaverBase`): the utility object
-            used to save the model
-    """
+def build_trainer(args, model, optim):
 
     tensorboard_log_dir = args.model_path
 
@@ -38,7 +28,6 @@ def build_trainer(args, device_id, model, optim):
 
     trainer = Trainer(args, model, optim, report_manager)
 
-    # print(tr)
     if (model):
         n_params = _tally_parameters(model)
         logger.info('* number of parameters: %d' % n_params)
@@ -71,57 +60,59 @@ class Trainer(object):
                 Thus nothing will be saved if this parameter is None
     """
     def __init__(self,  args, model, optim, report_manager=None):
-        # Basic attributes.
         self.args = args
         self.save_checkpoint_steps = args.save_checkpoint_steps
         self.model = model
         self.optim = optim
         self.report_manager = report_manager
-
         self.loss = torch.nn.BCELoss(reduction='none')
 
         # Set model in training mode.
         if (model):
             self.model.train()
 
-    def train(self, train_iter_fct, train_steps, valid_iter_fct=None, valid_steps=-1):
+    def train_iter_fct(self):  # 甘泉宫
+        device = "cpu" if not torch.cuda.is_available() else "cuda"
+        return data_loader.Dataloader(self.args, load_dataset(self.args, 'train', shuffle=True),
+                                      self.args.batch_size, device, shuffle=True, is_test=False)
+
+    def train(self, train_steps, valid_iter_fct=None, valid_steps=-1):
+        # train_steps:全局步数
         logger.info('Start training...')
 
-        # step =  self.optim._step + 1
-        step =  self.optim._step + 1
-        true_batchs = []
+        step = self.optim._step + 1
 
         normalization = 0
-        train_iter = train_iter_fct()  # data loader
-
+        data_loader = self.train_iter_fct()  # data loader
         total_stats = Statistics()
         report_stats = Statistics()
         self._start_report_manager(start_time=total_stats.start_time)
 
         while step <= train_steps:
-            for i, batch in enumerate(train_iter):
-                true_batchs.append(batch)
+
+            # 下面的for循环表示一个epoch
+            for i, batch in enumerate(data_loader):
+
                 normalization += batch.batch_size
 
-                self._gradient_accumulation(
-                    true_batchs, normalization, total_stats,
-                    report_stats)
+                # self._gradient_accumulation(
+                #     batch, normalization, total_stats,
+                #     report_stats)
 
                 report_stats = self._maybe_report_training(
                     step, train_steps,
                     self.optim.learning_rate,
                     report_stats)
 
-                true_batchs = []
 
                 normalization = 0
-                if (step % self.save_checkpoint_steps == 0 and self.gpu_rank == 0):
-                    self._save(step)
+                # if (step % self.save_checkpoint_steps == 0):
+                #     self._save(step) Todo
 
                 step += 1
                 if step > train_steps:
                     break
-            train_iter = train_iter_fct()
+            data_loader = self.train_iter_fct()
 
         return total_stats
 
@@ -251,29 +242,28 @@ class Trainer(object):
 
         return stats
 
-    def _gradient_accumulation(self, true_batchs, normalization, total_stats,
+    def _gradient_accumulation(self, batch, normalization, total_stats,
                                report_stats):
-        for batch in true_batchs:
-            src = batch.src
-            labels = batch.labels
-            segs = batch.segs
-            clss = batch.clss
-            mask = batch.mask
-            mask_cls = batch.mask_cls
+        src = batch.src
+        labels = batch.labels
+        segs = batch.segs
+        clss = batch.clss
+        mask = batch.mask
+        mask_cls = batch.mask_cls
 
-            sent_scores, mask = self.model(src, segs, clss, mask, mask_cls)
+        sent_scores, mask = self.model(src, segs, clss, mask, mask_cls)
 
-            loss = self.loss(sent_scores, labels.float())
-            loss = (loss*mask.float()).sum()
-            (loss/loss.numel()).backward()
-            # loss.div(float(normalization)).backward()
+        loss = self.loss(sent_scores, labels.float())
+        loss = (loss*mask.float()).sum()
+        (loss/loss.numel()).backward()
+        # loss.div(float(normalization)).backward()
 
-            batch_stats = Statistics(float(loss.cpu().data.numpy()), normalization)
+        batch_stats = Statistics(float(loss.cpu().data.numpy()), normalization)
 
-            total_stats.update(batch_stats)
-            report_stats.update(batch_stats)
+        total_stats.update(batch_stats)
+        report_stats.update(batch_stats)
 
-            self.optim.step()
+        self.optim.step()
 
     def _save(self, step):
         real_model = self.model

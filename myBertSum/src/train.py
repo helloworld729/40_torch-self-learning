@@ -157,17 +157,13 @@ def train(args, device_id):
     torch.backends.cudnn.deterministic = True
 
     if device_id >= 0:
+        # 表示有gpu
         torch.cuda.set_device(device_id)
         torch.cuda.manual_seed(args.seed)
-
 
     torch.manual_seed(args.seed)
     random.seed(args.seed)
     torch.backends.cudnn.deterministic = True
-
-    def train_iter_fct():  # 甘泉宫
-        return data_loader.Dataloader(args, load_dataset(args, 'train', shuffle=True), args.batch_size, device,
-                                                 shuffle=True, is_test=False)
 
     model = Summarizer(args, device, load_pretrained_bert=True)
 
@@ -185,13 +181,12 @@ def train(args, device_id):
         optim = model_builder.build_optim(args, model, None)
 
     logger.info(model)
-    trainer = build_trainer(args, device_id, model, optim)
-    trainer.train(train_iter_fct, args.train_steps)
+    trainer = build_trainer(args, model, optim)
+    trainer.train(args.train_steps)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-
 
     parser.add_argument("-encoder", default='classifier', type=str, choices=['classifier','transformer','rnn','baseline'])
     parser.add_argument("-mode", default='train', type=str, choices=['train','validate','test'])
@@ -201,7 +196,7 @@ if __name__ == '__main__':
     parser.add_argument("-temp_dir", default='../temp')
     parser.add_argument("-bert_config_path", default='../bert_config_uncased_base.json')
 
-    parser.add_argument("-batch_size", default=1000, type=int)  # 1000
+    parser.add_argument("-batch_size", default=6400, type=int)  # 1000
 
     parser.add_argument("-use_interval", type=str2bool, nargs='?',const=True,default=True)
     parser.add_argument("-hidden_size", default=128, type=int)
@@ -225,7 +220,7 @@ if __name__ == '__main__':
     parser.add_argument("-accum_count", default=1, type=int)
     parser.add_argument("-world_size", default=1, type=int)
     parser.add_argument("-report_every", default=1, type=int)
-    parser.add_argument("-train_steps", default=1000, type=int)
+    parser.add_argument("-train_steps", default=10000, type=int)
     parser.add_argument("-recall_eval", type=str2bool, nargs='?',const=True,default=False)
 
     parser.add_argument('-log_file', default='../logs/cnndm.log')
@@ -241,10 +236,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     init_logger(args.log_file)
-    # device = "cpu" if not torch.cuda.is_available() else "cuda"
-    # device_id = 0 if device == "cuda" else -1
-    device = "cpu"
-    device_id = -1
+    device = "cpu" if not torch.cuda.is_available() else "cuda"
+    device_id = 0 if device == "cuda" else -1
 
     if (args.mode == 'train'):
         train(args, device_id)

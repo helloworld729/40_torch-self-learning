@@ -7,22 +7,6 @@ import torch
 from others.logging import logger
 
 
-def batch(data, batch_size):
-    """Yield elements from data in chunks of batch_size."""
-    minibatch, size_so_far = [], 0
-    for ex in data:
-        minibatch.append(ex)
-        size_so_far = simple_batch_size_fn(ex, len(minibatch))
-        if size_so_far == batch_size:  # 单词量的size
-            yield minibatch
-            minibatch, size_so_far = [], 0
-        elif size_so_far > batch_size:
-            yield minibatch[:-1]
-            minibatch, size_so_far = minibatch[-1:], simple_batch_size_fn(ex, 1)
-    if minibatch:
-        yield minibatch
-
-
 class Batch(object):
     def _pad(self, data, pad_id, width=-1):
         if (width == -1):
@@ -96,42 +80,50 @@ def load_dataset(args, corpus_type, shuffle):
 
 
 def simple_batch_size_fn(new, count):
+    # new:一篇新闻的数据元组，count：当前minibatch中的新闻条数
     # 统计新闻文本的长度上限值
     src, labels = new[0], new[1]
     global max_n_sents, max_n_tokens, max_size
     if count == 1:
         max_size = 0
-        max_n_sents=0
-        max_n_tokens=0
-    max_n_sents = max(max_n_sents, len(src))
-    max_size = max(max_size, max_n_sents)
-    src_elements = count * max_size
+        max_n_sents  = 0
+        max_n_tokens = 0
+    max_n_sents = max(max_n_sents, len(src))  # 最长news的长度
+    # max_size = max(max_size, max_n_sents)
+    # src_elements = count * max_size
+    src_elements = count * max_n_sents
     return src_elements
 
 
 class Dataloader(object):
-    def __init__(self, args, datasets,  batch_size,
+    def __init__(self, args, filesets_generator,
                  device, shuffle, is_test):
         self.args = args
-        self.datasets = datasets  # 面向语料的生成器，yield的是一个文件的内容列表
-        self.batch_size = batch_size
+        self.filesets_generator = filesets_generator  # 面向语料的生成器，yield的是一个拉加载的文件的内容列表
+        self.batch_size = args.batch_size
         self.device = device
         self.shuffle = shuffle
         self.is_test = is_test
-        self.cur_iter = self._next_dataset_iterator(datasets)
+
+        # filesets_generator是一个面向所有语料文件生成器,
+        # _next函数首先指向其中的一个文件，即 self.cur_dataset
+        # 然后基于 self.cur_dataset 构建buffer生成器
+        self.cur_iter = self._next_dataset_iterator(filesets_generator)
 
         assert self.cur_iter is not None
 
     def __iter__(self):
-        # datasets是语料库，d是文件，构成元组
-        dataset_iter = (d for d in self.datasets)
+        # datasets是语料库，d是文件，构成生成器
+        dataset_iter = (d for d in self.filesets_generator)
         while self.cur_iter is not None:
             for batch in self.cur_iter:
                 yield batch
+
+            # 返回一个生成器
             self.cur_iter = self._next_dataset_iterator(dataset_iter)
 
-
     def _next_dataset_iterator(self, dataset_iter):
+        # 接受一个 生成器 作为参数
         # 首先，设置当前面向的文件即 self.cur_dataset
         # 然后，将当前文件的news构成的列表，送到DataIterator。
         try:
@@ -147,7 +139,7 @@ class Dataloader(object):
         except StopIteration:
             return None
 
-        return DataIterator(args = self.args,
+        return DataIterator(args=self.args,
             dataset=self.cur_dataset,  batch_size=self.batch_size,
             device=self.device, shuffle=self.shuffle, is_test=self.is_test)
 
@@ -166,12 +158,11 @@ class DataIterator(object):
 
         self._iterations_this_epoch = 0
 
-    def data(self):
+    def getDataFromDataset(self):
         if self.shuffle:
             random.shuffle(self.dataset)
         xs = self.dataset
         return xs
-
 
     def preprocess(self, ex, is_test):
         # 取出字典的value
@@ -194,14 +185,16 @@ class DataIterator(object):
             return src,labels,segs, clss
 
     def batch_buffer(self, data, batch_size):
+        # data: # 字典列表
         minibatch, size_so_far = [], 0
         for ex in data:
             if(len(ex['src'])==0):
                 continue
-            ex = self.preprocess(ex, self.is_test) # src,labels,segs, clss
+            ex = self.preprocess(ex, self.is_test)  # src,labels,segs, clss
             if(ex is None):
                 continue
-            minibatch.append(ex)
+            minibatch.append(ex)  # 数据元组
+            # 统计当前时间的batch容量(以toke为单位)
             size_so_far = simple_batch_size_fn(ex, len(minibatch))
             if size_so_far == batch_size:
                 yield minibatch
@@ -214,41 +207,59 @@ class DataIterator(object):
 
     def create_batches(self):
         """ Create batches """
-        data = self.data()  # 字典列表
-        # 50被的batchSzie个单词构成的buffer[minibatch]
-        for buffer in self.batch_buffer(data, self.batch_size * 50):
-            # 根据句子数排序
-            p_batch = sorted(buffer, key=lambda x: len(x[3]))
-            p_batch = batch(p_batch, self.batch_size)
-
-            p_batch = list(p_batch)
-            if (self.shuffle):
-                random.shuffle(p_batch)
-            for b in p_batch:
-                yield b
+        data = self.getDataFromDataset()  # 字典列表
+        for buffer in self.batch_buffer(data, self.batch_size):
+            # 根据句子数排序, 生成排序列表
+            buffer.sort(key=lambda x:len(x[3]))
+            yield buffer
 
     def __iter__(self):  # 返回可迭代对象[生成器]，然后可以用for函数访问
         while True:
-            self.batches = self.create_batches()
-            for idx, minibatch in enumerate(self.batches):
-                # fast-forward if loaded from state
-                if self._iterations_this_epoch > idx:
-                    continue
-                self.iterations += 1
-                self._iterations_this_epoch += 1
+            for idx, minibatch in enumerate(self.create_batches()):
+                # 将数据padding并且 转化为张量
                 batch = Batch(minibatch, self.device, self.is_test)
-
                 yield batch
             return
 
 
+if 1:
+    total_news = 0
+    def myLoadDataset(args, corpus_type, shuffle):
+        # 每一个语料库都有很多的数据，数据被组织成了不同的文件
+        # 函数是一个生成器，每次返回一个文件中包含的数据
+        # 这个数据是一个字典列表，字典中是每一篇文章的数据字典。
+
+        def _lazy_dataset_loader(pt_file, corpus_type):
+            dataset = torch.load(pt_file)
+            print("文件名:{} 新闻数:{}".format(pt_file.split("\\")[-1], len(dataset)))
+            global total_news
+            total_news += len(dataset)
+            return dataset
+
+        pts = sorted(glob.glob(args.bert_data_path + '.' + corpus_type + '.[0-9]*.pt'))
+        for pt in pts:
+            yield _lazy_dataset_loader(pt, corpus_type)
 
 
-# def _lazy_dataset_loader(pt_file):
-#     dataset = torch.load(pt_file)
-#     return dataset
-#
-#
-# for data in _lazy_dataset_loader("../../bert_data/cnndm.test.0.bert.pt"):
-#     print("data勘察")
+    import argparse
+    parser = argparse.ArgumentParser()
 
+    parser.add_argument("-batch_size", default=6400, type=int)  # 1000
+    parser.add_argument("-use_interval", default=True)
+    parser.add_argument('-dataset', default='')
+    parser.add_argument("-bert_data_path", default='../../bert_data/cnndm')
+
+    args = parser.parse_args()
+
+    datasets = myLoadDataset(args, "train", True)
+
+    # 实例化迭代器
+    dataLoader = Dataloader(args, datasets, "cpu", shuffle=False, is_test=False)
+
+    for step, batch in enumerate(dataLoader):
+        None
+    print("总步数:", step, "\n")
+    print("新闻总数:", total_news, "\n")
+
+# 问题：一个epoch有过少两个steps
+# 每个文件有几个例子，有几个steps

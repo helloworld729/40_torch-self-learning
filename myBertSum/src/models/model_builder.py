@@ -1,4 +1,3 @@
-
 import torch
 import torch.nn as nn
 from pytorch_pretrained_bert import BertModel, BertConfig
@@ -50,14 +49,13 @@ class Bert(nn.Module):
             self.model = BertModel(bert_config)
 
     def forward(self, x, segs, mask):
-        encoded_layers, _ = self.model(x, segs, attention_mask =mask)
+        encoded_layers, _ = self.model(x, segs, attention_mask=mask)
         top_vec = encoded_layers[-1]
         return top_vec
 
 
-
 class Summarizer(nn.Module):
-    def __init__(self, args, device, load_pretrained_bert = False, bert_config = None):
+    def __init__(self, args, device, load_pretrained_bert=False, bert_config=None):
         super(Summarizer, self).__init__()
         self.args = args
         self.device = device
