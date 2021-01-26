@@ -30,6 +30,19 @@ def build_trainer(args, device_id, model, optim):
         model_saver(:obj:`onmt.models.ModelSaverBase`): the utility object
             used to save the model
     """
+    device = "cpu" if args.visible_gpus == '-1' else "cuda"
+
+
+    grad_accum_count = args.accum_count  # 现在=1
+    n_gpu = args.world_size  # 现在=1，单机多卡
+
+    if device_id >= 0:
+        gpu_rank = int(args.gpu_ranks[device_id])
+    else:
+        gpu_rank = 0
+        n_gpu = 0
+
+    print('gpu_rank %d' % gpu_rank)
 
     tensorboard_log_dir = args.model_path
 
@@ -37,7 +50,7 @@ def build_trainer(args, device_id, model, optim):
 
     report_manager = ReportMgr(args.report_every, start_time=-1, tensorboard_writer=writer)
 
-    trainer = Trainer(args, model, optim, report_manager)
+    trainer = Trainer(args, model, optim, grad_accum_count, n_gpu, gpu_rank, report_manager)
 
     # print(tr)
     if (model):
@@ -71,21 +84,43 @@ class Trainer(object):
                 used to save a checkpoint.
                 Thus nothing will be saved if this parameter is None
     """
-    def __init__(self,  args, model, optim, report_manager=None):
+    # 主要参数就是model 和 梯度汇聚次数
+    def __init__(self,  args, model,  optim,
+                  grad_accum_count=1, n_gpu=1, gpu_rank=1,
+                  report_manager=None):
         # Basic attributes.
         self.args = args
         self.save_checkpoint_steps = args.save_checkpoint_steps
         self.model = model
         self.optim = optim
+        self.grad_accum_count = grad_accum_count
+        self.n_gpu = n_gpu
+        self.gpu_rank = gpu_rank
         self.report_manager = report_manager
 
         self.loss = torch.nn.BCELoss(reduction='none')
-
+        assert grad_accum_count > 0
         # Set model in training mode.
         if (model):
             self.model.train()
 
     def train(self, train_iter_fct, train_steps, valid_iter_fct=None, valid_steps=-1):
+        """
+        The main training loops.
+        by iterating over training data (i.e. `train_iter_fct`)
+        and running validation (i.e. iterating over `valid_iter_fct`
+
+        Args:
+            train_iter_fct(function): a function that returns the train
+                iterator. e.g. something like
+                train_iter_fct = lambda: generator(*args, **kwargs)
+            valid_iter_fct(function): same as train_iter_fct, for valid data
+            train_steps(int):
+            valid_steps(int):
+            save_checkpoint_steps(int):
+
+        Return:None
+        """
         logger.info('Start training...')
 
         # step =  self.optim._step + 1
@@ -100,28 +135,39 @@ class Trainer(object):
         self._start_report_manager(start_time=total_stats.start_time)
 
         while step <= train_steps:
+
+            reduce_counter = 0
             for i, batch in enumerate(train_iter):
-                true_batchs.append(batch)
-                normalization += batch.batch_size
+                if self.n_gpu == 0 or (i % self.n_gpu == self.gpu_rank):
 
-                self._gradient_accumulation(
-                    true_batchs, normalization, total_stats,
-                    report_stats)
+                    true_batchs.append(batch)
+                    normalization += batch.batch_size
+                    accum += 1
+                    if accum == self.grad_accum_count:
+                        reduce_counter += 1
+                        if self.n_gpu > 1:
+                            normalization = sum(distributed
+                                                .all_gather_list
+                                                (normalization))
 
-                report_stats = self._maybe_report_training(
-                    step, train_steps,
-                    self.optim.learning_rate,
-                    report_stats)
+                        self._gradient_accumulation(
+                            true_batchs, normalization, total_stats,
+                            report_stats)
 
-                true_batchs = []
+                        report_stats = self._maybe_report_training(
+                            step, train_steps,
+                            self.optim.learning_rate,
+                            report_stats)
 
-                normalization = 0
-                if (step % self.save_checkpoint_steps == 0 and self.gpu_rank == 0):
-                    self._save(step)
+                        true_batchs = []
+                        accum = 0
+                        normalization = 0
+                        if (step % self.save_checkpoint_steps == 0 and self.gpu_rank == 0):
+                            self._save(step)
 
-                step += 1
-                if step > train_steps:
-                    break
+                        step += 1
+                        if step > train_steps:
+                            break
             train_iter = train_iter_fct()
 
         return total_stats
@@ -254,7 +300,13 @@ class Trainer(object):
 
     def _gradient_accumulation(self, true_batchs, normalization, total_stats,
                                report_stats):
+        if self.grad_accum_count > 1:
+            self.model.zero_grad()
+
         for batch in true_batchs:
+            if self.grad_accum_count == 1:
+                self.model.zero_grad()
+
             src = batch.src
             labels = batch.labels
             segs = batch.segs
@@ -285,6 +337,17 @@ class Trainer(object):
                     distributed.all_reduce_and_rescale_tensors(
                         grads, float(1))
                 self.optim.step()
+
+        # in case of multi step gradient accumulation,
+        # update only after accum batches
+        if self.grad_accum_count > 1:
+            if self.n_gpu > 1:
+                grads = [p.grad.data for p in self.model.parameters()
+                         if p.requires_grad
+                         and p.grad is not None]
+                distributed.all_reduce_and_rescale_tensors(
+                    grads, float(1))
+            self.optim.step()
 
     def _save(self, step):
         real_model = self.model

@@ -19,10 +19,6 @@ from models.model_builder import Summarizer
 from models.trainer import build_trainer
 from others.logging import logger, init_logger
 
-import os
-if torch.cuda.is_available():
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-
 model_flags = ['hidden_size', 'ff_size', 'heads', 'inter_layers','encoder','ff_actv', 'use_interval','rnn_size']
 
 
@@ -252,7 +248,6 @@ def train(args, device_id):
                                                  shuffle=True, is_test=False)
 
     model = Summarizer(args, device, load_pretrained_bert=True)
-
     if args.train_from != '':
         logger.info('Loading checkpoint from %s' % args.train_from)
         checkpoint = torch.load(args.train_from,
@@ -310,6 +305,9 @@ if __name__ == '__main__':
     parser.add_argument("-train_steps", default=1000, type=int)
     parser.add_argument("-recall_eval", type=str2bool, nargs='?',const=True,default=False)
 
+
+    parser.add_argument('-visible_gpus', default='-1', type=str)
+    parser.add_argument('-gpu_ranks', default='0', type=str)
     parser.add_argument('-log_file', default='../logs/cnndm.log')
     parser.add_argument('-dataset', default='')
     parser.add_argument('-seed', default=666, type=int)
@@ -321,9 +319,11 @@ if __name__ == '__main__':
     parser.add_argument("-block_trigram", type=str2bool, nargs='?', const=True, default=True)
 
     args = parser.parse_args()
+    args.gpu_ranks = [int(i) for i in args.gpu_ranks.split(',')]
+    os.environ["CUDA_VISIBLE_DEVICES"] = args.visible_gpus
 
     init_logger(args.log_file)
-    device = "cpu" if not torch.cuda.is_available() else "cuda"
+    device = "cpu" if args.visible_gpus == '-1' else "cuda"
     device_id = 0 if device == "cuda" else -1
 
     if(args.world_size>1):
