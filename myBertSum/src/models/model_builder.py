@@ -63,15 +63,23 @@ class Summarizer(nn.Module):
         self.args = args
         self.device = device
         self.bert = Bert(args.temp_dir, load_pretrained_bert, bert_config)
+
+        # 直接对cls位置的向量打分
         if args.encoder == 'classifier':
             self.encoder = Classifier(self.bert.model.config.hidden_size)
-        elif args.encoder=='transformer':
+
+        # 先做attention再打分
+        elif args.encoder == 'transformer':
             self.encoder = TransformerInterEncoder(self.bert.model.config.hidden_size, args.ff_size, args.heads,
                                                    args.dropout, args.inter_layers)
-        elif args.encoder=='rnn':
+
+        # 先RNN过一遍再打分
+        elif args.encoder == 'rnn':
             self.encoder = RNNEncoder(bidirectional=True, num_layers=1,
                                       input_size=self.bert.model.config.hidden_size, hidden_size=args.rnn_size,
                                       dropout=args.dropout)
+
+        # baseLine 算了，别看了
         elif args.encoder == 'baseline':
             bert_config = BertConfig(self.bert.model.config.vocab_size, hidden_size=args.hidden_size,
                                      num_hidden_layers=6, num_attention_heads=8, intermediate_size=args.ff_size)
