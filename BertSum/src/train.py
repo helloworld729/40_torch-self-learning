@@ -337,7 +337,7 @@ if __name__ == '__main__':
     elif (args.mode == 'oracle'):
         baseline(args, cal_oracle=True)
     elif (args.mode == 'test'):
-        cp = args.test_from
+        cp = args.test_from  # 模型加载
         try:
             step = int(cp.split('.')[-2].split('_')[-1])
         except:

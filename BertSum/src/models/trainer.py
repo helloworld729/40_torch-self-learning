@@ -9,7 +9,7 @@ import distributed
 from models.reporter import ReportMgr
 from models.stats import Statistics
 from others.logging import logger
-from others.utils import test_rouge, rouge_results_to_str
+from others.myUtils import test_rouge, rouge_results_to_str
 
 
 def _tally_parameters(model):

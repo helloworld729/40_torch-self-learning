@@ -10,7 +10,7 @@ from models import data_loader, model_builder
 from models.reporter import ReportMgr
 from models.stats import Statistics
 from others.logging import logger
-from others.utils import test_rouge, rouge_results_to_str
+from others.myUtils import test_rouge, rouge_results_to_str
 
 
 def _tally_parameters(model):
@@ -93,15 +93,15 @@ class Trainer(object):
             # 下面的for循环表示一个epoch
             # for _, batch in enumerate(data_loader):
             print("step/totalSteps:", step, "/", train_steps)
-            bar = tqdm(data_loader)
+            bar = tqdm(data_loader, leave=True)
             for batch in bar:
 
                 normalization += batch.batch_size
 
                 loss = self._gradient_accumulation(
                     batch, normalization, total_stats,
-                    report_stats)
-                bar.set_description("loss: %s" % loss)
+                    report_stats, step)
+                bar.set_description("loss: %10.8s" % loss)
 
                 report_stats = self._maybe_report_training(
                     step, train_steps,
@@ -151,10 +151,10 @@ class Trainer(object):
             return stats
 
     def test(self, test_iter, step, cal_lead=False, cal_oracle=False):
-        """ Validate model.
-            valid_iter: validate data iterator
+        """ test model.
+            test_iter: test data iterator
+            step：加载模型是在训练多少步是时候保存的
         Returns:
-            :obj:`nmt.Statistics`: validation loss statistics
         """
         # Set model in validating mode.
         def _get_ngrams(n, text):
@@ -177,7 +177,9 @@ class Trainer(object):
             self.model.eval()
         stats = Statistics()
 
-        can_path = '%s_step%d.candidate'%(self.args.result_path,step)
+        # 候选摘要地址 result文件夹
+        can_path = '%s_step%d.candidate'%(self.args.result_path, step)
+        # 最佳摘要地址 result文件夹
         gold_path = '%s_step%d.gold' % (self.args.result_path, step)
         with open(can_path, 'w') as save_pred:
             with open(gold_path, 'w') as save_gold:
@@ -190,9 +192,8 @@ class Trainer(object):
                         mask = batch.mask
                         mask_cls = batch.mask_cls
 
-
-                        gold = []
-                        pred = []
+                        gold = []  # batch 最佳容器
+                        pred = []  # batch 候选容器
 
                         if (cal_lead):
                             selected_ids = [list(range(batch.clss.size(1)))] * batch.batch_size
@@ -200,6 +201,7 @@ class Trainer(object):
                             selected_ids = [[j for j in range(batch.clss.size(1)) if labels[i][j] == 1] for i in
                                             range(batch.batch_size)]
                         else:
+                            # 获取句子打分
                             sent_scores, mask = self.model(src, segs, clss, mask, mask_cls)
 
                             loss = self.loss(sent_scores, labels.float())
@@ -218,6 +220,7 @@ class Trainer(object):
                             for j in selected_ids[i][:len(batch.src_str[i])]:
                                 if(j>=len( batch.src_str[i])):
                                     continue
+                                # 生成 候选句
                                 candidate = batch.src_str[i][j].strip()
                                 if(self.args.block_trigram):
                                     if(not _block_tri(candidate,_pred)):
@@ -225,6 +228,7 @@ class Trainer(object):
                                 else:
                                     _pred.append(candidate)
 
+                                # 生成3句候选句
                                 if ((not cal_oracle) and (not self.args.recall_eval) and len(_pred) == 3):
                                     break
 
@@ -246,8 +250,22 @@ class Trainer(object):
 
         return stats
 
+    def testRouge(self, step):
+        stats = Statistics()
+
+        # 候选摘要地址 result文件夹
+        can_path = '%s_step%d.candidate'%(self.args.result_path, step)
+        # 最佳摘要地址 result文件夹
+        gold_path = '%s_step%d.gold' % (self.args.result_path, step)
+
+        rouges = test_rouge(self.args.temp_dir, can_path, gold_path)
+        logger.info('Rouges at step %d \n%s' % (step, rouge_results_to_str(rouges)))
+        self._report_step(0, step, valid_stats=stats)
+
+        return stats
+
     def _gradient_accumulation(self, batch, normalization, total_stats,
-                               report_stats):
+                               report_stats, step):
         src = batch.src
         labels = batch.labels
         segs = batch.segs
@@ -267,6 +285,7 @@ class Trainer(object):
         total_stats.update(batch_stats)
         report_stats.update(batch_stats)
 
+        self.optim.learning_rate = pow(step, -0.5) * self.args.lr
         self.optim.step()
         return loss.item()
 
@@ -301,20 +320,6 @@ class Trainer(object):
             else:
                 self.report_manager.start_time = start_time
 
-    def _maybe_gather_stats(self, stat):
-        """
-        Gather statistics in multi-processes cases
-
-        Args:
-            stat(:obj:onmt.utils.Statistics): a Statistics object to gather
-                or None (it returns None in this case)
-
-        Returns:
-            stat: the updated (or unchanged) stat object
-        """
-        if stat is not None and self.n_gpu > 1:
-            return Statistics.all_gather_stats(stat)
-        return stat
 
     def _maybe_report_training(self, step, num_steps, learning_rate,
                                report_stats):
@@ -338,9 +343,3 @@ class Trainer(object):
                 learning_rate, step, train_stats=train_stats,
                 valid_stats=valid_stats)
 
-    def _maybe_save(self, step):
-        """
-        Save the model if a model saver is set
-        """
-        if self.model_saver is not None:
-            self.model_saver.maybe_save(step)

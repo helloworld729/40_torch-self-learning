@@ -14,7 +14,7 @@ from multiprocess import Pool
 from pytorch_pretrained_bert import BertTokenizer
 
 from others.logging import logger
-from others.utils import clean
+from others.myUtils import clean
 from prepro.utils import _get_word_ngrams
 
 

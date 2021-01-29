@@ -12,7 +12,6 @@ import time
 import torch
 from pytorch_pretrained_bert import BertConfig
 
-
 from models import data_loader, model_builder
 from models.data_loader import load_dataset
 from models.model_builder import Summarizer
@@ -24,16 +23,6 @@ if torch.cuda.is_available():
     os.environ["CUDA_VISIBLE_DEVICES"] = "6"
 
 model_flags = ['hidden_size', 'ff_size', 'heads', 'inter_layers','encoder','ff_actv', 'use_interval','rnn_size']
-
-
-def str2bool(v):
-    if v.lower() in ('yes', 'true', 't', 'y', '1'):
-        return True
-    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
-        return False
-    else:
-        raise argparse.ArgumentTypeError('Boolean value expected.')
-
 
 
 def wait_and_validate(args, device_id):
@@ -109,7 +98,7 @@ def validate(args,  device_id, pt, step):
 
 def test(args, device_id, pt, step):
 
-    device = "cpu" if args.visible_gpus == '-1' else "cuda"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     if (pt != ''):
         test_from = pt
     else:
@@ -123,15 +112,23 @@ def test(args, device_id, pt, step):
     print(args)
 
     config = BertConfig.from_json_file(args.bert_config_path)
-    model = Summarizer(args, device, load_pretrained_bert=False, bert_config = config)
+    model = Summarizer(args, device, load_pretrained_bert=False, bert_config=config)
     model.load_cp(checkpoint)
     model.eval()
 
+    # is_test为True的时候，会返回txt原文
     test_iter =data_loader.Dataloader(args, load_dataset(args, 'test', shuffle=False),
-                                  args.batch_size, device,
-                                  shuffle=False, is_test=True)
-    trainer = build_trainer(args, device_id, model, None)
-    trainer.test(test_iter,step)
+                                   device, shuffle=False, is_test=True)
+    trainer = build_trainer(args, model, None)
+    trainer.test(test_iter, step)
+
+def testRouge(args, device_id, pt, step):
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+
+    # is_test为True的时候，会返回txt原文
+    trainer = build_trainer(args, None, None)
+    trainer.testRouge(step)
 
 def baseline(args, cal_lead=False, cal_oracle=False):
 
@@ -198,7 +195,7 @@ if __name__ == '__main__':
 
     parser.add_argument("-batch_size", default=6400, type=int)  # 1000
 
-    parser.add_argument("-use_interval", type=str2bool, nargs='?',const=True,default=True)
+    parser.add_argument("-use_interval", default=True)
     parser.add_argument("-hidden_size", default=128, type=int)
     parser.add_argument("-ff_size", default=512, type=int)
     parser.add_argument("-heads", default=4, type=int)
@@ -206,14 +203,14 @@ if __name__ == '__main__':
     parser.add_argument("-rnn_size", default=512, type=int)
 
     parser.add_argument("-param_init", default=0, type=float)
-    parser.add_argument("-param_init_glorot", type=str2bool, nargs='?',const=True,default=True)
+    parser.add_argument("-param_init_glorot", default=True)
     parser.add_argument("-dropout", default=0.1, type=float)
     parser.add_argument("-optim", default='adam', type=str)
-    parser.add_argument("-lr", default=1, type=float)
-    parser.add_argument("-beta1", default= 0.9, type=float)
+    parser.add_argument("-lr", default=2e-3, type=float)
+    parser.add_argument("-beta1", default=0.9, type=float)
     parser.add_argument("-beta2", default=0.999, type=float)
     parser.add_argument("-decay_method", default='', type=str)
-    parser.add_argument("-warmup_steps", default=8000, type=int)
+    parser.add_argument("-warmup_steps", default=200, type=int)  # 8000
     parser.add_argument("-max_grad_norm", default=0, type=float)
 
     parser.add_argument("-save_checkpoint_steps", default=4600, type=int)  # 5
@@ -221,17 +218,17 @@ if __name__ == '__main__':
     parser.add_argument("-world_size", default=1, type=int)
     parser.add_argument("-report_every", default=1, type=int)
     parser.add_argument("-train_steps", default=50000, type=int)  # 1000
-    parser.add_argument("-recall_eval", type=str2bool, nargs='?',const=True,default=False)
+    parser.add_argument("-recall_eval", default=False)
 
     parser.add_argument('-log_file', default='../logs/cnndm.log')
     parser.add_argument('-dataset', default='')
     parser.add_argument('-seed', default=666, type=int)
 
-    parser.add_argument("-test_all", type=str2bool, nargs='?',const=True,default=False)
-    parser.add_argument("-test_from", default='')
+    parser.add_argument("-test_all", default=False)
+    parser.add_argument("-test_from", default="../models/" + "model_step_23000.pt")
     parser.add_argument("-train_from", default='')
-    parser.add_argument("-report_rouge", type=str2bool, nargs='?',const=True,default=True)
-    parser.add_argument("-block_trigram", type=str2bool, nargs='?', const=True, default=True)
+    parser.add_argument("-report_rouge", default=True)
+    parser.add_argument("-block_trigram", default=True)
 
     args = parser.parse_args()
 
@@ -250,7 +247,8 @@ if __name__ == '__main__':
     elif (args.mode == 'test'):
         cp = args.test_from
         try:
-            step = int(cp.split('.')[-2].split('_')[-1])
+            step = int(cp.split('.')[-2].split('_')[-1])  # 23000
         except:
             step = 0
         test(args, device_id, cp, step)
+

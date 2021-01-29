@@ -370,8 +370,12 @@ class Rouge155(object):
         command = [self._bin_path] + options
         self.log.info(
             "Running ROUGE with command {}".format(" ".join(command)))
-        rouge_output = check_output(command).decode("UTF-8")
-        return rouge_output
+        try:
+            rouge_output = check_output(command).decode("UTF-8")
+            print(rouge_output)
+            return rouge_output
+        except:
+            return " ".join(command)
 
     def convert_and_evaluate(self, system_id=1,
                              split_sentences=False, rouge_args=None):
@@ -636,12 +640,12 @@ class Rouge155(object):
         return os.path.join(config_dir, 'settings.ini')
 
 
-if __name__ == "__main__":
-    import argparse
-    from utils.argparsers import rouge_path_parser
-
-    parser = argparse.ArgumentParser(parents=[rouge_path_parser])
-    args = parser.parse_args()
-
-    rouge = Rouge155(args.rouge_home)
-    rouge.save_home_dir()
+# if __name__ == "__main__":
+#     import argparse
+#     from myUtils.argparsers import rouge_path_parser
+#
+#     parser = argparse.ArgumentParser(parents=[rouge_path_parser])
+#     args = parser.parse_args()
+#
+#     rouge = Rouge155(args.rouge_home)
+#     rouge.save_home_dir()

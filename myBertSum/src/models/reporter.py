@@ -70,9 +70,9 @@ class ReportMgrBase(object):
                                 (set 'start_time' or use 'start()'""")
 
         if step % self.report_every == 0:
-            if multigpu:
-                report_stats = \
-                    Statistics.all_gather_stats(report_stats)
+            # if multigpu:
+            #     report_stats = \
+            #         Statistics.all_gather_stats(report_stats)
             self._report_training(
                 step, num_steps, learning_rate, report_stats)
             self.progress_step += 1
