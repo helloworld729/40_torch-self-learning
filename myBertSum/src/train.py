@@ -147,7 +147,6 @@ def train(args, device_id):
     init_logger(args.log_file)
 
     device = "cpu" if not torch.cuda.is_available() else "cuda"
-    logger.info('Device ID %d' % device_id)
     logger.info('Device %s' % device)
     torch.manual_seed(args.seed)
     random.seed(args.seed)
@@ -158,10 +157,7 @@ def train(args, device_id):
         torch.cuda.set_device(device_id)
         torch.cuda.manual_seed(args.seed)
 
-    torch.manual_seed(args.seed)
-    random.seed(args.seed)
-    torch.backends.cudnn.deterministic = True
-
+    # def model
     model = Summarizer(args, device, load_pretrained_bert=True)
 
     if args.train_from != '':
@@ -185,17 +181,19 @@ def train(args, device_id):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-encoder", default='classifier', type=str, choices=['classifier','transformer','rnn','baseline'])
-    parser.add_argument("-mode", default='train', type=str, choices=['train','validate','test'])
+    parser.add_argument("-encoder", default='classifier', type=str, choices=[
+                                     'classifier','transformer','rnn','baseline'])
+    parser.add_argument("-mode", default='train', type=str, choices=[
+                                     'train','validate','test', 'lead', 'oracle'])
     parser.add_argument("-bert_data_path", default='../bert_data/cnndm')
-    parser.add_argument("-model_path", default='../models/')
-    parser.add_argument("-result_path", default='../results/cnndm')
-    parser.add_argument("-temp_dir", default='../temp')
-    parser.add_argument("-bert_config_path", default='../bert_config_uncased_base.json')
+    parser.add_argument("-model_path", default='../models/', help="存储checkpoint")
+    parser.add_argument("-result_path", default='../results/cnndm', help="存储两个摘要")
+    parser.add_argument("-temp_dir", default='../temp', help="存储bert预处理模型和rouge的临时数据")
+    parser.add_argument("-bert_config_path", default='../bert_config_uncased_base.json', help="768/12")
 
-    parser.add_argument("-batch_size", default=6400, type=int)  # 1000
+    parser.add_argument("-batch_size", default=6400, type=int, help="不是样本的个数，而是token的个数，根据显存设置")
 
-    parser.add_argument("-use_interval", default=True)
+    parser.add_argument("-use_interval", default=True, help="句见seg标记")
     parser.add_argument("-hidden_size", default=128, type=int)
     parser.add_argument("-ff_size", default=512, type=int)
     parser.add_argument("-heads", default=4, type=int)
@@ -211,11 +209,11 @@ if __name__ == '__main__':
     parser.add_argument("-beta2", default=0.999, type=float)
     parser.add_argument("-decay_method", default='', type=str)
     parser.add_argument("-warmup_steps", default=200, type=int)  # 8000
-    parser.add_argument("-max_grad_norm", default=0, type=float)
+    parser.add_argument("-max_grad_norm", default=0, type=float, help="当默认!=0时，可以启动梯度修剪")
 
     parser.add_argument("-save_checkpoint_steps", default=4600, type=int)  # 5
-    parser.add_argument("-accum_count", default=1, type=int)
-    parser.add_argument("-world_size", default=1, type=int)
+    parser.add_argument("-accum_count", default=1, type=int, help="多机训练相关")
+    parser.add_argument("-world_size", default=1, type=int, help="主机数量")
     parser.add_argument("-report_every", default=1, type=int)
     parser.add_argument("-train_steps", default=50000, type=int)  # 1000
     parser.add_argument("-recall_eval", default=False)
@@ -226,9 +224,9 @@ if __name__ == '__main__':
 
     parser.add_argument("-test_all", default=False)
     parser.add_argument("-test_from", default="../models/" + "model_step_23000.pt")
-    parser.add_argument("-train_from", default='')
+    parser.add_argument("-train_from", default='', help="可以选择从某个checkpoint继续训练")
     parser.add_argument("-report_rouge", default=True)
-    parser.add_argument("-block_trigram", default=True)
+    parser.add_argument("-block_trigram", default=True, help="摘要去冗相关")
 
     args = parser.parse_args()
 
@@ -236,19 +234,17 @@ if __name__ == '__main__':
     device = "cpu" if not torch.cuda.is_available() else "cuda"
     device_id = 0 if device == "cuda" else -1
 
-    if (args.mode == 'train'):
+    if args.mode == 'train':
         train(args, device_id)
-    elif (args.mode == 'validate'):
+    elif args.mode == 'validate':
         wait_and_validate(args, device_id)
-    elif (args.mode == 'lead'):
+    elif args.mode == 'lead':
         baseline(args, cal_lead=True)
-    elif (args.mode == 'oracle'):
+    elif args.mode == 'oracle':
         baseline(args, cal_oracle=True)
-    elif (args.mode == 'test'):
+    elif args.mode == 'test':
         cp = args.test_from
-        try:
-            step = int(cp.split('.')[-2].split('_')[-1])  # 23000
-        except:
-            step = 0
+        step = int(cp.split('.')[-2].split('_')[-1])  # 23000
         test(args, device_id, cp, step)
+## end ##
 
