@@ -62,3 +62,5 @@ def rouge_results_to_str(results_dict):
         results_dict["rouge_2_recall"] * 100,
         results_dict["rouge_l_recall"] * 100
     )
+
+# process and rouge results2str函数没有用(在temp里面有新的实现代码)

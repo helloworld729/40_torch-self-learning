@@ -46,8 +46,8 @@ def process(temp_dir, cand, ref):
     # # 结果规范化
     # results_dict = r.output_to_dict(rouge_results)
     #
-    # if os.path.isdir(tmp_dir):
-    #     shutil.rmtree(tmp_dir)  # 递归的删除文件
+    if os.path.isdir(tmp_dir):
+        shutil.rmtree(tmp_dir)  # 递归的删除文件
     return ret
 
 def testRouge(args, step):
@@ -66,15 +66,15 @@ if __name__ == '__main__':
     parser.add_argument("-model_path", default='../models/')
     parser.add_argument("-result_path", default='../results/cnndm')
     parser.add_argument("-temp_dir", default='../temp')
-    parser.add_argument("-test_from", default="../models/" + "model_step_23000.pt")
+    parser.add_argument("-test_from", default="../models/" + "model_step_") # 23000.pt
     parser.add_argument("-train_from", default='')
     parser.add_argument("-report_rouge",  default=True)
     parser.add_argument("-block_trigram", default=True)
 
     args = parser.parse_args()
-
-    step = 23000
-    testRouge(args, step)
+    for step in ["152500", "155000", "160000", "2500"]:
+        args.test_from += step + ".pt"
+        testRouge(args, int(step))
 
 """
 XML文件中，两类摘要用modle和peer表示，显然model文件是生成的

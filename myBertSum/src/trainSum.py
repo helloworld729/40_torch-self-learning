@@ -20,7 +20,7 @@ from others.logging import logger, init_logger
 
 import os
 if torch.cuda.is_available():
-    os.environ["CUDA_VISIBLE_DEVICES"] = "6"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4"
 
 model_flags = ['hidden_size', 'ff_size', 'heads', 'inter_layers','encoder','ff_actv', 'use_interval','rnn_size']
 
@@ -37,8 +37,8 @@ def wait_and_validate(args, device_id):
             xent = validate(args,  device_id, cp, step)
             xent_lst.append((xent, cp))
             max_step = xent_lst.index(min(xent_lst))
-            if (i - max_step > 10):
-                break
+            # if (i - max_step > 10):
+            #     break
         xent_lst = sorted(xent_lst, key=lambda x: x[0])[:3]
         logger.info('PPL %s' % str(xent_lst))
         for xent, cp in xent_lst:
@@ -71,7 +71,7 @@ def wait_and_validate(args, device_id):
                 time.sleep(300)
 
 def validate(args,  device_id, pt, step):
-    device = "cpu" if args.visible_gpus == '-1' else "cuda"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     if (pt != ''):
         test_from = pt
     else:
@@ -89,10 +89,9 @@ def validate(args,  device_id, pt, step):
     model.load_cp(checkpoint)
     model.eval()
 
-    valid_iter =data_loader.Dataloader(args, load_dataset(args, 'valid', shuffle=False),
-                                  args.batch_size, device,
-                                  shuffle=False, is_test=False)
-    trainer = build_trainer(args, device_id, model, None)
+    valid_iter = data_loader.Dataloader(args, load_dataset(args, 'test', shuffle=False),
+                                   device, shuffle=False, is_test=True)
+    trainer = build_trainer(args, model, None)
     stats = trainer.validate(valid_iter, step)
     return stats.xent()
 
@@ -122,21 +121,12 @@ def test(args, device_id, pt, step):
     trainer = build_trainer(args, model, None)
     trainer.test(test_iter, step)
 
-def testRouge(args, device_id, pt, step):
-
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-
-    # is_test为True的时候，会返回txt原文
-    trainer = build_trainer(args, None, None)
-    trainer.testRouge(step)
-
 def baseline(args, cal_lead=False, cal_oracle=False):
 
     test_iter =data_loader.Dataloader(args, load_dataset(args, 'test', shuffle=False),
-                                  args.batch_size, device,
-                                  shuffle=False, is_test=True)
+                                  device, shuffle=False, is_test=True)
 
-    trainer = build_trainer(args, device_id, None, None)
+    trainer = build_trainer(args, None, None)
     #
     if (cal_lead):
         trainer.test(test_iter, 0, cal_lead=True)
@@ -181,17 +171,17 @@ def train(args, device_id):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-encoder", default='classifier', type=str, choices=[
+    parser.add_argument("-encoder", default='transformer', type=str, choices=[
                                      'classifier','transformer','rnn','baseline'])
-    parser.add_argument("-mode", default='train', type=str, choices=[
-                                     'train','validate','test', 'lead', 'oracle'])
+    parser.add_argument("-mode", default='validate', type=str, choices=[
+                                     'train', 'validate', 'test', 'lead', 'oracle'])
     parser.add_argument("-bert_data_path", default='../bert_data/cnndm')
     parser.add_argument("-model_path", default='../models/', help="存储checkpoint")
     parser.add_argument("-result_path", default='../results/cnndm', help="存储两个摘要")
     parser.add_argument("-temp_dir", default='../temp', help="存储bert预处理模型和rouge的临时数据")
     parser.add_argument("-bert_config_path", default='../bert_config_uncased_base.json', help="768/12")
 
-    parser.add_argument("-batch_size", default=6400, type=int, help="不是样本的个数，而是token的个数，根据显存设置")
+    parser.add_argument("-batch_size", default=15000, type=int, help="不是样本的个数，而是token的个数，根据显存设置")  # 18500
 
     parser.add_argument("-use_interval", default=True, help="句见seg标记")
     parser.add_argument("-hidden_size", default=128, type=int)
@@ -204,26 +194,26 @@ if __name__ == '__main__':
     parser.add_argument("-param_init_glorot", default=True)
     parser.add_argument("-dropout", default=0.1, type=float)
     parser.add_argument("-optim", default='adam', type=str)
-    parser.add_argument("-lr", default=2e-3, type=float)
+    parser.add_argument("-lr", default=2e-4, type=float)
     parser.add_argument("-beta1", default=0.9, type=float)
     parser.add_argument("-beta2", default=0.999, type=float)
     parser.add_argument("-decay_method", default='', type=str)
-    parser.add_argument("-warmup_steps", default=200, type=int)  # 8000
-    parser.add_argument("-max_grad_norm", default=0, type=float, help="当默认!=0时，可以启动梯度修剪")
+    parser.add_argument("-warmup_steps", default=10000, type=int)  # 8000
+    parser.add_argument("-max_grad_norm", default=0.1, type=float, help="当默认!=0时，可以启动梯度修剪")
 
-    parser.add_argument("-save_checkpoint_steps", default=4600, type=int)  # 5
+    parser.add_argument("-save_checkpoint_steps", default=2500, type=int)  # 5
     parser.add_argument("-accum_count", default=1, type=int, help="多机训练相关")
     parser.add_argument("-world_size", default=1, type=int, help="主机数量")
     parser.add_argument("-report_every", default=1, type=int)
-    parser.add_argument("-train_steps", default=50000, type=int)  # 1000
+    parser.add_argument("-train_steps", default=160000, type=int)  # 1000
     parser.add_argument("-recall_eval", default=False)
 
     parser.add_argument('-log_file', default='../logs/cnndm.log')
     parser.add_argument('-dataset', default='')
-    parser.add_argument('-seed', default=666, type=int)
+    parser.add_argument('-seed', default=527, type=int)
 
-    parser.add_argument("-test_all", default=False)
-    parser.add_argument("-test_from", default="../models/" + "model_step_23000.pt")
+    parser.add_argument("-test_all", default=True)
+    parser.add_argument("-test_from", default="../models/" + "model_step_")  # 23000.pt
     parser.add_argument("-train_from", default='', help="可以选择从某个checkpoint继续训练")
     parser.add_argument("-report_rouge", default=True)
     parser.add_argument("-block_trigram", default=True, help="摘要去冗相关")
@@ -243,8 +233,8 @@ if __name__ == '__main__':
     elif args.mode == 'oracle':
         baseline(args, cal_oracle=True)
     elif args.mode == 'test':
-        cp = args.test_from
-        step = int(cp.split('.')[-2].split('_')[-1])  # 23000
-        test(args, device_id, cp, step)
+        step = "2500"
+        cp = args.test_from + step + ".pt"
+        test(args, device_id, cp, int(step))
 ## end ##
 

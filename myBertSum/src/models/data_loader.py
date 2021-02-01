@@ -98,7 +98,7 @@ class Dataloader(object):
     def __init__(self, args, filesets_generator,
                  device, shuffle, is_test):
         self.args = args
-        # 面向语料的生成器，yield的是一个文件的内容列表
+        # 面向语料的文件数据生成器，yield的是一个文件的内容列表
         self.filesets_generator = filesets_generator
         self.batch_size = args.batch_size
         self.device = device
@@ -280,14 +280,14 @@ class DataIterator(object):
 #     import argparse
 #     parser = argparse.ArgumentParser()
 #
-#     parser.add_argument("-batch_size", default=6400, type=int)  # 1000
+#     parser.add_argument("-batch_size", default=18500, type=int)  # 1000
 #     parser.add_argument("-use_interval", default=True)
 #     parser.add_argument('-dataset', default='')
 #     parser.add_argument("-bert_data_path", default='../../bert_data/cnndm')
 #
 #     args = parser.parse_args()
 #
-#     datasets = myLoadDataset(args, "test", True)
+#     datasets = myLoadDataset(args, "train", True)
 #
 #     # 实例化迭代器
 #     dataLoader = Dataloader(args, datasets, "cpu", shuffle=False, is_test=False)
@@ -303,4 +303,9 @@ class DataIterator(object):
 # 文件名:cnndm.train.99.bert.pt 新闻数:2000
 # batch_size: 6400
 # 总步数: 23971
+# 新闻总数: 287084
+
+# batch_size: 18500
+# 总步数: 8038
+#
 # 新闻总数: 287084

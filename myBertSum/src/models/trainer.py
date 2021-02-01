@@ -64,7 +64,7 @@ class Trainer(object):
         report_stats = Statistics()
         self._start_report_manager(start_time=total_stats.start_time)
 
-        while step <= train_steps:
+        while step < train_steps:
 
             # 下面的for循环表示一个epoch
             # for _, batch in enumerate(data_loader):
@@ -147,29 +147,31 @@ class Trainer(object):
         if not cal_lead and not cal_oracle:
             self.model.eval()
         stats = Statistics()
+        # 你是
 
         # 候选摘要地址 result文件夹
         can_path = '%s_step%d.candidate'%(self.args.result_path, step)
         # 最佳摘要地址 result文件夹
         gold_path = '%s_step%d.gold' % (self.args.result_path, step)
 
-        with open(can_path, 'w') as save_pred, open(gold_path, 'w') as save_gold:
+        with open(can_path, 'w', encoding="UTF-8") as save_pred, \
+                open(gold_path, 'w',  encoding="UTF-8") as save_gold:
             with torch.no_grad():
                 for batch in test_iter:
                     src = batch.src
-                    labels = batch.labels
                     segs = batch.segs
                     clss = batch.clss
                     mask = batch.mask
+                    labels = batch.labels
                     mask_cls = batch.mask_cls
 
                     gold = []  # batch 最佳容器
                     pred = []  # batch 候选容器
 
-                    if (cal_lead):
+                    if (cal_lead):  # 前三句
                         selected_ids = [list(range(batch.clss.size(1)))] * \
                                        batch.batch_size
-                    elif (cal_oracle):
+                    elif (cal_oracle):  # label标签
                         selected_ids = [[j for j in range(batch.clss.size(1))
                                          if labels[i][j] == 1] for i in
                                         range(batch.batch_size)]
@@ -192,7 +194,7 @@ class Trainer(object):
                         _pred = []
                         if(len(batch.src_str[i])==0):
                             continue
-                        for j in selected_ids[i][:len(batch.src_str[i])]:
+                        for j in selected_ids[i][:len(batch.src_str[i])]:  # 截取为句子数目
                             if(j>=len( batch.src_str[i])):
                                 continue
                             # 生成 候选句
@@ -214,7 +216,7 @@ class Trainer(object):
                             _pred = ' '.join(_pred.split()[:len(batch.tgt_str[i].split())])
 
                         pred.append(_pred)
-                        gold.append(batch.tgt_str[i])
+                        gold.append(batch.tgt_str[i])  # 标准摘要
 
                     for i in range(len(gold)):
                         save_gold.write(gold[i].strip()+'\n')
@@ -246,7 +248,7 @@ class Trainer(object):
         total_stats.update(batch_stats)
         report_stats.update(batch_stats)
 
-        self.optim.learning_rate = pow(step, -0.5) * self.args.lr
+        self.optim.learning_rate = min(pow(step, -0.5), step*pow(self.args.warmup_steps, -1.5)) * self.args.lr
         self.optim.step()
         return loss.item()
 
