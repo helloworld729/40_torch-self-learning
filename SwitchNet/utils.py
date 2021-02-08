@@ -49,11 +49,11 @@ def build_vocab(data_list):
 
 def save_vocab(vocab):
     json_str = vocab.to_json()
-    with open('data/vocab.json', 'w') as file_out:
+    with open('data/vocab.jsonData', 'w') as file_out:
         json.dump(json_str, file_out)
 
 def load_vocab():
-    with open('data/vocab.json') as file_in:
+    with open('data/vocab.jsonData') as file_in:
         json_str = json.load(file_in)
     vocab = gluonnlp.Vocab.from_json(json_str)
     glove = gluonnlp.embedding.create('glove', source='glove.6B.100d')

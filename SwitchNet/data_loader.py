@@ -3,9 +3,9 @@ import json
 from config_pretrain import CONFIG as conf
 from ast import literal_eval as make_tuple
 
-#train_file = 'data/train.json'
-#dev_file = 'data/dev.json'
-#test_file = 'data/test.json'
+#train_file = 'data/train.jsonData'
+#dev_file = 'data/dev.jsonData'
+#test_file = 'data/test.jsonData'
 train_file = conf['train_file']
 dev_file = conf['dev_file']
 test_file = conf['test_file']
