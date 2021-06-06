@@ -3,16 +3,17 @@ import numpy as np
 import torch.nn as nn
 from torch.nn import utils as nn_utils
 
+#  RNN包括两个维度，即输入维度和隐层维度，两者不必相同，
+#  因为RNN内部会通过一个映射矩阵将输入维度映射为隐层维度
 batch_size  = 2
 hidden_size = 5
-# embedding dimension
 input_size = 3
 n_layers   = 4
 
-print("1.-------------------------- 数据 --------------------------------")
+print("1.------------------------------ 数据 -----------------------------------")
 # 输入2句话 句子长度为5， 嵌入维度为3
-tensor_in = torch.randn(2, 5, 3)
-tensor_in[0][3:, ] = torch.zeros((2, 3), dtype=torch.float)
+tensor_in = torch.randn(2, 5, 3)  # b, l, h
+tensor_in[0][3:, ] = torch.zeros((2, 3), dtype=torch.float)  # padding
 print("tensor_in:\n", tensor_in.data.numpy())
 # tensor_in:
 #  [[[-0.16868705 -1.4781348  -0.06997177]
@@ -27,17 +28,14 @@ print("tensor_in:\n", tensor_in.data.numpy())
 #   [ 1.0240709  -0.7715575   0.804514  ]
 #   [-0.3817314  -0.7076132   1.5074275 ]]]
 
-print("2.-------------------------- 倒排---------------------------------")
+print("2.------------------------------ 倒排-------------------------------------")
 seq_lens = torch.tensor([3, 5], dtype=torch.int)
-# 长度倒排对应的seq_len 的索引 1, 0
-_, idx_sort = torch.sort(seq_lens, dim=0, descending=True)
-# 长度恢复对应的idx_sort的索引 1, 0
-_, idx_unsort = torch.sort(idx_sort, dim=0)
+_, idx_sort = torch.sort(seq_lens, dim=0, descending=True)     # 长度的倒排索引
+_, idx_unsort = torch.sort(idx_sort, dim=0, descending=False)  # 索引的正排索引
 
-# 长度重排结果
-orded_seq_lengths = seq_lens.index_select(dim=0, index=idx_sort)
-# 输入重排结果
-orded_tensor_in = tensor_in.index_select(dim=0, index=idx_sort)
+orded_seq_lengths = seq_lens.index_select(dim=0, index=idx_sort)  # 长度倒排结果
+orded_tensor_in = tensor_in.index_select(dim=0, index=idx_sort)   # 输入倒排结果
+
 # 就是根据这两组索引将数据重新排列与恢复
 print("长度重排:\n", orded_seq_lengths.data.numpy())
 print("输入重排:\n", orded_tensor_in.data.numpy())
@@ -56,20 +54,21 @@ print("输入重排:\n", orded_tensor_in.data.numpy())
 #   [ 0.          0.          0.        ]
 #   [ 0.          0.          0.        ]]]
 
-print("3.------------------------ 数据压缩 ------------------------------")
+print("3.---------------------------- 数据压缩 ----------------------------------")
 # 根据长度进行数据的重新组合，padidng的数据会被去掉
 x_packed = nn_utils.rnn.pack_padded_sequence(orded_tensor_in, orded_seq_lengths, batch_first=True)
 
-# input_size, hidden_size, n_layers
+# RNN初始化：输入维度、隐层维度、网络深度
 rnn = nn.RNN(input_size, hidden_size, n_layers, batch_first=True, nonlinearity='relu', bias=False)
-
-# layers, batch_size, hidden_size, no matter if input is batch first
+# 隐向量初始化：网络深度和batchSize约束个数，hiddenSize约束维度，与是否batchFirst无关
 h0 = torch.randn((n_layers*batch_size, hidden_size)).view(n_layers, batch_size, hidden_size)
 
-# 返回最后一层所有步的输出与最后一步所有层的输出
+# 返回输出的上边界和右边界
 y_packed, h_n = rnn(x_packed, h0)
-print('x_packed_data:\n', x_packed.data.data.numpy(), "\nx_packed_batch_size\n", x_packed.batch_sizes.data.numpy())
-print('y_packed_data:\n', y_packed.data.data.numpy(), "\ny_packed_batch_size\n", y_packed.batch_sizes.data.numpy())
+print('x_packed_data:\n', x_packed.data.data.numpy(), "\n",
+      "x_packed_batch_size\n", x_packed.batch_sizes.data.numpy())
+print('y_packed_data:\n', y_packed.data.data.numpy(), "\n",
+      "y_packed_batch_size\n", y_packed.batch_sizes.data.numpy())
 # x_packed_data:
 #  [[-0.45969158  0.32685533 -0.15799478]
 #  [-0.16868705 -1.4781348  -0.06997177]
@@ -81,6 +80,7 @@ print('y_packed_data:\n', y_packed.data.data.numpy(), "\ny_packed_batch_size\n",
 #  [-0.3817314  -0.7076132   1.5074275 ]]
 # x_packed_batch_size
 #  [2 2 2 1 1]
+
 # y_packed_data:
 #  [[0.1647667  0.         0.         0.50981945 0.        ]
 #  [0.         0.         0.72543794 0.05721357 0.3135454 ]
@@ -93,7 +93,7 @@ print('y_packed_data:\n', y_packed.data.data.numpy(), "\ny_packed_batch_size\n",
 # y_packed_batch_size
 #  [2 2 2 1 1]
 
-print("4.------------------------ 输出填充 ------------------------------")
+print("4.---------------------------- 输出填充 ----------------------------------")
 y_sorted_padded, length = nn_utils.rnn.pad_packed_sequence(y_packed, batch_first=True)
 print("将y填充完整后是:\n", y_sorted_padded.data.numpy())
 print(y_sorted_padded.shape)
@@ -111,7 +111,7 @@ print(y_sorted_padded.shape)
 #   [0.         0.         0.         0.         0.        ]]]
 # torch.Size([2, 5, 5])
 
-print("5.------------------------ 输出恢复 ------------------------------")
+print("5.---------------------------- 输出恢复 ----------------------------------")
 right_y = torch.index_select(y_sorted_padded, dim=0, index=idx_unsort)
 print("将y填充后再恢复文本顺序:\n", right_y.data.numpy())
 print(right_y.shape)
@@ -129,14 +129,12 @@ print(right_y.shape)
 #   [0.         0.         0.37418118 0.         0.        ]]]
 # torch.Size([2, 5, 5])
 
-print("6.------------------------ 隐层输出 ------------------------------")
-# unsort output to original order
+print("6.---------------------------- 隐层输出 ----------------------------------")
+print("h_n.shape\n", h_n.shape)  # torch.Size([4, 2, 5])
 last_h = torch.index_select(h_n, dim=1, index=idx_unsort)
-print("隐层最后一步的底层和顶层\n", last_h.data.numpy())
-# 隐层最后一步的底层和顶层
-#  [[[0.14286333 0.03621571 0.         0.23367456 0.        ]
-#   [0.         0.         0.2327425  0.96003914 0.72193015]]
-#
-#  [[0.13841702 0.00381942 0.12228005 0.         0.        ]
-#   [0.         0.         0.37418118 0.         0.        ]]]
+# print("隐层最后一步的底层和顶层\n", last_h.data.numpy())
+print("last_h.shape\n", last_h.shape)  # torch.Size([4, 2, 5])
+
+#  ([4, 2, 5])  # 网络深度、batchSize、hiddenSize，
+#  前两个参数约束个数，最后一个参数约束维度
 

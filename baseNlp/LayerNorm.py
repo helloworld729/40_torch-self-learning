@@ -23,7 +23,7 @@ import torch.nn as nn
 
 # ######################################## Torch模拟 ###########################################
 # input = torch.tensor([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]], dtype=torch.float32)  # 2  3
-# m = nn.LayerNorm(3)
+m = nn.LayerNorm(3)
 # output = m(input)
 # input_mean = torch.mean(input, dim=1, keepdim=True)
 # input_std = torch.std(input, dim=1, keepdim=True, unbiased=False)
